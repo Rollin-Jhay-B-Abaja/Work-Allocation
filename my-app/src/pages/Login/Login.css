@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  position: fixed;
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+  background-image: url('../../assets/images/Lyceum-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.title {
+  font-size: 1.25rem;
+}
+
+.main {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  background-image: url('../../assets/images/login-background.png');
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 50px);
+}
+
+
+.login-panel {
+  background-color: rgba(31, 41, 55, 0.9);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 20rem;
+  width: 100%;
+  margin-right: 2rem;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+}
+
+.form-input.error {
+  border-color: #ff4444;
+}
+
+.forgot-password {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.5rem;
+  background: linear-gradient(to right, #f97316, #ec4899);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.footer {
+  background-color: #1f2937;
+  color: #9ca3af;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+
+.error-message {
+  color: #ff4444;
+  background-color: #fff3f3;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ffd6d6;
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: '⚠';
+  margin-right: 8px;
+  font-size: 1rem;
+}
