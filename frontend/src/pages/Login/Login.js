@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { login } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!username.trim()) {
@@ -20,8 +24,41 @@ function Login() {
     }
 
     setError('');
-    // Handle login logic here
-    console.log('Logging in with:', username, password);
+    setIsLoading(true);
+    
+    try {
+      const response = await login(username, password);
+      if (response && response.success) {
+        // Store token and role in localStorage
+        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('userRole', response.data.role);
+        
+        // Redirect based on role
+        switch (response.data.role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'manager':
+            navigate('/manager-dashboard');
+            break;
+          default:
+            navigate('/dashboard');
+        }
+      } else {
+        setError(response?.data?.message || 'Invalid username or password');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error.response) {
+        setError(error.response.data?.message || 'Login failed. Please try again.');
+      } else if (error.request) {
+        setError('Network error. Please check your connection.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,9 +96,21 @@ function Login() {
               />
             </div>
             <div className="form-group text-right">
-              <a href="#" className="forgot-password">Forgot Password?</a>
+              <button 
+                type="button" 
+                className="forgot-password"
+                onClick={() => alert('Forgot password functionality coming soon')}
+              >
+                Forgot Password?
+              </button>
             </div>
-            <button type="submit" className="login-button">Login</button>
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
+            </button>
           </form>
         </div>
       </main>
