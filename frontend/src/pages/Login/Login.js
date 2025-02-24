@@ -36,7 +36,8 @@ function Login() {
         // Redirect based on role
         switch (response.data.role) {
           case 'admin':
-            navigate('/admin-dashboard');
+            navigate('/dashboard');
+
             break;
           case 'manager':
             navigate('/manager-dashboard');

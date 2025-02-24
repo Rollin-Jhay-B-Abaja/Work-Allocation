@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import StudentEnrollmentPrediction from './Student-enrollment-Prediction';
+import RiskAssessment from './Risk-Assessment';
+import TrendIdentification from './Trend-Identification';
+import './AnalysisModule.css';
+import '../../styles/sidebar.css';
 import { useNavigate } from 'react-router-dom';
-import './Dashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine,faChartPie,faUsers,faUserCog,faUser, faFileAlt,faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
-function Dashboard() {
+function AnalysisModule() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
+  const [activeMenu, setActiveMenu] = useState('analysis');
+  const path = useLocation().pathname;
 
   const handleLogout = () => {
     setShowLogoutModal(true);
   };
 
   const confirmLogout = () => {
-    // Clear any user session data if needed
     navigate('/login');
   };
 
@@ -21,16 +27,22 @@ function Dashboard() {
     setShowLogoutModal(false);
   };
 
+  useEffect(() => {
+    if (path.includes('analysis')) {
+      setActiveMenu('analysis');
+    } else {
+      setActiveMenu('dashboard');
+    }
+  }, [path]);
+
   return (
     <div className="dashboard-container">
-      {/* Header */}
       <header className="header">
         <div className="logo"></div>
         <h1 className="title">LYCEUM OF ALABANG</h1>
       </header>
 
       <div className="dashboard-content" style={{ marginTop: '80px' }}>
-        {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-header">
             <div className="profile-section">
@@ -48,11 +60,17 @@ function Dashboard() {
 
           <nav className="navigation">
             <ul>
-              <li className="nav-item active">
+              <li className={`nav-item ${activeMenu === 'dashboard' ? 'active' : ''}`} onClick={() => { 
+                setActiveMenu('dashboard'); 
+                navigate('/dashboard'); 
+              }}>
                 <FontAwesomeIcon icon={faChartLine} />
                 <span>Dashboard</span>
               </li>
-              <li className="nav-item" onClick={() => navigate('/analysis')}>
+              <li className={`nav-item ${activeMenu === 'analysis' ? 'active' : ''}`} onClick={() => { 
+                setActiveMenu('analysis'); 
+                navigate('/analysis'); 
+              }}>
                 <FontAwesomeIcon icon={faChartPie} />
                 <span>Analysis</span>
               </li>
@@ -103,7 +121,6 @@ function Dashboard() {
           </nav>
         </div>
 
-        {/* Main Content */}
         <div className="main-content">
           <div className="content-header">
             <h1>Analytics Dashboard</h1>
@@ -113,25 +130,46 @@ function Dashboard() {
                 <option>Last 30 Days</option>
                 <option>Last 90 Days</option>
               </select>
+            </div>            
+          </div>
+
+          <div className="analysis-modules">
+            <div className="module-card">
+              <img src="/images/placeholder.png" alt="Student Enrollment Prediction" className="module-image" />
+              <button 
+                className="module-button"
+                onClick={() => navigate('/analysis/student-enrollment-prediction')}
+              >
+                Start
+              </button>
+            </div>
+
+            <div className="module-card">
+              <img src="/images/placeholder.png" alt="Trend Identification" className="module-image" />
+              <button 
+                className="module-button"
+                onClick={() => navigate('/analysis/trend-identification')}
+              >
+                Start
+              </button>
+            </div>
+
+            <div className="module-card">
+              <img src="/images/placeholder.png" alt="Risk Assessment" className="module-image" />
+              <button 
+                className="module-button"
+                onClick={() => navigate('/analysis/risk-assessment')}
+              >
+                Start
+              </button>
             </div>
           </div>
 
-          <div className="workforce-monitoring">
-            <h2>WORKFORCE MONITORING</h2>
-            <div className="metrics">
-              <div className="metric-card">
-                <p>Active Teachers</p>
-                <p className="metric-value">45</p>
-                <p className="metric-change positive">+10.0%</p>
-              </div>
-              <div className="metric-card">
-                <p>Teachers on leave</p>
-                <p className="metric-value">3</p>
-                <p className="metric-change positive">+3.0%</p>
-              </div>
-              <div className="metric-card">
-                <p>Teacher Per Department</p>
-                <div className="metric-value">Coming Soon</div>
+          <div className="recommendation-section">
+            <div className="recommendation-placeholder">
+              <h2>Recommendations</h2>
+              <div className="placeholder-content">
+                {/* Automation will populate this section */}
               </div>
             </div>
           </div>
@@ -145,4 +183,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AnalysisModule;

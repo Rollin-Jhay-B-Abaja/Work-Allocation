@@ -1,15 +1,34 @@
 <?php
+
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+$allowed_origins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'http://localhost:3003'
+];
+
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+}
+
+
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
+
 
 require_once __DIR__ . '/../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    // Preflight request
+    http_response_code(204);
+    header("Access-Control-Max-Age: 3600");
     exit();
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
