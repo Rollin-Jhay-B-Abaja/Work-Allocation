@@ -1,45 +1,19 @@
 import React from 'react';
-import { 
-  BrowserRouter as Router, 
-  Routes, 
-  Route, 
-  Navigate
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login/Login'; // Import Login component
+import Dashboard from './pages/Dashboard/Dashboard'; // Import Dashboard component
+import AnalysisPage from './pages/Analysis/AnalysisPage'; // Import AnalysisPage component
 
-import Login from './pages/Login/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
-import { isAuthenticated } from './services/authService';
-import AnalysisModule from './pages/Analysis/AnalysisModule'; // Import the AnalysisModule
 
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/login" />;
-};
 
 const AppRoutes = () => {
   return (
-    <Router future={{
-      v7_startTransition: true,
-      v7_relativeSplatPath: true
-    }}>
+    <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route 
-          path="/dashboard" 
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/analysis" 
-          element={
-            <PrivateRoute>
-              <AnalysisModule />
-            </PrivateRoute>
-          } 
-        />
+        <Route path="/" element={<Login />} /> {/* Set Login as the default route */}
+        <Route path="/dashboard" element={<Dashboard />} /> {/* Route for Dashboard page */}
+        <Route path="/analysis" element={<AnalysisPage />} /> {/* Route for Analysis page */}
+
       </Routes>
     </Router>
   );

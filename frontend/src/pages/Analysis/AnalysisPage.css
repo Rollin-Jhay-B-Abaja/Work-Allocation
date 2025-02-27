@@ -1,0 +1,24 @@
+/* Import Global Styles */
+@import '../../styles/global.css';
+
+/* Analysis Page Specific Styles */
+
+.analysis-modules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Change to 3 columns */
+  gap: 20px; /* Add gap between module cards */
+}
+
+.module-card {
+  padding: 20px; /* Add padding inside each module card */
+  border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: var(--primary-bg); /* Optional: Background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+.module-card:hover {
+  transform: scale(1.05); /* Scale up the card on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}

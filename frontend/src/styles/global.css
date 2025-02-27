@@ -1,15 +1,71 @@
 :root {
-  --primary-bg: #0F1621;
-  --secondary-bg: #f8f9fa;
-  --tertiary-bg: #e9ecef;
-  --primary-text: #212529;
-  --secondary-text: #6c757d;
-  --accent-color: #0d6efd;
-  --border-color: #212529;
+  --primary-bg: #0D1117; /* Dark theme background */
+  --primary-text: #ffffff; /* White text */
+  --secondary-bg: #161B22; /* Secondary background */
+  --secondary-text: #e0e0e0; /* Light text */
+  --border-color: #21262D; /* Border color */
+  --tertiary-bg: #2a2d34; /* Tertiary background */
 }
 
-body {
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
-  transition: background-color 0.3s, color 0.3s;
+
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #0D1117; /* Dark theme */
+  font-family: 'Poppins', sans-serif; /* Changed font family */
+  padding: 20px;
 }
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: #161B22; /* Updated background color */
+  color: #ffffff; /* Updated text color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  z-index: 1000;
+}
+
+.sidebar {
+  border-right: 1px solid #21262D; /* Updated border color */
+  width: 200px;
+  background-color: #161B22; /* Updated background color */
+  color: #ffffff; /* Updated text color */
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  position: fixed;
+  height: calc(100vh - 100px);
+}
+
+.main-content {
+  margin-left: 260px; /* Adjusted margin */
+  flex: 1;
+  padding: 30px; /* Adjusted padding */
+  background-color: #161B22; /* Updated background color */
+  color: #ffffff; /* Updated text color */
+}
+
+.chart-card {
+  background-color: #161B22; /* Updated background color */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #21262D; /* Updated border color */
+}
+
+.metric-card {
+  background-color: #161B22; /* Updated background color */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #21262D; /* Updated border color */
+}
+
+/* Additional styles can be added here as needed */
