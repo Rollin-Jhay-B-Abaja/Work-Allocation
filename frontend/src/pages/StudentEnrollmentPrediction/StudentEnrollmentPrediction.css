@@ -1,0 +1,113 @@
+.enrollment-container {
+  background-color: #0D1117; /* Dark theme background */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
+  padding: 20px;
+}
+
+/* Form Card */
+.form-card {
+  width: 100%;
+  max-width: 700px;
+  background-color: #0F1C32;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 90px; /* Added margin to separate from header */
+  margin-left: 60px; /* Added left margin */
+}
+
+/* Headings */
+.form-card h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Input Fields */
+.input-group {
+  margin-bottom: 20px; /* Increased margin for better spacing */
+}
+
+.input-group label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  background-color: 0F1C32;
+  color: #0D1117;
+  border: 1px solid #2d3748;
+  border-radius: 4px;
+}
+
+/* Grid for Multiple Inputs */
+.enrollees-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px; /* Increased gap for better spacing between input boxes */
+}
+
+/* Buttons */
+.btn {
+  position: relative; /* Changed to relative to avoid covering content */
+  height: 40px; /* Set a fixed height for buttons */
+  width: 100%;
+  border-radius: 25px;
+  background-color: #0f1621;
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  color: white; /* Ensure text is visible */
+  font-size: 16px; /* Maintain font size */
+  cursor: pointer;
+  text-align: center;
+  display: flex; /* Use flexbox for centering text */
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+}
+
+.btn-add {
+  margin-bottom: 16px; /* Increased margin for better spacing */
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px; /* Increased margin for better spacing */
+}
+
+.btn-predict {
+  margin-right: 10px; /* Added spacing between Predict and Reset buttons */
+}
+
+/* Table */
+.table-container {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #4a5568;
+  border-radius: 6px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #2d3748;
+}
+
+.table tr:nth-child(even) {
+  background-color: #2d3748;
+}

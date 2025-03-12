@@ -46,7 +46,7 @@ function AnalysisPage() {
         <h1 className="title">LYCEUM OF ALABANG</h1>
       </header>
 
-      <div className="dashboard-content" style={{ marginTop: '80px', padding: '20px' }}>
+      <div className="dashboard-content" style={{ marginTop: '80px',}}>
         <div className="sidebar">
           <div className="profile-section">
             <img
@@ -124,7 +124,6 @@ function AnalysisPage() {
             </div>
           </div>
 
-          {/* New Recommendations Section */}
           <div className="recommendations-section">
             <h2>Recommendations</h2>
             <div className="analysis-modules">
@@ -143,7 +142,6 @@ function AnalysisPage() {
             </div>
           </div>
 
-          {/* New Scenario Simulation Section */}
           <div className="scenario-simulation-section">
             <h2>Scenario Simulation</h2>
             <div className="analysis-modules">
@@ -161,6 +159,11 @@ function AnalysisPage() {
               </div>
             </div>
           </div>
+
+          {/* New Scenario Simulation Section */}
+          <footer>
+            © [(2024)] [Lyceum of Alabang]
+          </footer>
         </div>
       </div>
     </div>

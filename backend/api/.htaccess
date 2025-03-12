@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /api/
+    RewriteRule ^prediction$ prediction.php [L]
+</IfModule>
+
+# Ensure PHP files are processed
+AddType application/x-httpd-php .php
