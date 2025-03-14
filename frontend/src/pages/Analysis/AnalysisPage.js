@@ -162,7 +162,7 @@ function AnalysisPage() {
 
           {/* New Scenario Simulation Section */}
           <footer>
-            © [(2024)] [Lyceum of Alabang]
+          © 2024 Lyceum of Alabang
           </footer>
         </div>
       </div>

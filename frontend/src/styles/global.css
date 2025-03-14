@@ -24,7 +24,7 @@
   left: 0;
   right: 0;
   height: 80px;
-  background-color: #161B22; /* Updated background color */
+  background-color: #0D1117; /* Updated background color */
   color: #ffffff; /* Updated text color */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -36,7 +36,7 @@
 .sidebar {
   border-right: 1px solid #21262D; /* Updated border color */
   width: 200px;
-  background-color: #161B22; /* Updated background color */
+  background-color: #0D1117; /* Updated background color */
   color: #ffffff; /* Updated text color */
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
   padding: 25px;

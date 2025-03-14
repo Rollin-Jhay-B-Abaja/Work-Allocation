@@ -137,7 +137,7 @@ function Dashboard() {
           </div>
 
           <footer>
-            © [(2024)] [Lyceum of Alabang]
+          © 2024 Lyceum of Alabang
           </footer>
         </div>
       </div>

@@ -3,7 +3,7 @@ import './StudentEnrollmentPrediction.css'; // Ensure CSS is imported for stylin
 import Papa from 'papaparse'; // Importing PapaParse for CSV parsing
 import { FaTrash } from 'react-icons/fa'; // Importing delete icon from react-icons
 
-const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
+const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSearchTerm, filteredData }) => {
   const [year, setYear] = useState("");
   const [enrollees, setEnrollees] = useState({
     STEM: "",
@@ -19,7 +19,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    if (!year || Object.values(enrollees).some(value => value === "")) {
+    if (!year || Object.values(enrollees).some(value => value === "" || isNaN(value) || value < 0)) {
       alert("Please fill in all fields before submitting.");
       return; // Exit if any field is empty
     }
@@ -52,6 +52,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
         setYear(""); // Reset year input
         setEnrollees({ STEM: "", ABM: "", GAS: "", HUMSS: "", ICT: "" }); // Reset enrollees input
       } else {
+        alert("Failed to save data. Please try again."); 
         console.error("Failed to save data:", response.statusText);
       }
     } catch (error) {
@@ -119,10 +120,12 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
       });
 
       if (response.ok) {
-        const predictionResults = await response.json();
+        const predictionResults = await response.json(); 
         console.log("Prediction Results:", predictionResults);
+        alert("Predictions fetched successfully!");
         // Display the prediction results in the UI as needed
       } else {
+        alert("Failed to fetch predictions. Please try again.");
         console.error("Failed to fetch predictions:", response.statusText);
       }
     } catch (error) {
@@ -134,7 +137,6 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
     <div className="enrollment-container">
       <div className="form-card">
         <h2>HISTORY OF ENROLLMENT</h2>
-
         <form onSubmit={handleSubmit}> {/* Added form element */}
           <div className="input-group">
             <label>Date</label>
@@ -181,39 +183,49 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
           style={{ display: 'none' }} // Hide the actual file input
         />
 
-        <table className="table-container">
-          <thead>
-            <tr className="table">
-              <th>ID</th>
-              <th>Year</th>
-              <th>STEM</th>
-              <th>ABM</th>
-              <th>GAS</th>
-              <th>HUMSS</th>
-              <th>ICT</th>
-              <th>Actions</th> {/* Added Actions column */}
-            </tr>
-          </thead>
-          <tbody>
-            {historicalData.map((data, index) => (
-              <tr key={index} className="table">
-                <td>{String(data.id).padStart(4, '0')}</td> {/* Display ID */}
-                <td>{data.year}</td>
-                <td>{data.STEM}</td>
-                <td>{data.ABM}</td>
-                <td>{data.GAS}</td>
-                <td>{data.HUMSS}</td>
-                <td>{data.ICT}</td>
-                <td>
-                  <button onClick={() => handleDelete(data.id)}>
-                    <FaTrash /> {/* Delete icon */}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="table-scroll">
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr className="table">
+                  <th>ID</th>
+                  <th>Year</th>
+                  <th>STEM</th>
+                  <th>ABM</th>
+                  <th>GAS</th>
+                  <th>HUMSS</th>
+                  <th>ICT</th>
+                  <th>Actions</th> {/* Added Actions column */}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredData.map((data, index) => (
+                  <tr key={index} className="table">
+                    <td>{String(data.id).padStart(4, '0')}</td>
+                    <td>{data.year}</td>
+                    <td>{data.STEM}</td>
+                    <td>{data.ABM}</td>
+                    <td>{data.GAS}</td>
+                    <td>{data.HUMSS}</td>
+                    <td>{data.ICT}</td>
+                    <td>
+                      <button onClick={() => handleDelete(data.id)}>
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div className="btn-group">
           <button 
             className="btn btn-predict" 
@@ -235,6 +247,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData }) => {
 
 function StudentEnrollmentPrediction() {
   const [historicalData, setHistoricalData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Added searchTerm state
 
   // Fetch existing data when the component mounts
   useEffect(() => {
@@ -255,7 +268,15 @@ function StudentEnrollmentPrediction() {
     fetchData(); // Call the fetch function when the component mounts
   }, []); // Empty dependency array means this effect runs once on mount
 
-  return (
+  const filteredData = historicalData.filter((data) => 
+    data.year.includes(searchTerm) || 
+    String(data.STEM).includes(searchTerm) || 
+    String(data.GAS).includes(searchTerm) || 
+    String(data.HUMSS).includes(searchTerm) || 
+    String(data.ICT).includes(searchTerm) 
+  );
+
+  return ( 
     <div className="dashboard-container">
       <header className="header">
         <div className="logo"></div>
@@ -267,6 +288,9 @@ function StudentEnrollmentPrediction() {
           <EnrollmentForm
             setHistoricalData={setHistoricalData}
             historicalData={historicalData}
+            searchTerm={searchTerm} // Pass searchTerm as prop
+            setSearchTerm={setSearchTerm} // Pass setSearchTerm as prop
+            filteredData={filteredData}
           />
         </section>
       </div>
