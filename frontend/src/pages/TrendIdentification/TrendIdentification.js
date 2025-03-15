@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './TrendIdentification.css'; // Importing the new CSS for styling
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 const TrendIdentification = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const navigate = useNavigate();
     const [teacherId, setTeacherId] = useState('');
     const [teacherName, setTeacherName] = useState('');
     const [year, setYear] = useState('');
@@ -28,9 +29,9 @@ const TrendIdentification = () => {
         
         <div>
             <header className="header">
-                <div className="logo"></div>
-                <h1 className="title">LYCEUM OF ALABANG</h1>
-            </header>
+        <div className="logo"></div>
+        <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
+      </header>
             
             <div className="form-container">
                 <div className="form-card">

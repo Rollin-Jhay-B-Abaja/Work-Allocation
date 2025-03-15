@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import './StudentEnrollmentPrediction.css'; // Ensure CSS is imported for styling
-import Papa from 'papaparse'; // Importing PapaParse for CSV parsing
-import { FaTrash } from 'react-icons/fa'; // Importing delete icon from react-icons
+import React, { useState, useEffect, useRef } from 'react';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController } from 'chart.js';
+import { useNavigate } from 'react-router-dom';
+import './StudentEnrollmentPrediction.css';
+import Papa from 'papaparse';
+import { FaTrash } from 'react-icons/fa';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController);
 
 const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSearchTerm, filteredData }) => {
   const [year, setYear] = useState("");
@@ -18,10 +23,10 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
     if (!year || Object.values(enrollees).some(value => value === "" || isNaN(value) || value < 0)) {
       alert("Please fill in all fields before submitting.");
-      return; // Exit if any field is empty
+      return;
     }
 
     try {
@@ -31,8 +36,8 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          date: year ? new Date(year).toISOString().split('T')[0] : null, // Convert date to ISO date format if year is valid
-          year: year ? new Date(year).getFullYear().toString() : null, // Extract year from date if valid
+          date: year ? new Date(year).toISOString().split('T')[0] : null,
+          year: year ? new Date(year).getFullYear().toString() : null,
           enrollees_per_strand: enrollees,
         }),
       });
@@ -43,16 +48,16 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
           date: year ? new Date(year).toISOString().split('T')[0] : null,
           year: year ? new Date(year).getFullYear().toString() : null,
           enrollees_per_strand: enrollees,
-        }); // Log data being sent
+        });
 
-        console.log(result.message); // Log success message
+        console.log(result.message);
 
-        setHistoricalData([...historicalData, { id: result.id, year: new Date(year).getFullYear().toString(), ...enrollees }]); // Update historical data with correct year format and include ID
+        setHistoricalData([...historicalData, { id: result.id, year: new Date(year).getFullYear().toString(), ...enrollees }]);
 
-        setYear(""); // Reset year input
-        setEnrollees({ STEM: "", ABM: "", GAS: "", HUMSS: "", ICT: "" }); // Reset enrollees input
+        setYear("");
+        setEnrollees({ STEM: "", ABM: "", GAS: "", HUMSS: "", ICT: "" });
       } else {
-        alert("Failed to save data. Please try again."); 
+        alert("Failed to save data. Please try again.");
         console.error("Failed to save data:", response.statusText);
       }
     } catch (error) {
@@ -67,11 +72,11 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id }), // Send ID in the request body
+        body: JSON.stringify({ id: id }),
       });
 
       if (response.ok) {
-        setHistoricalData(historicalData.filter(data => data.id !== id)); // Remove deleted item from state
+        setHistoricalData(historicalData.filter(data => data.id !== id));
         console.log("Data deleted successfully");
       } else {
         console.error("Failed to delete data:", response.statusText);
@@ -95,7 +100,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
             HUMSS: item.HUMSS,
             ICT: item.ICT,
           }));
-          setHistoricalData((prevData) => [...prevData, ...newHistoricalData]); // Append new data
+          setHistoricalData((prevData) => [...prevData, ...newHistoricalData]);
         },
         error: (error) => {
           console.error("Error parsing CSV file:", error);
@@ -116,14 +121,13 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(historicalData), // Send historical data for prediction
+        body: JSON.stringify(historicalData),
       });
 
       if (response.ok) {
-        const predictionResults = await response.json(); 
+        const predictionResults = await response.json();
         console.log("Prediction Results:", predictionResults);
         alert("Predictions fetched successfully!");
-        // Display the prediction results in the UI as needed
       } else {
         alert("Failed to fetch predictions. Please try again.");
         console.error("Failed to fetch predictions:", response.statusText);
@@ -137,12 +141,11 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
     <div className="enrollment-container">
       <div className="form-card">
         <h2>HISTORY OF ENROLLMENT</h2>
-        <form onSubmit={handleSubmit}> {/* Added form element */}
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Date</label>
-
             <input
-              type="date" // Changed to date input for calendar selection
+              type="date"
               value={year}
               onChange={(e) => setYear(e.target.value)}
             />
@@ -164,7 +167,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
             </div>
           </div>
 
-          <button className="btn btn-add" type="submit"> {/* Changed to type="submit" */}
+          <button className="btn btn-add" type="submit">
             + Add
           </button>
         </form>
@@ -180,7 +183,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
           type="file"
           accept=".csv"
           onChange={handleFileUpload}
-          style={{ display: 'none' }} // Hide the actual file input
+          style={{ display: 'none' }}
         />
 
         <div className="search-box">
@@ -202,7 +205,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
                   <th>GAS</th>
                   <th>HUMSS</th>
                   <th>ICT</th>
-                  <th>Actions</th> {/* Added Actions column */}
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -227,8 +230,8 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
           </div>
         </div>
         <div className="btn-group">
-          <button 
-            className="btn btn-predict" 
+          <button
+            className="btn btn-predict"
             onClick={handlePredict}
           >
             Predict
@@ -247,7 +250,10 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
 
 function StudentEnrollmentPrediction() {
   const [historicalData, setHistoricalData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // Added searchTerm state
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+  const chartRef = useRef(null); // Ref to manage the chart instance
+  const chartContainerRef = useRef(null); // Ref to the chart container
 
   // Fetch existing data when the component mounts
   useEffect(() => {
@@ -256,7 +262,7 @@ function StudentEnrollmentPrediction() {
         const response = await fetch('http://localhost:8000/api/ml_interface.php');
         if (response.ok) {
           const data = await response.json();
-          setHistoricalData(data); // Set the fetched data to historicalData state
+          setHistoricalData(data);
         } else {
           console.error("Failed to fetch data:", response.statusText);
         }
@@ -265,40 +271,112 @@ function StudentEnrollmentPrediction() {
       }
     };
 
-    fetchData(); // Call the fetch function when the component mounts
-  }, []); // Empty dependency array means this effect runs once on mount
+    fetchData();
+  }, []);
 
-  const filteredData = historicalData.filter((data) => 
-    data.year.includes(searchTerm) || 
-    String(data.STEM).includes(searchTerm) || 
-    String(data.GAS).includes(searchTerm) || 
-    String(data.HUMSS).includes(searchTerm) || 
-    String(data.ICT).includes(searchTerm) 
+  const filteredData = historicalData.filter((data) =>
+    data.year.includes(searchTerm) ||
+    String(data.STEM).includes(searchTerm) ||
+    String(data.GAS).includes(searchTerm) ||
+    String(data.HUMSS).includes(searchTerm) ||
+    String(data.ICT).includes(searchTerm)
   );
 
-  return ( 
+  // Destroy the chart when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.destroy(); // Destroy the chart instance
+        chartRef.current = null; // Clear the reference
+      }
+    };
+  }, []);
+
+  // Re-render the chart when historicalData changes
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.destroy(); // Destroy the existing chart
+    }
+
+    if (chartContainerRef.current) {
+      const ctx = chartContainerRef.current.getContext('2d');
+      chartRef.current = new ChartJS(ctx, {
+        type: 'bar',
+        data: {
+          labels: historicalData.map(data => data.year),
+          datasets: [
+            {
+              label: 'STEM',
+              data: historicalData.map(data => data.STEM),
+              backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            },
+            {
+              label: 'ABM',
+              data: historicalData.map(data => data.ABM),
+              backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            },
+            {
+              label: 'GAS',
+              data: historicalData.map(data => data.GAS),
+              backgroundColor: 'rgba(255, 206, 86, 0.6)',
+            },
+            {
+              label: 'HUMSS',
+              data: historicalData.map(data => data.HUMSS),
+              backgroundColor: 'rgba(153, 102, 255, 0.6)',
+            },
+            {
+              label: 'ICT',
+              data: historicalData.map(data => data.ICT),
+              backgroundColor: 'rgba(255, 159, 64, 0.6)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    }
+  }, [historicalData]);
+
+  return (
     <div className="dashboard-container">
       <header className="header">
         <div className="logo"></div>
-        <h1 className="title">LYCEUM OF ALABANG</h1>
+        <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
       </header>
 
-      <div className="form-container">
-        <section>
+      
+        <div className="chart-container" style={{ width: '1300px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+
+          <canvas ref={chartContainerRef}></canvas> {/* Use a canvas element for the chart */}
+        </div>
+
+        <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
           <EnrollmentForm
             setHistoricalData={setHistoricalData}
             historicalData={historicalData}
-            searchTerm={searchTerm} // Pass searchTerm as prop
-            setSearchTerm={setSearchTerm} // Pass setSearchTerm as prop
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
             filteredData={filteredData}
           />
+          <div className="recommendation-container" style={{ width: '40%', padding: '20px', backgroundColor: '#0F1C32', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)' }}>
+          <h2>Recommendations</h2>
+          {/* Add your recommendation content here */}
+        </div>
         </section>
-      </div>
-
-      <footer className="footer" style={{ backgroundColor: '#161B22', color: '#ffffff' }}>
+        <footer className="footer" style={{ backgroundColor: '#161B22', color: '#ffffff' }}>
         © 2024 Lyceum of Alabang
       </footer>
-    </div>
+      </div>
+
+    
   );
 }
 
