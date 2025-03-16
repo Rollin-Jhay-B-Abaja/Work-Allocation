@@ -23,15 +23,28 @@ body {
 /* Form Card */
 .trend-identification-form {
     width: 100%;
-    max-width: 700px;
+    max-width: 1280px;
     background-color: #0F1C32;
     padding: 24px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 90px; /* Added margin to separate from header */
-    margin-left: 0; /* Removed left margin for better centering */
+    margin-left: 70px;
 }
-
+.input-strand{
+    margin-left: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.strand select{
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    background-color: #0F1C32;
+    color: #ffffff;
+    border: 1px solid #2d3748;
+    border-radius: 4px;
+}
 /* Class Size Group */
 .class-size-group {
     margin-top: 20px; /* Add margin for spacing */
@@ -46,7 +59,9 @@ body {
     display: grid; /* Use grid layout */
     grid-template-columns: repeat(3, 1fr); /* Three columns */
     gap: 30px; /* Increased space between grid items */
+    font-size: 12px;
 }
+
 
 /* Input Group */
 .input-group {
@@ -98,4 +113,11 @@ body {
 
 .trend-identification-form button:hover {
     background-color: #0056b3;
+}
+
+.scatter-container{
+    width: 80%;
+    height: 300px;
+    margin-left: 150px;
+    margin-top: 90px;
 }

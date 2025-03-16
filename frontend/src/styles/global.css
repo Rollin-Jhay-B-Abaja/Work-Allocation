@@ -1,12 +1,3 @@
-:root {
-  --primary-bg: #0D1117; /* Dark theme background */
-  --primary-text: #ffffff; /* White text */
-  --secondary-bg: #0F1C32; /* Secondary background */
-  --secondary-text: #e0e0e0; /* Light text */
-  --border-color: #21262D; /* Border color */
-  --tertiary-bg: #2a2d34; /* Tertiary background */
-}
-
 
 
 .dashboard-container {
@@ -40,24 +31,22 @@
   color: #ffffff; /* Updated text color */
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
   padding: 25px;
-  position: fixed;
-  height: calc(100vh - 100px);
+  position: absolute; /* Changed to absolute */
+  top: 80px; /* Added to align with header */
+  left: 0; /* Positioned to the left */
+  height: calc(100vh - 80px); /* Adjusted height to align with header */
+
+  margin-top: 0%;
 }
 
-.main-content {
-  margin-left: 260px; /* Adjusted margin */
-  flex: 1;
-  padding: 30px; /* Adjusted padding */
-  background-color: #161B22; /* Updated background color */
-  color: #ffffff; /* Updated text color */
-}
-
-.chart-card {
-  background-color: #161B22; /* Updated background color */
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #21262D; /* Updated border color */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Set to 2 columns */
+  grid-template-rows: repeat(2, auto); /* Set to 2 rows */
+  gap: 20px;
+  position: relative;
+  height: 100vh;
+  width: 100%;
 }
 
 .metric-card {
@@ -66,6 +55,260 @@
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #21262D; /* Updated border color */
+  width: 400px; /* Set width to 400px */
+  height: 290px; /* Set height to 290px */
+  margin-bottom: 10px; /* Reduced margin for spacing between metrics */
 }
 
-/* Additional styles can be added here as needed */
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dashboard-content {
+  display: flex;
+  margin-top: 100px;
+  gap: 30px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column; /* Changed back to column */
+  gap: 2px; /* Set gap to 2px for minimal spacing */
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secondary-bg);
+  margin: 0; /* Added to remove spacing */
+}
+
+.profile-role {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  margin: 0; /* Added to remove spacing */
+}
+
+.navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: flex; /* Changed back to flex */
+  justify-content: flex-start; /* Align titles to the left */
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  color: var(--secondary-text);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  gap: 15px;
+  font-size: 0.75rem; /* Adjusted font size to fit in one line */
+}
+
+.nav-item span {
+  margin-left: 10px; /* Added margin to create space between icon and text */
+}
+
+.nav-item:hover {
+  background-color: linear-gradient(to right, #f97316, #ec4899);
+  color: var(--primary-text);
+}
+
+.nav-item.active {
+  background-color: linear-gradient(to right, #f97316, #ec4899);
+  color: var(--primary-text);
+  font-weight: 500;
+}
+
+.nav-item.logout {
+  color: #dc3545;
+  margin-top: 30px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.content-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.date-filter select {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.chart-card {
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.chart-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 25px;
+}
+
+.workforce-monitoring {
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--primary-bg);
+  margin-top: 10px;
+}
+
+.workforce-monitoring h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0d6efd;
+  margin-bottom: 25px;
+}
+
+.metrics {
+  background-color: var(--primary-bg);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Change to 3 columns */
+  gap: 20px; /* Add gap between module cards */
+  width: 100%;
+}
+
+.metric-card {
+  color: #0d6efd;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.metric-value {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin: 10px 0;
+}
+
+.metric-change {
+  font-size: 0.9rem;
+}
+
+.metric-change.positive {
+  color: #28a745;
+}
+
+.metric-change.negative {
+  color: #dc3545;
+}
+.workforce{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Change to 3 columns */
+  gap: 20px; /* Add gap between module cards */
+  width: 100%;
+}
+.workforce-card {
+  color: #0d6efd;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  background-color: #21262D;
+}
+footer {
+  padding: 20px 0;
+  text-align: center;
+  color: var(--secondary-text);
+  border-top: 1px solid var(--border-color);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--primary-bg);
+  z-index: 1000;
+}
+
+.logout-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--secondary-bg);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.logout-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.logout-modal-button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.logout-modal-button.yes {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.logout-modal-button.no {
+  background-color: var(--tertiary-bg);
+  color: var(--primary-text);
+}

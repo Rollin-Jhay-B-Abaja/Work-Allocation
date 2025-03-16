@@ -334,12 +334,25 @@ function StudentEnrollmentPrediction() {
         },
         options: {
           responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Enrollees Forecasting',
+              color: 'blue',
+              font: {
+                size: 40
+              }
+
+
+            }
+          },
           scales: {
             y: {
               beginAtZero: true,
             },
           },
         },
+
       });
     }
   }, [historicalData]);

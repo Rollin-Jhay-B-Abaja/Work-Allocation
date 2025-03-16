@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Dashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine,faChartPie,faUsers,faUserCog,faUser, faFileAlt,faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import { Bar } from 'react-chartjs-2';
 
 function Dashboard() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -19,6 +19,59 @@ function Dashboard() {
 
   const cancelLogout = () => {
     setShowLogoutModal(false);
+  };
+
+  // Dummy data for charts
+  const chartData1 = {
+    labels: ['January', 'February', 'March', 'April'],
+    datasets: [
+      {
+        label: 'Data-Forecasting',
+        data: [65, 59, 80, 81],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartData2 = {
+    labels: ['May', 'June', 'July', 'August'],
+    datasets: [
+      {
+        label: 'Trends',
+        data: [45, 39, 60, 71],
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartData3 = {
+    labels: ['September', 'October', 'November', 'December'],
+    datasets: [
+      {
+        label: 'Teachers Performance',
+        data: [75, 49, 90, 61],
+        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartData4 = {
+    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4'],
+    datasets: [
+      {
+        label: 'Risk Assessment',
+        data: [55, 69, 80, 91],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
   };
 
   return (
@@ -106,39 +159,45 @@ function Dashboard() {
         {/* Main Content */}
         <div className="main-content">
           <div className="content-header">
-            <h1>Analytics Dashboard</h1>
-            <div className="date-filter">
-              <select>
-                <option>Last 7 Days</option>
-                <option>Last 30 Days</option>
-                <option>Last 90 Days</option>
-              </select>
+            <div className="grid-container">
+              <div className="metric-card">
+                <p>Data-Forecasting</p>
+                <Bar data={chartData1} options={{ maintainAspectRatio: false }} width={100} height={290} />
+              </div>
+              <div className="metric-card">
+                <p>Trends</p>
+                <Bar data={chartData2} options={{ maintainAspectRatio: false }} width={400} height={290} />
+              </div>
+              <div className="metric-card">
+                <p>Teachers Performance</p>
+                <Bar data={chartData3} options={{ maintainAspectRatio: false }} width={400} height={290} />
+              </div>
+              <div className="metric-card">
+                <p>Risk Assessment</p>
+                <Bar data={chartData4} options={{ maintainAspectRatio: false }} width={400} height={290} />
+              </div>
             </div>
           </div>
 
           <div className="workforce-monitoring">
             <h2>WORKFORCE MONITORING</h2>
-            <div className="metrics">
-              <div className="metric-card">
+            <div className="workforce">
+              <div className="workforce-card">
                 <p>Active Teachers</p>
-                <p className="metric-value">45</p>
+                <p className="workforce">45</p>
                 <p className="metric-change positive">+10.0%</p>
               </div>
-              <div className="metric-card">
+              <div className="workforce-card">
                 <p>Teachers on leave</p>
-                <p className="metric-value">3</p>
-                <p className="metric-change positive">+3.0%</p>
+                <p className="workforce">3</p>
+                <p className="workforce">+3.0%</p>
               </div>
-              <div className="metric-card">
+              <div className="workforce-card">
                 <p>Teacher Per Department</p>
                 <div className="metric-value">Coming Soon</div>
               </div>
             </div>
           </div>
-
-          <footer>
-          © 2024 Lyceum of Alabang
-          </footer>
         </div>
       </div>
     </div>
