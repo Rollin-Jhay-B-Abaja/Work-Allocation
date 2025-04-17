@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController } from 'chart.js';
-import { useNavigate } from 'react-router-dom';
-import './StudentEnrollmentPrediction.css';
-import Papa from 'papaparse';
+import React, { useState, useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
+import Papa from 'papaparse';
+import './StudentEnrollmentPrediction.css';
+import EnrollmentChart from './EnrollmentChart';
+import PredictionChart from './PredictionChart'; // Import PredictionChart component
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController);
-
-const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSearchTerm, filteredData }) => {
+const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSearchTerm, filteredData = [], predictionResults, setPredictionResults }) => {
   const [year, setYear] = useState("");
   const [enrollees, setEnrollees] = useState({
     STEM: "",
@@ -44,21 +41,11 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Data being sent:", {
-          date: year ? new Date(year).toISOString().split('T')[0] : null,
-          year: year ? new Date(year).getFullYear().toString() : null,
-          enrollees_per_strand: enrollees,
-        });
-
-        console.log(result.message);
-
         setHistoricalData([...historicalData, { id: result.id, year: new Date(year).getFullYear().toString(), ...enrollees }]);
-
         setYear("");
         setEnrollees({ STEM: "", ABM: "", GAS: "", HUMSS: "", ICT: "" });
       } else {
         alert("Failed to save data. Please try again.");
-        console.error("Failed to save data:", response.statusText);
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -72,14 +59,13 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id }),
       });
 
       if (response.ok) {
         setHistoricalData(historicalData.filter(data => data.id !== id));
-        console.log("Data deleted successfully");
       } else {
-        console.error("Failed to delete data:", response.statusText);
+        alert("Failed to delete data. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting data:", error);
@@ -91,7 +77,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
     if (file) {
       Papa.parse(file, {
         header: true,
-        complete: (results) => {
+        complete: async (results) => {
           const newHistoricalData = results.data.map((item) => ({
             year: item.Year,
             STEM: item.STEM,
@@ -101,6 +87,35 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
             ICT: item.ICT,
           }));
           setHistoricalData((prevData) => [...prevData, ...newHistoricalData]);
+
+          try {
+            for (const entry of newHistoricalData) {
+              const response = await fetch('http://localhost:8000/api/ml_interface.php', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  date: entry.year ? new Date(entry.year).toISOString().split('T')[0] : null,
+                  year: entry.year ? entry.year.toString() : null,
+                  enrollees_per_strand: {
+                    STEM: entry.STEM,
+                    ABM: entry.ABM,
+                    GAS: entry.GAS,
+                    HUMSS: entry.HUMSS,
+                    ICT: entry.ICT,
+                  },
+                }),
+              });
+              if (!response.ok) {
+                console.error("Failed to save entry:", entry);
+              }
+            }
+            alert("CSV data uploaded and saved successfully!");
+          } catch (error) {
+            console.error("Error saving CSV data:", error);
+            alert("Error saving CSV data. Please try again.");
+          }
         },
         error: (error) => {
           console.error("Error parsing CSV file:", error);
@@ -110,35 +125,55 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
   };
 
   const handlePredict = async () => {
-    if (historicalData.length < 5) {
-      alert("At least 5 years of enrollment history is required to make a prediction.");
-      return;
+    if (!historicalData || historicalData.length < 5) {
+        alert("At least 10 years of enrollment history is required to make a prediction.");
+        return;
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/ml_interface.php/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(historicalData),
-      });
+        const strands = ["STEM", "ABM", "GAS", "HUMSS", "ICT"];
+        const enrollmentData = {};
 
-      if (response.ok) {
-        const predictionResults = await response.json();
-        console.log("Prediction Results:", predictionResults);
-        alert("Predictions fetched successfully!");
-      } else {
-        alert("Failed to fetch predictions. Please try again.");
-        console.error("Failed to fetch predictions:", response.statusText);
-      }
+        for (const strand of strands) {
+            let numbers = historicalData.map(data => {
+                const num = Number(data[strand]);
+                return isNaN(num) ? null : num;
+            });
+            numbers = numbers.filter(num => num !== null);
+            if (numbers.length < 5) {
+                alert(`At least 10 years of valid enrollment history is required to make a prediction for strand ${strand}.`);
+                return;
+            }
+            enrollmentData[strand] = numbers;
+        }
+
+        const response = await fetch('http://localhost:5000/api/data_forecasting', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: enrollmentData }),
+        });
+
+        if (response.ok) {
+            const predictionResults = await response.json();
+            console.log("Prediction Results:", predictionResults); // Log the prediction results
+            alert("Predictions fetched successfully!");
+            setPredictionResults(predictionResults); // Ensure this matches the expected structure
+        } else {
+            const errorResponse = await response.json();
+            alert(`Failed to fetch predictions: ${errorResponse.error}`);
+            console.error("Error fetching predictions:", errorResponse);
+        }
     } catch (error) {
-      console.error("Error fetching predictions:", error);
+        console.error("Error fetching predictions:", error);
     }
-  };
+};
 
   return (
     <div className="enrollment-container">
+      <EnrollmentChart predictionResults={predictionResults} />
+      <PredictionChart data={predictionResults} /> {/* Render PredictionChart here */}
       <div className="form-card">
         <h2>HISTORY OF ENROLLMENT</h2>
         <form onSubmit={handleSubmit}>
@@ -198,7 +233,6 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
             <table className="table">
               <thead>
                 <tr className="table">
-                  <th>ID</th>
                   <th>Year</th>
                   <th>STEM</th>
                   <th>ABM</th>
@@ -211,7 +245,6 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
               <tbody>
                 {filteredData.map((data, index) => (
                   <tr key={index} className="table">
-                    <td>{String(data.id).padStart(4, '0')}</td>
                     <td>{data.year}</td>
                     <td>{data.STEM}</td>
                     <td>{data.ABM}</td>
@@ -248,149 +281,57 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
   );
 };
 
-function StudentEnrollmentPrediction() {
-  const [historicalData, setHistoricalData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
-  const chartRef = useRef(null); // Ref to manage the chart instance
-  const chartContainerRef = useRef(null); // Ref to the chart container
+const StudentEnrollmentPrediction = () => {
+  const [historicalData, setHistoricalData] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [filteredData, setFilteredData] = React.useState([]);
+  const [predictionResults, setPredictionResults] = React.useState({});
 
-  // Fetch existing data when the component mounts
-  useEffect(() => {
-    const fetchData = async () => {
+  React.useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredData(historicalData);
+    } else {
+      const lowerSearchTerm = searchTerm.toLowerCase();
+      const filtered = historicalData.filter((data) =>
+        Object.values(data).some(
+          (value) =>
+            value &&
+            value.toString().toLowerCase().includes(lowerSearchTerm)
+        )
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchTerm, historicalData]);
+
+  React.useEffect(() => {
+    const fetchEnrollmentData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/ml_interface.php');
+        const response = await fetch('http://localhost:5000/api/enrollment_data');
         if (response.ok) {
           const data = await response.json();
           setHistoricalData(data);
         } else {
-          console.error("Failed to fetch data:", response.statusText);
+          console.error('Failed to fetch enrollment data:', response.statusText);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching enrollment data:', error);
       }
     };
 
-    fetchData();
+    fetchEnrollmentData();
   }, []);
-
-  const filteredData = historicalData.filter((data) =>
-    data.year.includes(searchTerm) ||
-    String(data.STEM).includes(searchTerm) ||
-    String(data.GAS).includes(searchTerm) ||
-    String(data.HUMSS).includes(searchTerm) ||
-    String(data.ICT).includes(searchTerm)
-  );
-
-  // Destroy the chart when the component unmounts
-  useEffect(() => {
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy(); // Destroy the chart instance
-        chartRef.current = null; // Clear the reference
-      }
-    };
-  }, []);
-
-  // Re-render the chart when historicalData changes
-  useEffect(() => {
-    if (chartRef.current) {
-      chartRef.current.destroy(); // Destroy the existing chart
-    }
-
-    if (chartContainerRef.current) {
-      const ctx = chartContainerRef.current.getContext('2d');
-      chartRef.current = new ChartJS(ctx, {
-        type: 'bar',
-        data: {
-          labels: historicalData.map(data => data.year),
-          datasets: [
-            {
-              label: 'STEM',
-              data: historicalData.map(data => data.STEM),
-              backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            },
-            {
-              label: 'ABM',
-              data: historicalData.map(data => data.ABM),
-              backgroundColor: 'rgba(255, 99, 132, 0.6)',
-            },
-            {
-              label: 'GAS',
-              data: historicalData.map(data => data.GAS),
-              backgroundColor: 'rgba(255, 206, 86, 0.6)',
-            },
-            {
-              label: 'HUMSS',
-              data: historicalData.map(data => data.HUMSS),
-              backgroundColor: 'rgba(153, 102, 255, 0.6)',
-            },
-            {
-              label: 'ICT',
-              data: historicalData.map(data => data.ICT),
-              backgroundColor: 'rgba(255, 159, 64, 0.6)',
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Enrollees Forecasting',
-              color: 'blue',
-              font: {
-                size: 40
-              }
-
-
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-
-      });
-    }
-  }, [historicalData]);
 
   return (
-    <div className="dashboard-container">
-      <header className="header">
-        <div className="logo"></div>
-        <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
-      </header>
-
-      
-        <div className="chart-container" style={{ width: '1300px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
-
-          <canvas ref={chartContainerRef}></canvas> {/* Use a canvas element for the chart */}
-        </div>
-
-        <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
-          <EnrollmentForm
-            setHistoricalData={setHistoricalData}
-            historicalData={historicalData}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filteredData={filteredData}
-          />
-          <div className="recommendation-container" style={{ width: '40%', padding: '20px', backgroundColor: '#0F1C32', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)' }}>
-          <h2>Recommendations</h2>
-          {/* Add your recommendation content here */}
-        </div>
-        </section>
-        <footer className="footer" style={{ backgroundColor: '#161B22', color: '#ffffff' }}>
-        © 2024 Lyceum of Alabang
-      </footer>
-      </div>
-
-    
+    <EnrollmentForm
+      historicalData={historicalData}
+      setHistoricalData={setHistoricalData}
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      filteredData={filteredData}
+      predictionResults={predictionResults}
+      setPredictionResults={setPredictionResults}
+    />
   );
-}
+};
 
 export default StudentEnrollmentPrediction;

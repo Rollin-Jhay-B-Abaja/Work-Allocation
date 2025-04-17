@@ -1,0 +1,136 @@
+.risk-assessment-container {
+  font-family: Arial, sans-serif;
+  padding: 1rem;
+  max-width: 1200px;
+  margin-top: 3rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+
+.title {
+  font-size: 1.8rem;
+  color: #0D1117;
+  cursor: pointer;
+}
+
+.risk-content {
+  display: flex;
+  gap: 2rem;
+}
+
+
+.upload-button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.delete-all-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-all-button:hover {
+  background-color: #d32f2f;
+}
+
+.teachers-table {
+  margin-top: 1rem;
+  overflow-x: auto;
+  max-height: 550px; /* Added max height for vertical scroll */
+  overflow-y: auto; /* Enable vertical scroll */
+  border: 1px solid #313131;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.teachers-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.teachers-table th,
+.teachers-table td {
+  border: 1px solid #0D1117;
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 10px;
+}
+
+.teachers-table td:nth-child(2) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.teachers-table th {
+  background-color: #0D1117;
+  position: sticky;
+  top: -0.5rem;
+  z-index: 1;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.upload-message {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.chart-container {
+  margin-top: 2rem;
+  margin-left: -0.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+}
+
+.recommendations-section {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #e3f2fd;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+  width: 95%;
+}
+
+.recommendations-section h3 {
+  margin-top: 0;
+  color: #1976d2;
+}
+
+.recommendations-section ul {
+  margin: 0.5rem 0 0 1.2rem;
+  padding: 0;
+  list-style-type: disc;
+  color: #0d47a1;
+}
+
+.recommendations-section p {
+  margin: 0.5rem 0 0 0;
+  color: #0d47a1;
+  font-style: italic;
+}

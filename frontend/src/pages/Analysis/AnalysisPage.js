@@ -124,23 +124,6 @@ function AnalysisPage() {
             </div>
           </div>
 
-          <div className="recommendations-section">
-            <h2>Recommendations</h2>
-            <div className="analysis-modules">
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Recommendation 1</h2>
-                <div className="chart-placeholder">[Placeholder for recommendation]</div>
-              </div>
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Recommendation 2</h2>
-                <div className="chart-placeholder">[Placeholder for recommendation]</div>
-              </div>
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Recommendation 3</h2>
-                <div className="chart-placeholder">[Placeholder for recommendation]</div>
-              </div>
-            </div>
-          </div>
 
           <div className="scenario-simulation-section">
             <h2>Scenario Simulation</h2>

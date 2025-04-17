@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// DELETE endpoint to remove enrollment data
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     error_log("Incoming DELETE request data: " . file_get_contents("php://input")); // Log incoming request data for debugging
     $data = json_decode(file_get_contents("php://input"), true); // Decode the incoming JSON data
