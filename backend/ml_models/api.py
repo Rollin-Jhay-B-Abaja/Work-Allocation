@@ -72,11 +72,11 @@ def forecast_enrollment():
             model = LinearRegression()
             model.fit(years, enrollments)
             
-            # Predict the next year
-            next_year = np.array([[len(enrollments)]])  # Next year index
-            predicted_enrollment = model.predict(next_year)
+            # Predict the next 3 years
+            future_years = np.array([[len(enrollments) + i] for i in range(3)])  # Next 3 years indices
+            predicted_enrollments = model.predict(future_years)
             
-            predictions[strand] = predicted_enrollment[0][0]  # Get the predicted value
+            predictions[strand] = predicted_enrollments.flatten().tolist()  # List of 3 predicted values
 
         logger.info(f"Predictions generated: {predictions}")
 
@@ -91,6 +91,22 @@ def forecast_enrollment():
         logger.error(f"Error during prediction: {str(e)}")
         return jsonify({'error': f"Error during prediction: {str(e)}"}), 400
 
+
+@app.route('/api/delete_all_enrollment_data', methods=['DELETE'])
+def delete_all_enrollment_data():
+    connection = get_db_connection()
+    if connection is None:
+        return jsonify({'error': 'Database connection failed'}), 500
+    try:
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM studentenrollmentprediction")
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return jsonify({'message': 'All enrollment data deleted successfully.'}), 200
+    except Error as e:
+        logger.error(f"Error deleting enrollment data: {e}")
+        return jsonify({'error': 'Failed to delete enrollment data'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

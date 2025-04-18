@@ -173,7 +173,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
   return (
     <div className="enrollment-container">
       <EnrollmentChart predictionResults={predictionResults} />
-      <PredictionChart data={predictionResults} /> {/* Render PredictionChart here */}
+      <PredictionChart data={predictionResults.predictions} /> {/* Pass predictions object to PredictionChart */}
       <div className="form-card">
         <h2>HISTORY OF ENROLLMENT</h2>
         <form onSubmit={handleSubmit}>
@@ -271,7 +271,22 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
           </button>
           <button
             className="btn btn-reset"
-            onClick={() => setHistoricalData([])}
+            onClick={async () => {
+              try {
+                const response = await fetch('http://localhost:5000/api/delete_all_enrollment_data', {
+                  method: 'DELETE',
+                });
+                if (response.ok) {
+                  alert('All enrollment data deleted successfully.');
+                  setHistoricalData([]);
+                } else {
+                  alert('Failed to delete enrollment data.');
+                }
+              } catch (error) {
+                console.error('Error deleting enrollment data:', error);
+                alert('Error deleting enrollment data.');
+              }
+            }}
           >
             Reset
           </button>
