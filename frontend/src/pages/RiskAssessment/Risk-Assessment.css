@@ -109,12 +109,13 @@
 }
 
 .recommendations-section {
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
   padding: 1rem;
-  background-color: #e3f2fd;
+  background-color: #0F1C32;
   border-radius: 6px;
   box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
-  width: 95%;
+  width: 96%;
+  height: 100%;
 }
 
 .recommendations-section h3 {

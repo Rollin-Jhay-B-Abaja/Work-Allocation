@@ -274,41 +274,41 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
                 </table>
               </div>
             </div>
-            <div className="btn-group">
-              <button
-                className="btn btn-predict"
-                onClick={handlePredict}
-              >
-                Predict
-              </button>
-              <button
-                className="btn btn-reset"
-                onClick={async () => {
-                  try {
-                    const response = await fetch('http://localhost:5000/api/delete_all_enrollment_data', {
-                      method: 'DELETE',
-                    });
-                    if (response.ok) {
-                      alert('All enrollment data deleted successfully.');
-                      setHistoricalData([]);
-                    } else {
-                      alert('Failed to delete enrollment data.');
-                    }
-                  } catch (error) {
-                    console.error('Error deleting enrollment data:', error);
-                    alert('Error deleting enrollment data.');
-                  }
-                }}
-              >
-                Reset
-              </button>
-            </div>
           </div>
         </div>
         <div className="prediction-chart">
           <PredictionChart data={predictionResults.predictions} />
           <div className="recommendations-section">
             <h3>Automated Recommendations</h3>
+          </div>
+          <div className="btn-group">
+            <button
+              className="btn btn-predict"
+              onClick={handlePredict}
+            >
+              Predict
+            </button>
+            <button
+              className="btn btn-reset"
+              onClick={async () => {
+                try {
+                  const response = await fetch('http://localhost:5000/api/delete_all_enrollment_data', {
+                    method: 'DELETE',
+                  });
+                  if (response.ok) {
+                    alert('All enrollment data deleted successfully.');
+                    setHistoricalData([]);
+                  } else {
+                    alert('Failed to delete enrollment data.');
+                  }
+                } catch (error) {
+                  console.error('Error deleting enrollment data:', error);
+                  alert('Error deleting enrollment data.');
+                }
+              }}
+            >
+              Reset
+            </button>
           </div>
         </div>
       </section>
