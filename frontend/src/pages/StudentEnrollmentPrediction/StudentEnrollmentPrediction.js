@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { FaTrash } from 'react-icons/fa';
 import Papa from 'papaparse';
 import './StudentEnrollmentPrediction.css';
@@ -6,6 +7,8 @@ import EnrollmentChart from './EnrollmentChart';
 import PredictionChart from './PredictionChart'; // Import PredictionChart component
 
 const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSearchTerm, filteredData = [], predictionResults, setPredictionResults }) => {
+  const navigate = useNavigate();
+
   const [year, setYear] = useState("");
   const [enrollees, setEnrollees] = useState({
     STEM: "",
@@ -17,6 +20,10 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
 
   const handleChange = (e) => {
     setEnrollees({ ...enrollees, [e.target.name]: e.target.value });
+  };
+
+  const handleTitleClick = () => {
+    navigate("/analysis");
   };
 
   const handleSubmit = async (e) => {
@@ -172,126 +179,139 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
 
   return (
     <div className="enrollment-container">
-      <EnrollmentChart predictionResults={predictionResults} />
-      <PredictionChart data={predictionResults.predictions} /> {/* Pass predictions object to PredictionChart */}
-      <div className="form-card">
-        <h2>HISTORY OF ENROLLMENT</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Date</label>
-            <input
-              type="date"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Enrollees</label>
-            <div className="enrollees-grid">
-              {["STEM", "ABM", "GAS", "HUMSS", "ICT"].map((strand) => (
+      <header className="header">
+        <div className="logo"></div>
+        <h1 className="title" onClick={handleTitleClick} style={{cursor: "pointer"}}>
+          LYCEUM OF ALABANG
+        </h1>
+      </header>
+      <section className="Enrollment-chart">
+        <EnrollmentChart predictionResults={predictionResults} />
+      </section>
+      <section className="form-prediction-section">
+        <div className="form-column">
+          <div className="form-card">
+            <h2>HISTORY OF ENROLLMENT</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="input-group">
+                <label>Date</label>
                 <input
-                  key={strand}
-                  type="number"
-                  name={strand}
-                  value={enrollees[strand]}
-                  onChange={handleChange}
-                  placeholder={strand}
+                  type="date"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
                 />
-              ))}
+              </div>
+              <div className="input-group">
+                <label>Enrollees</label>
+                <div className="enrollees-grid">
+                  {["STEM", "ABM", "GAS", "HUMSS", "ICT"].map((strand) => (
+                    <input
+                      key={strand}
+                      type="number"
+                      name={strand}
+                      value={enrollees[strand]}
+                      onChange={handleChange}
+                      placeholder={strand}
+                    />
+                  ))}
+                </div>
+              </div>
+              <button className="btn btn-add" type="submit">
+                + Add
+              </button>
+            </form>
+            <button
+              className="btn btn-upload"
+              onClick={() => document.getElementById('csv-upload').click()}
+            >
+              Upload CSV
+            </button>
+            <input
+              id="csv-upload"
+              type="file"
+              accept=".csv"
+              onChange={handleFileUpload}
+              style={{ display: 'none' }}
+            />
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Search..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="table-scroll">
+              <div className="table-container">
+                <table className="table">
+                  <thead>
+                    <tr className="table">
+                      <th>Year</th>
+                      <th>STEM</th>
+                      <th>ABM</th>
+                      <th>GAS</th>
+                      <th>HUMSS</th>
+                      <th>ICT</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((data, index) => (
+                      <tr key={index} className="table">
+                        <td>{data.year}</td>
+                        <td>{data.STEM}</td>
+                        <td>{data.ABM}</td>
+                        <td>{data.GAS}</td>
+                        <td>{data.HUMSS}</td>
+                        <td>{data.ICT}</td>
+                        <td>
+                          <button onClick={() => handleDelete(data.id)}>
+                            <FaTrash />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="btn-group">
+              <button
+                className="btn btn-predict"
+                onClick={handlePredict}
+              >
+                Predict
+              </button>
+              <button
+                className="btn btn-reset"
+                onClick={async () => {
+                  try {
+                    const response = await fetch('http://localhost:5000/api/delete_all_enrollment_data', {
+                      method: 'DELETE',
+                    });
+                    if (response.ok) {
+                      alert('All enrollment data deleted successfully.');
+                      setHistoricalData([]);
+                    } else {
+                      alert('Failed to delete enrollment data.');
+                    }
+                  } catch (error) {
+                    console.error('Error deleting enrollment data:', error);
+                    alert('Error deleting enrollment data.');
+                  }
+                }}
+              >
+                Reset
+              </button>
             </div>
           </div>
-
-          <button className="btn btn-add" type="submit">
-            + Add
-          </button>
-        </form>
-
-        <button
-          className="btn btn-upload"
-          onClick={() => document.getElementById('csv-upload').click()}
-        >
-          Upload CSV
-        </button>
-        <input
-          id="csv-upload"
-          type="file"
-          accept=".csv"
-          onChange={handleFileUpload}
-          style={{ display: 'none' }}
-        />
-
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search..."
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
         </div>
-        <div className="table-scroll">
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr className="table">
-                  <th>Year</th>
-                  <th>STEM</th>
-                  <th>ABM</th>
-                  <th>GAS</th>
-                  <th>HUMSS</th>
-                  <th>ICT</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.map((data, index) => (
-                  <tr key={index} className="table">
-                    <td>{data.year}</td>
-                    <td>{data.STEM}</td>
-                    <td>{data.ABM}</td>
-                    <td>{data.GAS}</td>
-                    <td>{data.HUMSS}</td>
-                    <td>{data.ICT}</td>
-                    <td>
-                      <button onClick={() => handleDelete(data.id)}>
-                        <FaTrash />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="prediction-chart">
+          <PredictionChart data={predictionResults.predictions} />
+          <div className="recommendations-section">
+            <h3>Automated Recommendations</h3>
           </div>
         </div>
-        <div className="btn-group">
-          <button
-            className="btn btn-predict"
-            onClick={handlePredict}
-          >
-            Predict
-          </button>
-          <button
-            className="btn btn-reset"
-            onClick={async () => {
-              try {
-                const response = await fetch('http://localhost:5000/api/delete_all_enrollment_data', {
-                  method: 'DELETE',
-                });
-                if (response.ok) {
-                  alert('All enrollment data deleted successfully.');
-                  setHistoricalData([]);
-                } else {
-                  alert('Failed to delete enrollment data.');
-                }
-              } catch (error) {
-                console.error('Error deleting enrollment data:', error);
-                alert('Error deleting enrollment data.');
-              }
-            }}
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+      </section>
     </div>
   );
 };

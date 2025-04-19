@@ -44,13 +44,16 @@ const PredictionChart = ({ data }) => {
             title: {
                 display: true,
                 text: '3-Year Enrollment Predictions',
+                color: 'white',
+                font: {
+                    size: 20,
+                },
             },
         },
     };
 
     return (
         <div>
-            <h2>Prediction Results</h2>
             <Bar data={chartData} options={options} />
         </div>
     );

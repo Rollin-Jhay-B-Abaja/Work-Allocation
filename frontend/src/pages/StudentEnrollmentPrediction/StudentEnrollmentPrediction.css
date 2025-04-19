@@ -1,18 +1,39 @@
 
-
-.chart-container { 
-  width: 100%;
-  height: 400px; /* Set a fixed height for the chart */
-  background-color: #0F1C32; /* Dark background for visibility */
+.Enrollment-chart { 
+  max-width: 100%;
+  height: 500px; /* Set a fixed height for the chart */
+  background-color: #0D1117; /* Dark background for visibility */
   display: flex; /* Use flexbox for alignment */
-  justify-content: left; /* Center content horizontally */
+  justify-content: center; /* Center content horizontally */
   padding: 20px;
-  margin-top: 60px; /* Adjusted margin for better spacing */
+  margin-top: 80px; /* Adjusted margin for better spacing */
   position: inherit;
-  margin-left: 50px;
+  margin-left: 80px;
 }
 
-.recommendation-container {
+.form-prediction-section {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.form-column {
+  flex: 1;
+  max-width: 700px;
+}
+
+.prediction-chart {
+  flex: 1;
+  max-width: 600px;
+  max-height: 320px;
+  margin-left: 100px;
+  margin-top: 10px;
+  background-color: #0F1C32;
+  border-radius: 8px;
+}
+
+.recommendations-section {
   width: 100%;
   height: 300px; /* Set a fixed height for the chart */
   background-color: #0F1C32; /* Dark background for visibility */
@@ -20,8 +41,8 @@
   align-items: left; /* Center content vertically */
   justify-content: left; /* Center content horizontally */
   padding: 20px;
-  margin-left: 55px;
-  margin-top: 10px;
+  margin-left: 1px;
+  margin-top: 150px;
   position: inherit;
 }
 
