@@ -7,6 +7,8 @@ import StudentEnrollmentPrediction from './pages/StudentEnrollmentPrediction/Stu
 import TrendIdentification from './pages/TrendIdentification/TrendIdentification';
 import RiskAssessment from './pages/RiskAssessment/Risk-Assessment'; // Import RiskAssessment component
 import PredictionChart from './pages/StudentEnrollmentPrediction/PredictionChart'; // Import PredictionChart component
+import Workforce_Allocation_Page from './pages/Workforce/Workforce_Allocation_Page'; // Import Workforce Allocation Page
+import CreateEmployeePage from './pages/Employee/CreateEmployeePage'; // Import Create Employee Page
 
 const AppRoutes = () => {
   return (
@@ -19,6 +21,8 @@ const AppRoutes = () => {
         <Route path="/trend-identification" element={<TrendIdentification />} /> {/* Route for trend-identification page */}
         <Route path="/risk-assessment" element={<RiskAssessment />} /> {/* Route for risk-assessment page */}
         <Route path="/prediction-results" element={<PredictionChart />} /> {/* Route for prediction results */}
+        <Route path="/workforce-allocation" element={<Workforce_Allocation_Page />} /> {/* Route for Workforce Allocation page */}
+        <Route path="/employee/create" element={<CreateEmployeePage />} /> {/* Route for Create Employee page */}
       </Routes>
     </Router>
   );

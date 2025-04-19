@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartLine,faChartPie,faUsers,faUserCog,faUser, faFileAlt,faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import Sidebar from '../../components/Sidebar';
 import RiskAssessmentChart from '../RiskAssessment/RiskAssessmentChart';
 import EnrollmentChart from '../StudentEnrollmentPrediction/EnrollmentChart';
 
 function Dashboard() {
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const navigate = useNavigate();
+  const [activeMenu, setActiveMenu] = useState('dashboard');
 
-  const handleLogout = () => {
-    setShowLogoutModal(true);
-  };
-
-  const confirmLogout = () => {
-    // Clear any user session data if needed
-    navigate('/login');
-  };
-
-  const cancelLogout = () => {
-    setShowLogoutModal(false);
-  };
-
-  
   return (
     <div className="dashboard-container">
       {/* Header */}
@@ -33,77 +16,7 @@ function Dashboard() {
 
       <div className="dashboard-content" style={{ marginTop: '80px' }}>
         {/* Sidebar */}
-        <div className="sidebar">
-          <div className="sidebar-header">
-            <div className="profile-section">
-              <img
-                src="https://storage.googleapis.com/a1aa/image/sSoeRTDJiLWBct2HwIPm2jcMnDBqe2vrmr_nveDKPCA.jpg"
-                alt="User profile"
-                className="profile-picture"
-              />
-              <div className="profile-info">
-                <p className="profile-name">Rollin</p>
-                <p className="profile-role">HR Manager</p>
-              </div>
-            </div>
-          </div>
-
-          <nav className="navigation">
-            <ul>
-              <li className="nav-item active">
-                <FontAwesomeIcon icon={faChartLine} />
-                <span>Dashboard</span>
-              </li>
-              <li className="nav-item" onClick={() => navigate('/analysis')}>
-                <FontAwesomeIcon icon={faChartPie} />
-                <span>Analysis</span>
-              </li>
-              <li className="nav-item">
-                <FontAwesomeIcon icon={faUsers} />
-                <span>Workforce Monitoring</span>
-              </li>
-              <li className="nav-item">
-                <FontAwesomeIcon icon={faUserCog} />
-                <span>Workforce Allocation</span>
-              </li>
-              <li className="nav-item">
-                <FontAwesomeIcon icon={faUser} />
-                <span>Employee</span>
-              </li>
-              <li className="nav-item">
-                <FontAwesomeIcon icon={faFileAlt} />
-                <span>Report</span>
-              </li>
-              <li className="nav-item logout" onClick={handleLogout}>
-                <FontAwesomeIcon icon={faSignOutAlt} />
-                <span>Logout</span>
-              </li>
-
-              {showLogoutModal && (
-                <>
-                  <div className="logout-modal-overlay" />
-                  <div className="logout-modal">
-                    <p>Are you sure you want to logout?</p>
-                    <div className="logout-modal-buttons">
-                      <button 
-                        className="logout-modal-button yes"
-                        onClick={confirmLogout}
-                      >
-                        Yes
-                      </button>
-                      <button 
-                        className="logout-modal-button no"
-                        onClick={cancelLogout}
-                      >
-                        No
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </ul>
-          </nav>
-        </div>
+        <Sidebar activeMenu={activeMenu} onMenuClick={setActiveMenu} />
 
         {/* Main Content */}
         <div className="main-content">
@@ -113,7 +26,7 @@ function Dashboard() {
                 <EnrollmentChart />
               </div>
               <div className="Risk-Assessment">
-                <RiskAssessmentChart/>
+                <RiskAssessmentChart />
               </div>
             </div>
           </div>
@@ -144,3 +57,5 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+
