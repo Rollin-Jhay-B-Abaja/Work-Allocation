@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './styles/unifiedStyles.css';
 import AppRoutes from "./routes";
 import PredictionChart from "./pages/StudentEnrollmentPrediction/PredictionChart";
 

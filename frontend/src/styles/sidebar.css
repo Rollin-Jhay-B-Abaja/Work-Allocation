@@ -7,12 +7,16 @@
   padding: 20px;
 }
 
+.sidebar {
+  font-family: 'Poppins', sans-serif;
+}
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 60px;
   background-color: var(--primary-bg);
   color: var(--primary-text);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

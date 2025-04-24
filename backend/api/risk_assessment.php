@@ -13,136 +13,168 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$host = 'localhost';
-$dbname = 'workforce';
-$username = 'root';
-$password = 'Omamam@010101';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Database connection failed: ' . $e->getMessage()]);
+function send_response($data, $code = 200) {
+    http_response_code($code);
+    echo json_encode($data);
     exit();
 }
 
-// Handle GET request to fetch all risk assessment data
+function connect_db() {
+    $host = 'localhost';
+    $dbname = 'workforce';
+    $username = 'root';
+    $password = 'Omamam@010101';
+
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        send_response(['error' => 'Database connection failed: ' . $e->getMessage()], 500);
+    }
+}
+
+$pdo = connect_db();
+
+function mapRiskDistributionToLevel($distribution) {
+    // Map risk distribution to risk level with highest probability
+    $maxProb = 0;
+    $riskLevel = "Low";
+    foreach ($distribution as $level => $prob) {
+        if ($prob > $maxProb) {
+            $maxProb = $prob;
+            $riskLevel = $level;
+        }
+    }
+    return $riskLevel;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Include Python Bayesian Network model
+    // Use full path to python executable and script
+    $pythonPath = 'python'; // Adjust this path to your python executable on Windows
+    $scriptPath = __DIR__ . '/../ml_models/risk_assessment_inference.py';
+    $command = escapeshellcmd("$pythonPath $scriptPath 2>&1");
+    $output = shell_exec($command);
+    error_log("Python script output: " . $output);
+    $riskScores = json_decode($output, true);
+    if ($riskScores === null) {
+        send_response(['error' => 'Failed to decode risk scores JSON from Python script'], 500);
+    }
+
     $selectQuery = "SELECT teacher_id AS 'Teacher ID', name AS 'Name', strand AS 'Strand', performance AS 'Performance', hours_per_week AS 'Hours per week', class_size AS 'Class size', teacher_satisfaction AS 'Teacher satisfaction', student_satisfaction AS 'Student satisfaction' FROM risk_assessment";
     $stmt = $pdo->prepare($selectQuery);
     try {
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($results);
+
+        // Add Bayesian Network risk scores to results
+        error_log("Risk Scores keys: " . implode(", ", array_keys($riskScores)));
+        foreach ($results as &$teacher) {
+            $teacherId = $teacher['Teacher ID'];
+            error_log("Matching teacher ID: " . $teacherId);
+            $normalizedTeacherId = strtolower(trim($teacherId));
+            $normalizedRiskScores = array_change_key_case($riskScores, CASE_LOWER);
+            if (isset($normalizedRiskScores[$normalizedTeacherId])) {
+                $teacher['Risk Distribution'] = $normalizedRiskScores[$normalizedTeacherId];
+                $teacher['Risk Level'] = mapRiskDistributionToLevel($normalizedRiskScores[$normalizedTeacherId]);
+            } else {
+                $teacher['Risk Distribution'] = null;
+                $teacher['Risk Level'] = "Unknown";
+            }
+        }
+
+        send_response($results);
     } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => 'Failed to fetch data: ' . $e->getMessage()]);
+        send_response(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
     }
-    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    if (isset($_GET['teacher_id'])) {
-        $teacher_id = $_GET['teacher_id'];
+    $teacher_id = $_GET['teacher_id'] ?? null;
 
+    if ($teacher_id) {
         $deleteQuery = "DELETE FROM risk_assessment WHERE teacher_id = ?";
         $stmt = $pdo->prepare($deleteQuery);
-
         try {
             if ($stmt->execute([$teacher_id])) {
-                echo json_encode(['message' => 'Data deleted successfully']);
+                send_response(['message' => 'Data deleted successfully']);
             } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to delete data']);
+                send_response(['error' => 'Failed to delete data'], 500);
             }
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to delete data: ' . $e->getMessage()]);
+            send_response(['error' => 'Failed to delete data: ' . $e->getMessage()], 500);
         }
-        exit();
     } else {
-        // Delete all records if no teacher_id provided
         $deleteAllQuery = "DELETE FROM risk_assessment";
         $stmt = $pdo->prepare($deleteAllQuery);
-
         try {
             if ($stmt->execute()) {
-                echo json_encode(['message' => 'All data deleted successfully']);
+                send_response(['message' => 'All data deleted successfully']);
             } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to delete all data']);
+                send_response(['error' => 'Failed to delete all data'], 500);
             }
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to delete all data: ' . $e->getMessage()]);
+            send_response(['error' => 'Failed to delete all data: ' . $e->getMessage()], 500);
         }
-        exit();
     }
 }
 
-if (!isset($_FILES['file'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'No file uploaded']);
-    exit();
-}
-
-$file = $_FILES['file']['tmp_name'];
-
-if (($handle = fopen($file, 'r')) === false) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Failed to open uploaded file']);
-    exit();
-}
-
-$header = fgetcsv($handle);
-$expectedHeaders = ['Teacher ID', 'Name', 'Strand', 'Performance', 'Hours per week', 'Class size', 'Teacher satisfaction', 'Student satisfaction'];
-
-if ($header !== $expectedHeaders) {
-    http_response_code(400);
-    echo json_encode(['error' => 'CSV headers do not match expected format']);
-    fclose($handle);
-    exit();
-}
-
-$insertQuery = "INSERT INTO risk_assessment (teacher_id, name, strand, performance, hours_per_week, class_size, teacher_satisfaction, student_satisfaction) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt = $pdo->prepare($insertQuery);
-
-$pdo->beginTransaction();
-
-try {
-    $rowCount = 0;
-    while (($row = fgetcsv($handle)) !== false) {
-        if (count($row) !== count($expectedHeaders)) {
-            continue; // skip invalid rows
-        }
-        $teacherSatRaw = str_replace('%', '', trim($row[6]));
-        $studentSatRaw = str_replace('%', '', trim($row[7]));
-
-        $teacherSat = (strlen($teacherSatRaw) > 0 && is_numeric($teacherSatRaw)) ? (float)$teacherSatRaw : 0.0;
-        $studentSat = (strlen($studentSatRaw) > 0 && is_numeric($studentSatRaw)) ? (float)$studentSatRaw : 0.0;
-
-        $stmt->execute([
-            $row[0],
-            $row[1],
-            $row[2],
-            $row[3],
-            is_numeric($row[4]) ? (int)$row[4] : null,
-            is_numeric($row[5]) ? (int)$row[5] : null,
-            $teacherSat,
-            $studentSat,
-        ]);
-        $rowCount++;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_FILES['file'])) {
+        send_response(['error' => 'No file uploaded'], 400);
     }
-    $pdo->commit();
-    echo json_encode(['message' => 'Risk assessment data saved successfully', 'rows_inserted' => $rowCount]);
-} catch (Exception $e) {
-    $pdo->rollBack();
-    http_response_code(500);
-    echo json_encode(['error' => 'Failed to save data: ' . $e->getMessage()]);
-    fclose($handle);
-    exit();
-}
 
-fclose($handle);
+    $file = $_FILES['file']['tmp_name'];
+
+    if (($handle = fopen($file, 'r')) === false) {
+        send_response(['error' => 'Failed to open uploaded file'], 400);
+    }
+
+    $header = fgetcsv($handle);
+    $expectedHeaders = ['Teacher ID', 'Name', 'Strand', 'Performance', 'Hours per week', 'Class size', 'Teacher satisfaction', 'Student satisfaction'];
+
+    if ($header !== $expectedHeaders) {
+        fclose($handle);
+        send_response(['error' => 'CSV headers do not match expected format'], 400);
+    }
+
+    $insertQuery = "INSERT INTO risk_assessment (teacher_id, name, strand, performance, hours_per_week, class_size, teacher_satisfaction, student_satisfaction) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($insertQuery);
+
+    $pdo->beginTransaction();
+
+    try {
+        $rowCount = 0;
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) !== count($expectedHeaders)) {
+                continue; // skip invalid rows
+            }
+            $teacherSatRaw = str_replace('%', '', trim($row[6]));
+            $studentSatRaw = str_replace('%', '', trim($row[7]));
+
+            $teacherSat = (strlen($teacherSatRaw) > 0 && is_numeric($teacherSatRaw)) ? (float)$teacherSatRaw : 0.0;
+            $studentSat = (strlen($studentSatRaw) > 0 && is_numeric($studentSatRaw)) ? (float)$studentSatRaw : 0.0;
+
+            $stmt->execute([
+                $row[0],
+                $row[1],
+                $row[2],
+                $row[3],
+                is_numeric($row[4]) ? (int)$row[4] : null,
+                is_numeric($row[5]) ? (int)$row[5] : null,
+                $teacherSat,
+                $studentSat,
+            ]);
+            $rowCount++;
+        }
+        $pdo->commit();
+        fclose($handle);
+        send_response(['message' => 'Risk assessment data saved successfully', 'rows_inserted' => $rowCount]);
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        fclose($handle);
+        send_response(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
+    }
+}
 ?>

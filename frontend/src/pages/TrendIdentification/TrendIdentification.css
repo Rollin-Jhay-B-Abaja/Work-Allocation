@@ -3,121 +3,148 @@
 
 /* Background color for Trend Identification Page */
 body {
-    background-color: #0D1117; /* Dark theme background */
-    color: white; /* Text color */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
+  background-color: #0D1117; /* Dark theme background */
+  color: white; /* Text color */
+  min-height: 100vh;
+  margin-top: 5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Form Container */
+/* Container */
 .form-container {
-    width: 100%;
-    display: flex;
-    justify-content: center; /* Center the form horizontally */
-    margin-bottom: 20px; /* Add margin for spacing */
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
-/* Form Card */
-.trend-identification-form {
-    width: 100%;
-    max-width: 1280px;
-    background-color: #0F1C32;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    margin-top: 90px; /* Added margin to separate from header */
-    margin-left: 70px;
-}
-.input-strand{
-    margin-left: 20px;
-    font-size: 14px;
-    font-weight: 500;
-}
-.strand select{
-    width: 100%;
-    padding: 8px;
-    margin-top: 6px;
-    background-color: #0F1C32;
-    color: #ffffff;
-    border: 1px solid #2d3748;
-    border-radius: 4px;
-}
-/* Class Size Group */
-.class-size-group {
-    margin-top: 20px; /* Add margin for spacing */
-    display: grid; /* Use grid layout */
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
-    gap: 30px; /* Increased space between grid items */
+/* Form Section */
+.form-section {
+  background-color: #0F1C32;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 1280px;
+  color: white;
 }
 
-/* Scores Group */
-.scores-group {
-    margin-top: 20px; /* Add margin for spacing */
-    display: grid; /* Use grid layout */
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
-    gap: 30px; /* Increased space between grid items */
-    font-size: 12px;
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #444;
 }
 
-
-/* Input Group */
-.input-group {
-    margin-bottom: 30px; /* Increased margin for better spacing */
+.title {
+  cursor: pointer;
+  font-size: 1.8rem;
+  margin-left: 1rem;
+  color: #61dafb;
 }
 
-.input-group label {
-    font-size: 14px;
-    font-weight: 500;
+/* CSV Upload Section */
+.csv-upload-section {
+  margin-bottom: 1rem;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 4px;
-    background-color: #0F1C32;
-    color: #ffffff;
-    border: 1px solid #2d3748;
-    border-radius: 4px;
+.upload-button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
-/* Other styles remain unchanged */
-.trend-identification-form label {
-    margin-bottom: 5px;
-    font-weight: bold;
+.btn-upload {
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+  background-color: #0F1C32;
+  color: white;
+  border: 1px solid #61dafb;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.trend-identification-form input[type="text"],
-.trend-identification-form input[type="number"],
-.trend-identification-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.btn-upload:hover {
+  background-color: #61dafb;
+  color: #000;
 }
 
-
-
-.trend-identification-form button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+.btn-download {
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+  background-color: #0F1C32;
+  color: white;
+  border: 1px solid #61dafb;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.trend-identification-form button:hover {
-    background-color: #0056b3;
+.btn-download:hover {
+  background-color: #61dafb;
+  color: #000;
 }
 
-.scatter-container{
-    width: 80%;
-    height: 300px;
-    margin-left: 150px;
-    margin-top: 90px;
+.delete-all-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.delete-all-button:hover {
+  background-color: #d32f2f;
+}
+
+.upload-message {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+/* Table Container */
+.table-container {
+  margin-top: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #4a5568;
+  border-radius: 6px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+.table-container th,
+.table-container td {
+  border: 1px solid #444;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.table-container th {
+  background-color: #222;
+}
+
+.table-container tr:nth-child(even) {
+  background-color: #2d3748;
+}
+
+/* Scatter Container */
+.scatter-container {
+  width: 80%;
+  height: 300px;
+  margin-left: 150px;
+  margin-top: 90px;
+}
+
+/* Correlation Info */
+.correlation-info {
+  margin-top: 1rem;
+  font-weight: bold;
 }

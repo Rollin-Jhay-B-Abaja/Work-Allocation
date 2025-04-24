@@ -278,9 +278,6 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
         </div>
         <div className="prediction-chart">
           <PredictionChart data={predictionResults.predictions} />
-          <div className="recommendations-section">
-            <h3>Automated Recommendations</h3>
-          </div>
           <div className="btn-group">
             <button
               className="btn btn-predict"

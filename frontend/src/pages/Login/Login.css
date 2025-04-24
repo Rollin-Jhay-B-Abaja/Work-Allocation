@@ -48,7 +48,7 @@ body {
 }
 
 .login-panel {
-  background-color: rgba(31, 41, 55, 0.5); /* Adjust opacity for glossy effect */
+  background-color: rgba(34, 45, 61, 0.96); /* Adjust opacity for glossy effect */
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

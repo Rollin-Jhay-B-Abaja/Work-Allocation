@@ -1,28 +1,52 @@
 .risk-assessment-container {
-  font-family: Arial, sans-serif;
   padding: 1rem;
-  max-width: 1200px;
-  margin-top: 3rem;
+  font-family: 'Poppins', sans-serif;
+  color: #eee;
+  background-color: #0D1117;
+  min-height: 100vh;
+  margin-top: 5rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #444;
 }
 
-
 .title {
-  font-size: 1.8rem;
-  color: #0D1117;
   cursor: pointer;
+  font-size: 1.8rem;
+  margin-left: 1rem;
+  color: #61dafb;
 }
 
 .risk-content {
   display: flex;
   gap: 2rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
+.risk-main-section {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.risk-input-section {
+  flex: 1 1 600px;
+  background-color: #0F1C32;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  max-height: 600px;
+  overflow-y: auto;
+}
 
 .upload-button {
   margin-top: 0.5rem;
@@ -43,95 +67,127 @@
   background-color: #d32f2f;
 }
 
+.upload-message {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.view-mode-buttons {
+  margin: 1rem 0;
+}
+
+.view-mode-buttons button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.view-mode-buttons button.active {
+  background-color: #61dafb;
+  color: #000;
+  border-color: #61dafb;
+}
+
 .teachers-table {
   margin-top: 1rem;
-  overflow-x: auto;
-  max-height: 550px; /* Added max height for vertical scroll */
-  overflow-y: auto; /* Enable vertical scroll */
-  border: 1px solid #313131;
-  border-radius: 4px;
-  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #4a5568;
+  border-radius: 6px;
 }
 
 .teachers-table table {
   width: 100%;
   border-collapse: collapse;
+  color: white;
 }
 
 .teachers-table th,
 .teachers-table td {
-  border: 1px solid #0D1117;
+  border: 1px solid #444;
   padding: 0.5rem;
   text-align: left;
-  font-size: 10px;
-}
-
-.teachers-table td:nth-child(2) {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
 }
 
 .teachers-table th {
+  background-color: #222;
+}
+
+.teachers-table tr:nth-child(even) {
+  background-color: #2d3748;
+}
+
+.chart-section {
+  flex: 1 1 600px;
+  max-height: 300px;
   background-color: #0D1117;
-  position: sticky;
-  top: -0.5rem;
-  z-index: 1;
-}
-
-.delete-button {
-  background-color: #f44336;
+  border-radius: 8px;
+  padding: 20px;
   color: white;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-  border-radius: 4px;
+  overflow-y: auto;
 }
 
-.delete-button:hover {
-  background-color: #d32f2f;
+.heatmap-container {
+  margin-top: 1rem;
 }
 
-.upload-message {
-  margin-top: 0.5rem;
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.teacher-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.heatmap-cell {
+  padding: 1rem;
+  color: #000;
   font-weight: bold;
-  color: #333;
+  text-align: center;
+  border-radius: 6px;
+  user-select: none;
+  cursor: default;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-.chart-container {
-  margin-top: 2rem;
-  margin-left: -0.1rem;
+.risk-legend {
   display: flex;
   justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.legend-item {
+  display: flex;
   align-items: center;
-  width: 95%;
+  gap: 0.5rem;
 }
 
-.recommendations-section {
-  margin-top: 2.5rem;
-  padding: 1rem;
-  background-color: #0F1C32;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
-  width: 96%;
-  height: 100%;
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 
-.recommendations-section h3 {
-  margin-top: 0;
-  color: #1976d2;
+.color-box.high {
+  background-color: #f44336; /* Red */
 }
 
-.recommendations-section ul {
-  margin: 0.5rem 0 0 1.2rem;
-  padding: 0;
-  list-style-type: disc;
-  color: #0d47a1;
+.color-box.medium {
+  background-color: #ffc107; /* Yellow */
 }
 
-.recommendations-section p {
-  margin: 0.5rem 0 0 0;
-  color: #0d47a1;
-  font-style: italic;
+.color-box.low {
+  background-color: #4caf50; /* Green */
 }
+

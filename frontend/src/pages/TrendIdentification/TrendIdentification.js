@@ -1,132 +1,213 @@
 import React, { useState } from 'react';
-import { Chart as ChartJS, registerables } from 'chart.js'; // Import Chart and registerables from chart.js
-import { Scatter } from 'react-chartjs-2'; // Import Scatter component for the scatter plot
-import './TrendIdentification.css'; // Importing the new CSS for styling
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-ChartJS.register(...registerables); // Register necessary components for Chart.js
+import { Chart as ChartJS, registerables, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend } from 'chart.js';
+import { Scatter } from 'react-chartjs-2';
+import Papa from 'papaparse';
+import './TrendIdentification.css';
+import { useNavigate } from 'react-router-dom';
+ChartJS.register(...registerables, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
 
 const TrendIdentification = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const navigate = useNavigate();
-    const [teacherId, setTeacherId] = useState('');
-    const [teacherName, setTeacherName] = useState('');
-    const [year, setYear] = useState('');
-    const [strand, setStrand] = useState('');
-    const [classSize, setClassSize] = useState('');
-    const [averageGrades, setAverageGrades] = useState('');
-    const [observationScores, setObservationScores] = useState('');
-    const [evaluationScores, setEvaluationScores] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Validate fields
-        if (!teacherId || !teacherName || !year || !strand || !classSize || !averageGrades || !observationScores || !evaluationScores) {
-            alert('Please fill out all fields.');
-            return;
-        }
-        setIsSubmitted(true);
-    };
-
-    const scatterData = {
-        labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5', 'Point 6'], // Example labels
-        datasets: [
-            {
-                label: 'Trends',
-                data: [
-                    { x: 1, y: 2 },
-                    { x: 2, y: 3 },
-                    { x: 3, y: 5 },
-                    { x: 4, y: 7 },
-                    { x: 5, y: 8 },
-                    { x: 6, y: 10 },
-                ],
-                backgroundColor: 'Yellow',
-            },
-        ],
-    };
-
-    const options = {
+    const [scatterData, setScatterData] = useState({
+        datasets: []
+    });
+    const [options, setOptions] = useState({
         responsive: true,
         scales: {
             x: {
+                title: {
+                    display: true,
+                    text: 'Class Size'
+                },
                 grid: {
-                    color: 'gray', // Set grid line color to blue
+                    color: 'gray',
                 },
             },
             y: {
+                title: {
+                    display: true,
+                    text: 'Teacher Performance Metric'
+                },
                 grid: {
-                    color: 'gray', // Set grid line color to blue
+                    color: 'gray',
                 },
             },
         },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+            },
+            tooltip: {
+                enabled: true,
+            },
+        },
+    });
+    const [correlationCoefficient, setCorrelationCoefficient] = useState(null);
+    const [pValue, setPValue] = useState(null);
+
+    // New state for CSV upload and parsed data
+    const [uploadMessage, setUploadMessage] = useState('');
+    const [uploadError, setUploadError] = useState('');
+    const [tableData, setTableData] = useState([]);
+
+    // Handle CSV file selection and automatic parsing and upload
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            setUploadError('No file selected.');
+            return;
+        }
+        setUploadMessage('');
+        setUploadError('');
+        setTableData([]);
+
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                if (results.errors.length > 0) {
+                    setUploadError('Error parsing CSV file.');
+                    return;
+                }
+                setTableData(results.data);
+                setUploadMessage('CSV uploaded and parsed successfully.');
+
+                // Send file to backend for processing
+                const formData = new FormData();
+                formData.append('csvFile', file);
+                fetch('http://localhost:8000/trend_identification.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        setUploadError(data.error);
+                        setUploadMessage('');
+                    } else {
+                        setUploadError('');
+                        setUploadMessage('CSV processed successfully.');
+                        // Prepare scatter plot data
+                        const classSizes = results.data.map(row => Number(row['Class Size']));
+                        // Average performance metrics as example
+                        const performanceMetrics = results.data.map(row => {
+                            const avgGrades = Number(row['Average Grades of Students']);
+                            const obsScores = Number(row['Classroom Observation Scores']);
+                            const evalScores = Number(row['Teacher Evaluation Scores']);
+                            return (avgGrades + obsScores + evalScores) / 3;
+                        });
+
+                        const scatterPoints = classSizes.map((cs, idx) => ({
+                            x: cs,
+                            y: performanceMetrics[idx]
+                        }));
+
+                        const slope = data.regression_slope;
+                        const intercept = data.regression_intercept;
+
+                        const minX = Math.min(...classSizes);
+                        const maxX = Math.max(...classSizes);
+                        const regressionPoints = [
+                            { x: minX, y: slope * minX + intercept },
+                            { x: maxX, y: slope * maxX + intercept }
+                        ];
+
+                        setScatterData({
+                            datasets: [
+                                {
+                                    label: 'Data Points',
+                                    data: scatterPoints,
+                                    backgroundColor: 'yellow',
+                                },
+                                {
+                                    label: 'Regression Line',
+                                    data: regressionPoints,
+                                    type: 'line',
+                                    borderColor: 'red',
+                                    borderWidth: 2,
+                                    fill: false,
+                                    pointRadius: 0,
+                                    tension: 0.1,
+                                }
+                            ]
+                        });
+
+                        setCorrelationCoefficient(data.correlation_coefficient);
+                        setPValue(data.p_value);
+                    }
+                })
+                .catch(error => {
+                    setUploadError('Error uploading CSV: ' + error.message);
+                    setUploadMessage('');
+                });
+            }
+        });
     };
 
     return (
         <div className="form-container">
-            <div className="form-section"> {/* Section for the form */}
+            <div className="form-section">
                 <header className="header">
                     <div className="logo"></div>
                     <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
                 </header>
-                
+
                 <div className="trend-identification">
-                    <form className="trend-identification-form" onSubmit={handleSubmit}>
-                        <h2>Trend Identification</h2>
-                        <div className="input-group">
-                            <label>Teacher ID:</label>
-                            <input type="text" value={teacherId} onChange={(e) => setTeacherId(e.target.value)} required />
+                    <h2>Trend Identification</h2>
+                    <div className="csv-upload-section">
+                        <input type="file" accept=".csv" onChange={handleFileChange} className="upload-button" />
+                        {uploadMessage && <p className="upload-message success">{uploadMessage}</p>}
+                        {uploadError && <p className="upload-message error">{uploadError}</p>}
+                    </div>
+
+                    {tableData.length > 0 && (
+                        <div className="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Teacher ID</th>
+                                        <th>Teacher Name</th>
+                                        <th>Year</th>
+                                        <th>Strand</th>
+                                        <th>Class Size</th>
+                                        <th>Average Grades of Students</th>
+                                        <th>Classroom Observation Scores</th>
+                                        <th>Teacher Evaluation Scores</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tableData.map((row, index) => (
+                                        <tr key={index}>
+                                            <td>{row['Teacher ID']}</td>
+                                            <td>{row['Teacher Name']}</td>
+                                            <td>{row['Year']}</td>
+                                            <td>{row['Strand']}</td>
+                                            <td>{row['Class Size']}</td>
+                                            <td>{row['Average Grades of Students']}</td>
+                                            <td>{row['Classroom Observation Scores']}</td>
+                                            <td>{row['Teacher Evaluation Scores']}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                        <div className="input-group">
-                            <label>Teacher Name:</label>
-                            <input type="text" value={teacherName} onChange={(e) => setTeacherName(e.target.value)} required />
+                    )}
+
+                    {correlationCoefficient !== null && (
+                        <div className="correlation-info">
+                            <p>Correlation Coefficient (Pearson's r): {correlationCoefficient.toFixed(3)}</p>
+                            <p>p-value: {pValue !== null ? pValue.toExponential(3) : 'N/A'}</p>
                         </div>
-                        <div className="class-size-group">
-                            <div className="input-group">
-                                <label>Year:</label>
-                                <input type="text" value={year} onChange={(e) => setYear(e.target.value)} required />
-                            </div>
-                            <div className="input-strand">
-                                <label>Strand:</label> <br></br>
-                                <div className="strand">
-                                    <select value={strand} onChange={(e) => setStrand(e.target.value)} required>
-                                        <option value="">Select Strand</option>
-                                        <option value="STEM">STEM</option>
-                                        <option value="ABM">ABM</option>
-                                        <option value="GAS">GAS</option>
-                                        <option value="HUMSS">HUMSS</option>
-                                        <option value="ICT">ICT</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="input-group">
-                                <label>Class Size:</label>
-                                <input type="number" value={classSize} onChange={(e) => setClassSize(e.target.value)} required />
-                            </div>
-                        </div>
-                        <div className="scores-group">
-                            <div>
-                                <label>Average Grades of Students:</label>
-                                <input type="number" value={averageGrades} onChange={(e) => setAverageGrades(e.target.value)} required />
-                            </div>
-                            <div>
-                                <label>Classroom Observation Scores:</label>
-                                <input type="number" value={observationScores} onChange={(e) => setObservationScores(e.target.value)} required />
-                            </div>
-                            <div>
-                                <label>Teacher Evaluation Scores:</label>
-                                <input type="number" value={evaluationScores} onChange={(e) => setEvaluationScores(e.target.value)} required />
-                            </div>
-                        </div>
-                        <button className="btn btn-submit" type="submit">Submit</button>
-                    </form>
-                    {isSubmitted && <div className="success-message">Form submitted successfully!</div>}
+                    )}
                 </div>
             </div>
-            <div className="scatter-container"> {/* Container for the scatter plot */}
+            <div className="scatter-container">
                 <Scatter data={scatterData} options={options} />
             </div>
         </div>
-        
     );
 };
 

@@ -14,7 +14,9 @@ function Sidebar() {
 
   const confirmLogout = () => {
     // Clear any user session data if needed
-    navigate('/login');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userRole');
+    navigate('/');
   };
 
   const cancelLogout = () => {

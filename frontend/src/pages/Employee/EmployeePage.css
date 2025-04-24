@@ -1,0 +1,57 @@
+.employee-page-container {
+  display: flex;
+  min-height: 100vh;
+  margin-left: 35rem;
+  width:50%;
+}
+
+.employee-page-container .main-content {
+  flex-grow: 1;
+  max-width: 700px;
+  margin: 40px auto;
+  background-color: #0F1C32;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.employee-page-container .form-card {
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+  color: white;
+}
+
+.employee-page-container .step-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.employee-page-container .step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #444c56;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: default;
+  transition: background-color 0.3s ease;
+}
+
+.employee-page-container .step-circle.active {
+  background-color: #2188ff;
+  box-shadow: 0 0 8px #2188ff;
+}
+
+.employee-page-container .step-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #cbd5e1;
+}

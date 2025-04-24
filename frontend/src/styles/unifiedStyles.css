@@ -1,0 +1,52 @@
+/* Unified styles for background, fonts, and buttons */
+
+/* Apply sidebar background color and font globally */
+body, html, #root {
+  background-color: #0D1117;
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Button styles consistent with sidebar buttons */
+button, .btn {
+  background-color: #0D1117; 
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover, .btn:hover {
+  background-image: linear-gradient(to right, #ec4899, #f97316);
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.7);
+}
+
+/* Override page-specific background colors if any */
+.dashboard-container,
+.main-content,
+.workforce-monitoring,
+.metric-card,
+.chart-card,
+.workforce-card {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+/* Ensure links and text inherit color */
+a, p, span, h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+  font-family: inherit;
+}
+
+/* Remove margin and padding from main containers to unify layout */
+#root > div, .App {
+  margin: 0;
+  padding: 0;
+}

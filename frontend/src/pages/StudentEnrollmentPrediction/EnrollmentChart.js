@@ -72,7 +72,7 @@ function EnrollmentChart({ predictionResults }) {
             title: {
               display: true,
               text: 'Enrollees Forecasting',
-              color: 'blue',
+              color: 'White',
               font: {
                 size: 24,
               },
@@ -104,7 +104,20 @@ function EnrollmentChart({ predictionResults }) {
   }, []);
 
   return (
-    <div className="chart-container" style={{ width: '100%', maxWidth: '1300px', height: '500px', margin: '0 auto' }}>
+    <div
+      className="chart-container"
+      style={{
+        maxWidth: '100%',
+        height: '420px', /* Set a fixed height for the chart */
+        backgroundColor: '#0D1117', /* Dark background for visibility */
+        display: 'flex', /* Use flexbox for alignment */
+        justifyContent: 'center', /* Center content horizontally */
+        padding: '20px',
+        marginTop: '10px', /* Adjusted margin for better spacing */
+        position: 'inherit',
+        marginLeft: '80px',
+      }}
+    >
       <canvas ref={chartContainerRef}></canvas>
     </div>
   );
