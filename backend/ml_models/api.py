@@ -6,6 +6,7 @@ from mysql.connector import Error
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from recommendations import generate_enrollment_recommendations
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
@@ -90,6 +91,17 @@ def forecast_enrollment():
     except Exception as e:
         logger.error(f"Error during prediction: {str(e)}")
         return jsonify({'error': f"Error during prediction: {str(e)}"}), 400
+
+
+@app.route('/api/enrollment_recommendations', methods=['POST'])
+def enrollment_recommendations():
+    try:
+        prediction_results = request.get_json()
+        recommendations = generate_enrollment_recommendations(prediction_results)
+        return jsonify({'recommendations': recommendations})
+    except Exception as e:
+        logger.error(f"Error generating enrollment recommendations: {e}")
+        return jsonify({'error': 'Failed to generate recommendations'}), 500
 
 
 @app.route('/api/delete_all_enrollment_data', methods=['DELETE'])

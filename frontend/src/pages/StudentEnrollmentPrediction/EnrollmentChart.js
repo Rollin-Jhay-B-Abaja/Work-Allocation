@@ -76,6 +76,9 @@ function EnrollmentChart({ predictionResults }) {
               font: {
                 size: 24,
               },
+              padding: {
+                bottom: 10,
+              },
             },
             legend: {
               position: 'top',
@@ -108,6 +111,7 @@ function EnrollmentChart({ predictionResults }) {
       className="chart-container"
       style={{
         maxWidth: '100%',
+        width: '100%',
         height: '420px', /* Set a fixed height for the chart */
         backgroundColor: '#0D1117', /* Dark background for visibility */
         display: 'flex', /* Use flexbox for alignment */
@@ -115,7 +119,6 @@ function EnrollmentChart({ predictionResults }) {
         padding: '20px',
         marginTop: '10px', /* Adjusted margin for better spacing */
         position: 'inherit',
-        marginLeft: '80px',
       }}
     >
       <canvas ref={chartContainerRef}></canvas>

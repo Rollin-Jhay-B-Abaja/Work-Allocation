@@ -4,7 +4,7 @@ ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
@@ -37,124 +37,258 @@ function connect_db() {
 $pdo = connect_db();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_FILES['csvFile']) || $_FILES['csvFile']['error'] !== UPLOAD_ERR_OK) {
-        send_response(['error' => 'CSV file is required and must be uploaded without errors.'], 400);
-    }
-
-    $fileTmpPath = $_FILES['csvFile']['tmp_name'];
-    $fileContent = file_get_contents($fileTmpPath);
-    // Normalize line endings to \n
-    $fileContent = str_replace("\r\n", "\n", $fileContent);
-    $lines = explode("\n", trim($fileContent));
-    if (count($lines) < 2) {
-        send_response(['error' => 'CSV file is empty or missing data rows.'], 400);
-    }
-
-    $requiredColumns = [
-        "Teacher ID",
-        "Teacher Name",
-        "Year",
-        "Strand",
-        "Class Size",
-        "Average Grades of Students",
-        "Classroom Observation Scores",
-        "Teacher Evaluation Scores"
-    ];
-
-    $headers = str_getcsv(array_shift($lines), ",", "\"", "\\");
-    // Normalize headers: trim and lowercase
-    $normalizedHeaders = array_map(function($h) { return strtolower(trim($h)); }, $headers);
-    $normalizedRequired = array_map('strtolower', $requiredColumns);
-    $missingColumns = array_diff($normalizedRequired, $normalizedHeaders);
-    if (count($missingColumns) > 0) {
-        // Map normalized missing columns back to original required columns for error message
-        $missingOriginal = array_filter($requiredColumns, function($col) use ($missingColumns) {
-            return in_array(strtolower($col), $missingColumns);
-        });
-        send_response(['error' => "Missing required columns: " . implode(", ", $missingOriginal)], 400);
-    }
-
-    $errors = [];
-    $headerMap = array_flip($headers);
-    $rowNumber = 1;
-    $insertQuery = "INSERT INTO trend_identification (teacher_id, teacher_name, year, strand, class_size, average_grades, classroom_observation_scores, teacher_evaluation_scores) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $pdo->prepare($insertQuery);
-
-    $pdo->beginTransaction();
-
-    foreach ($lines as $line) {
-        $rowNumber++;
-        if (trim($line) === '') continue;
-        $row = str_getcsv($line, ",", "\"", "\\");
-        if (count($row) !== count($headers)) {
-            $errors[] = "Row $rowNumber has incorrect number of columns.";
-            continue;
+    try {
+        if (!isset($_FILES['csvFile']) || $_FILES['csvFile']['error'] !== UPLOAD_ERR_OK) {
+            send_response(['error' => 'CSV file is required and must be uploaded without errors.'], 400);
         }
 
-        // Check mandatory fields
-        foreach (["Teacher ID", "Teacher Name", "Year", "Strand", "Class Size"] as $col) {
-            $value = $row[$headerMap[$col]];
-            if (empty($value)) {
-                $errors[] = "Row $rowNumber: Missing value for $col.";
+        $fileTmpPath = $_FILES['csvFile']['tmp_name'];
+
+        // Create uploads directory if not exists
+        $uploadsDir = __DIR__ . '/uploads';
+        if (!is_dir($uploadsDir)) {
+            mkdir($uploadsDir, 0755, true);
+        }
+
+        // Copy uploaded file to uploads directory with unique name
+        $uniqueFileName = uniqid('upload_', true) . '.csv';
+        $destinationPath = $uploadsDir . '/' . $uniqueFileName;
+        if (!move_uploaded_file($fileTmpPath, $destinationPath)) {
+            send_response(['error' => 'Failed to move uploaded file.'], 500);
+        }
+
+        // Normalize Windows backslashes to forward slashes for Python compatibility
+        $destinationPath = str_replace('\\', '/', $destinationPath);
+
+        $fileContent = file_get_contents($destinationPath);
+        // Normalize line endings to \n
+        $fileContent = str_replace("\r\n", "\n", $fileContent);
+        $lines = explode("\n", trim($fileContent));
+        if (count($lines) < 2) {
+            send_response(['error' => 'CSV file is empty or missing data rows.'], 400);
+        }
+
+        $requiredColumns = [
+            "Teacher ID",
+            "Teacher Name",
+            "Year",
+            "Strand",
+            "Class Size",
+            "Average Grades of Students",
+            "Classroom Observation Scores",
+            "Teacher Evaluation Scores"
+        ];
+
+        $headers = str_getcsv(array_shift($lines), ",", "\"", "\\");
+        // Normalize headers: trim and lowercase
+        $normalizedHeaders = array_map(function($h) { return strtolower(trim($h)); }, $headers);
+        $normalizedRequired = array_map('strtolower', $requiredColumns);
+        $missingColumns = array_diff($normalizedRequired, $normalizedHeaders);
+        if (count($missingColumns) > 0) {
+            // Map normalized missing columns back to original required columns for error message
+            $missingOriginal = array_filter($requiredColumns, function($col) use ($missingColumns) {
+                return in_array(strtolower($col), $missingColumns);
+            });
+            send_response(['error' => "Missing required columns: " . implode(", ", $missingOriginal)], 400);
+        }
+
+        $errors = [];
+        $headerMap = array_flip($headers);
+        $rowNumber = 1;
+        $insertQuery = "INSERT INTO trend_identification (teacher_id, teacher_name, year, strand, class_size, average_grades, classroom_observation_scores, teacher_evaluation_scores) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $pdo->prepare($insertQuery);
+
+        $pdo->beginTransaction();
+
+        foreach ($lines as $line) {
+            $rowNumber++;
+            if (trim($line) === '') continue;
+            $row = str_getcsv($line, ",", "\"", "\\");
+            if (count($row) !== count($headers)) {
+                $errors[] = "Row $rowNumber has incorrect number of columns.";
+                continue;
+            }
+
+            // Check mandatory fields
+            foreach (["Teacher ID", "Teacher Name", "Year", "Strand", "Class Size"] as $col) {
+                $value = $row[$headerMap[$col]];
+                if (empty($value)) {
+                    $errors[] = "Row $rowNumber: Missing value for $col.";
+                }
+            }
+
+            // Range check for Class Size
+            $classSize = intval($row[$headerMap["Class Size"]]);
+            if ($classSize < 1 || $classSize > 50) {
+                $errors[] = "Row $rowNumber: Class Size must be between 1 and 50.";
+            }
+
+            // Numeric checks for performance metrics
+            $avgGrades = $row[$headerMap["Average Grades of Students"]];
+            if (!is_numeric($avgGrades)) {
+                $errors[] = "Row $rowNumber: Average Grades of Students must be numeric.";
+            }
+            $obsScores = $row[$headerMap["Classroom Observation Scores"]];
+            if (!is_numeric($obsScores)) {
+                $errors[] = "Row $rowNumber: Classroom Observation Scores must be numeric.";
+            }
+            $evalScores = $row[$headerMap["Teacher Evaluation Scores"]];
+            if (!is_numeric($evalScores)) {
+                $errors[] = "Row $rowNumber: Teacher Evaluation Scores must be numeric.";
+            }
+
+            if (count($errors) === 0) {
+                try {
+                    $stmt->execute([
+                        $row[$headerMap["Teacher ID"]],
+                        $row[$headerMap["Teacher Name"]],
+                        intval($row[$headerMap["Year"]]),
+                        $row[$headerMap["Strand"]],
+                        $classSize,
+                        floatval($avgGrades),
+                        floatval($obsScores),
+                        floatval($evalScores)
+                    ]);
+                } catch (Exception $e) {
+                    $errors[] = "Row $rowNumber: Failed to insert data - " . $e->getMessage();
+                }
             }
         }
 
-        // Range check for Class Size
-        $classSize = intval($row[$headerMap["Class Size"]]);
-        if ($classSize < 1 || $classSize > 50) {
-            $errors[] = "Row $rowNumber: Class Size must be between 1 and 50.";
+        if (count($errors) > 0) {
+            $pdo->rollBack();
+            send_response(['error' => implode(" ", $errors)], 400);
+        } else {
+            $pdo->commit();
         }
 
-        // Numeric checks for performance metrics
-        $avgGrades = $row[$headerMap["Average Grades of Students"]];
-        if (!is_numeric($avgGrades)) {
-            $errors[] = "Row $rowNumber: Average Grades of Students must be numeric.";
-        }
-        $obsScores = $row[$headerMap["Classroom Observation Scores"]];
-        if (!is_numeric($obsScores)) {
-            $errors[] = "Row $rowNumber: Classroom Observation Scores must be numeric.";
-        }
-        $evalScores = $row[$headerMap["Teacher Evaluation Scores"]];
-        if (!is_numeric($evalScores)) {
-            $errors[] = "Row $rowNumber: Teacher Evaluation Scores must be numeric.";
+        // Call Python script with CSV file path as argument
+        $escapedCsvPath = escapeshellarg($destinationPath);
+
+        // Log CSV file path and current working directory for debugging
+        $cwd = getcwd();
+        file_put_contents('python_script_error.log', "CSV Path: $destinationPath\nCWD: $cwd\n", FILE_APPEND);
+
+        $cwd = getcwd();
+        $pythonScriptPath = $cwd . '/../ml_models/trend_identification_runner.py';
+        $escapedPythonScriptPath = escapeshellarg($pythonScriptPath);
+
+        $command = "python $escapedPythonScriptPath $escapedCsvPath";
+
+        $output = shell_exec($command . ' 2>&1');
+
+        if ($output === null) {
+            send_response(['error' => 'Failed to execute Python script'], 500);
         }
 
-        if (count($errors) === 0) {
-            try {
-                $stmt->execute([
-                    $row[$headerMap["Teacher ID"]],
-                    $row[$headerMap["Teacher Name"]],
-                    intval($row[$headerMap["Year"]]),
-                    $row[$headerMap["Strand"]],
-                    $classSize,
-                    floatval($avgGrades),
-                    floatval($obsScores),
-                    floatval($evalScores)
-                ]);
-            } catch (Exception $e) {
-                $errors[] = "Row $rowNumber: Failed to insert data - " . $e->getMessage();
-            }
+        // Log Python script output for debugging
+        file_put_contents('python_script_error.log', $output . "\n", FILE_APPEND);
+
+        $decodedOutput = json_decode($output, true);
+        if ($decodedOutput === null) {
+            send_response(['error' => 'Python script output is not valid JSON', 'raw_output' => $output], 500);
         }
+
+        send_response($decodedOutput);
+    } catch (Exception $e) {
+        send_response(['error' => 'Server error: ' . $e->getMessage()], 500);
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    try {
+        $stmt = $pdo->query("SELECT teacher_id AS 'Teacher ID', teacher_name AS 'Teacher Name', year AS 'Year', strand AS 'Strand', class_size AS 'Class Size', average_grades AS 'Average Grades of Students', classroom_observation_scores AS 'Classroom Observation Scores', teacher_evaluation_scores AS 'Teacher Evaluation Scores' FROM trend_identification");
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Prepare temporary CSV file for Python script input
+        $tempCsvPath = sys_get_temp_dir() . '/trend_identification_temp.csv';
+        $fp = fopen($tempCsvPath, 'w');
+        if ($fp === false) {
+            send_response(['error' => 'Failed to create temporary CSV file'], 500);
+        }
+
+        // Write CSV headers
+        $headers = ["Class Size", "Average Grades of Students", "Classroom Observation Scores", "Teacher Evaluation Scores"];
+        fputcsv($fp, $headers);
+
+        // Write data rows
+        foreach ($data as $row) {
+            fputcsv($fp, [
+                $row['Class Size'],
+                $row['Average Grades of Students'],
+                $row['Classroom Observation Scores'],
+                $row['Teacher Evaluation Scores']
+            ]);
+        }
+        fclose($fp);
+
+        // Call Python script with CSV file path as argument
+        $escapedCsvPath = escapeshellarg($tempCsvPath);
+
+        $cwd = getcwd();
+        $pythonScriptPath = $cwd . '/../ml_models/trend_identification_runner.py';
+        $escapedPythonScriptPath = escapeshellarg($pythonScriptPath);
+
+        $command = "python $escapedPythonScriptPath $escapedCsvPath";
+
+        $output = shell_exec($command . ' 2>&1');
+
+        if ($output === null) {
+            send_response(['error' => 'Failed to execute Python script'], 500);
+        }
+
+        $decodedOutput = json_decode($output, true);
+        if ($decodedOutput === null) {
+            send_response(['error' => 'Python script output is not valid JSON', 'raw_output' => $output], 500);
+        }
+
+        // Merge correlation_matrix and recommendations into data response
+        $response = [
+            'data' => $data,
+            'correlation_matrix' => $decodedOutput['correlation_matrix'] ?? null,
+            'recommendations' => $decodedOutput['recommendations'] ?? []
+        ];
+
+        send_response($response);
+    } catch (Exception $e) {
+        send_response(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    if (isset($input['delete_all']) && $input['delete_all'] === true) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM trend_identification");
+            $stmt->execute();
+            send_response(['message' => 'All records deleted successfully']);
+        } catch (Exception $e) {
+            send_response(['error' => 'Failed to delete all records: ' . $e->getMessage()], 500);
+        }
+        exit();
     }
 
-    if (count($errors) > 0) {
-        $pdo->rollBack();
-        send_response(['error' => implode(" ", $errors)], 400);
-    } else {
-        $pdo->commit();
+    $teacherId = $input['teacherId'] ?? '';
+    $year = $input['year'] ?? '';
+    $strand = $input['strand'] ?? '';
+
+    if (empty($teacherId) || empty($year) || empty($strand)) {
+        send_response(['error' => 'Missing required parameters for deletion'], 400);
     }
 
-    // Call Python script with CSV file path as argument
-    $escapedCsvPath = escapeshellarg($fileTmpPath);
-    $command = "python backend/ml_models/trend_identification_runner.py $escapedCsvPath";
-
-    $output = shell_exec($command);
-
-    if ($output === null) {
-        send_response(['error' => 'Failed to execute Python script'], 500);
+    try {
+        $stmt = $pdo->prepare("DELETE FROM trend_identification WHERE teacher_id = ? AND year = ? AND strand = ?");
+        $stmt->execute([$teacherId, $year, $strand]);
+        if ($stmt->rowCount() > 0) {
+            send_response(['message' => 'Record deleted successfully']);
+        } else {
+            send_response(['error' => 'Record not found'], 404);
+        }
+    } catch (Exception $e) {
+        send_response(['error' => 'Failed to delete record: ' . $e->getMessage()], 500);
     }
-
-    send_response(json_decode($output, true));
+    exit();
 }
 
 $teacherId = $_GET['teacherId'] ?? '';
@@ -173,9 +307,15 @@ $inputData = json_encode([
 
 $escapedInput = escapeshellarg($inputData);
 
-$command = "python backend/ml_models/trend_identification_runner.py $escapedInput";
+$command = "python ../ml_models/trend_identification_runner.py $escapedInput";
+
+// Log command and input data for debugging
+file_put_contents('python_script_error.log', "Command: $command\nInputData: $inputData\n", FILE_APPEND);
 
 $output = shell_exec($command);
+
+// Log raw output for debugging
+file_put_contents('python_script_error.log', "Output: $output\n", FILE_APPEND);
 
 if ($output === null) {
     send_response(['error' => 'Failed to execute Python script'], 500);

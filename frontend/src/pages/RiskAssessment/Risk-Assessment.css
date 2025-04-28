@@ -1,103 +1,198 @@
-.risk-assessment-container {
-  padding: 1rem;
-  font-family: 'Poppins', sans-serif;
-  color: #eee;
-  background-color: #0D1117;
-  min-height: 100vh;
-  margin-top: 5rem;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #444;
-}
-
-.title {
-  cursor: pointer;
-  font-size: 1.8rem;
-  margin-left: 1rem;
-  color: #61dafb;
-}
-
-.risk-content {
-  display: flex;
-  gap: 2rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .risk-main-section {
   display: flex;
   gap: 20px;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
-.risk-input-section {
-  flex: 1 1 600px;
+.risk-assessment-container {
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.risk-assessment-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.heatmap-container {
+  margin-top: 1rem;
+  background-color: #0D1117;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.heatmap-cell {
+  padding: 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  cursor: default;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.8);
+}
+
+.teacher-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.risk-legend {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ccc;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.legend-item {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ccc;
+}
+
+.color-box {
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.form-section.risk-input-section{
+  flex: 1 1 400px;
   background-color: #0F1C32;
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  color: white;
-  max-height: 600px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: 600px;
   overflow-y: auto;
+  color: white;
+}
+
+.RiskAssessment-chart {
+  flex: 1 1 400px;
+  max-height: 480px;
+  max-width: 90%;
+  background-color: #0D1117;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.recommendations-section {
+  background-color: #0D1117;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  border-radius: 8px;
+  padding: 30px;
+  margin-top: 2px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  max-width: 91%;
+}
+
+
+.recommendation-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  color: white;
+}
+
+.recommendation-item {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #ccc;
 }
 
 .upload-button {
   margin-top: 0.5rem;
   padding: 0.5rem;
   font-size: 1rem;
+  background-color: #0F1C32;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
+
 .delete-all-button {
-  background-color: #f44336;
+  background-color: #0F1C32;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 4px;
+  margin-top: 0;
 }
 
 .delete-all-button:hover {
-  background-color: #d32f2f;
+  background-color: #1a2a4a;
 }
 
-.upload-message {
-  margin-top: 0.5rem;
-  font-weight: bold;
+.btn-upload {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: #0F1C32;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.view-mode-buttons button, .view-mode-buttons-button {
+  margin-right: 10px;
+  padding: 0.5rem 1rem;
+  background-color: #0F1C32;
+  color: white;
+  border: 1px solid #61dafb;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .view-mode-buttons {
-  margin: 1rem 0;
-}
-
-.view-mode-buttons button {
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  background-color: #222;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 4px;
+  margin-top: 1rem;
 }
 
 .view-mode-buttons button.active {
   background-color: #61dafb;
   color: #000;
-  border-color: #61dafb;
+}
+
+.view-mode-buttons button:hover:not(.active), .view-mode-buttons-button:hover {
+  background-color: #1a2a4a;
 }
 
 .teachers-table {
   margin-top: 1rem;
   max-height: 400px;
   overflow-y: auto;
-  background-color: #4a5568;
+  background-color: #0F1C32;
   border-radius: 6px;
+  color: white;
 }
 
 .teachers-table table {
@@ -118,76 +213,5 @@
 }
 
 .teachers-table tr:nth-child(even) {
-  background-color: #2d3748;
+  background-color: #1a2a4a;
 }
-
-.chart-section {
-  flex: 1 1 600px;
-  max-height: 300px;
-  background-color: #0D1117;
-  border-radius: 8px;
-  padding: 20px;
-  color: white;
-  overflow-y: auto;
-}
-
-.heatmap-container {
-  margin-top: 1rem;
-}
-
-.heatmap-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-}
-
-.teacher-grid {
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-}
-
-.heatmap-cell {
-  padding: 1rem;
-  color: #000;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 6px;
-  user-select: none;
-  cursor: default;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-.risk-legend {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.color-box {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.5);
-}
-
-.color-box.high {
-  background-color: #f44336; /* Red */
-}
-
-.color-box.medium {
-  background-color: #ffc107; /* Yellow */
-}
-
-.color-box.low {
-  background-color: #4caf50; /* Green */
-}
-

@@ -2,6 +2,7 @@ import sys
 import json
 import csv
 from trend_identification import analyze_trend
+from recommendations import generate_recommendations
 import os
 
 def main():
@@ -15,7 +16,10 @@ def main():
         # Parse CSV file
         try:
             class_sizes = []
-            performance_metrics = []
+            avg_grades = []
+            obs_scores = []
+            eval_scores = []
+            teachers = []
             with open(input_arg, newline='') as csvfile:
                 reader = csv.DictReader(csvfile)
                 required_columns = [
@@ -33,21 +37,37 @@ def main():
                 for row in reader:
                     try:
                         class_size = float(row["Class Size"])
-                        avg_grades = float(row["Average Grades of Students"])
-                        obs_scores = float(row["Classroom Observation Scores"])
-                        eval_scores = float(row["Teacher Evaluation Scores"])
-                        performance_metric = (avg_grades + obs_scores + eval_scores) / 3.0
+                        avg_grade = float(row["Average Grades of Students"])
+                        obs_score = float(row["Classroom Observation Scores"])
+                        eval_score = float(row["Teacher Evaluation Scores"])
 
                         class_sizes.append(class_size)
-                        performance_metrics.append(performance_metric)
+                        avg_grades.append(avg_grade)
+                        obs_scores.append(obs_score)
+                        eval_scores.append(eval_score)
+
+                        # Collect teacher data for recommendations
+                        teachers.append({
+                            "Class Size": class_size,
+                            "Average Grades of Students": avg_grade,
+                            "Classroom Observation Scores": obs_score,
+                            "Teacher Evaluation Scores": eval_score
+                        })
                     except ValueError:
                         continue
 
-            if len(class_sizes) == 0 or len(performance_metrics) == 0:
+            if len(class_sizes) == 0:
                 print(json.dumps({"error": "No valid data found in CSV for analysis"}))
                 sys.exit(1)
 
-            result = analyze_trend(class_sizes, performance_metrics)
+            # Calculate combined performance metric as average of the three scores
+            performance_metrics = [(a + o + e) / 3.0 for a, o, e in zip(avg_grades, obs_scores, eval_scores)]
+
+            result = analyze_trend(class_sizes, performance_metrics, avg_grades, obs_scores, eval_scores)
+            # Generate recommendations using external recommendations module
+            recommendations = generate_recommendations(teachers)
+            result["recommendations"] = recommendations
+
             print(json.dumps(result))
         except Exception as e:
             print(json.dumps({"error": f"Failed to process CSV file: {str(e)}"}))

@@ -4,9 +4,11 @@ import Papa from "papaparse"; // For CSV parsing
 import RiskAssessmentChart from "./RiskAssessmentChart";
 import { FaTrash } from 'react-icons/fa';
 import "./Risk-Assessment.css";
+import RecommendationList from "./RecommendationList";
 
 const RiskAssessment = () => {
   const [teachers, setTeachers] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [viewMode, setViewMode] = useState("strand"); // "strand" or "teacher"
   const [uploadMessage, setUploadMessage] = useState("");
   const navigate = useNavigate();
@@ -26,8 +28,16 @@ const RiskAssessment = () => {
     try {
       const data = await sendRequest("http://localhost:8000/api/risk_assessment.php");
       console.log("Fetched risk assessment data:", data);
-      data.forEach(t => console.log(`Teacher: ${t["Name"]}, Risk Level: ${t["Risk Level"]}`));
-      setTeachers(data);
+      if (data.teachers) {
+        setTeachers(data.teachers);
+      } else {
+        setTeachers(data);
+      }
+      if (data.recommendations) {
+        setRecommendations(data.recommendations);
+      } else {
+        setRecommendations([]);
+      }
       setUploadMessage("");
     } catch (error) {
       console.error("Error fetching risk assessment data:", error);
@@ -118,6 +128,7 @@ const RiskAssessment = () => {
     try {
       const result = await sendRequest("http://localhost:8000/api/risk_assessment.php", { method: "DELETE" });
       setTeachers([]);
+      setRecommendations([]);  // Clear recommendations as well
       setUploadMessage("All data deleted successfully.");
     } catch (error) {
       setUploadMessage("Failed to delete all data: " + error.message);
@@ -134,20 +145,29 @@ const RiskAssessment = () => {
       </header>
 
       <main className="risk-content">
-        <div className="risk-main-section">
-          <div className="risk-input-section">
+        <div className="risk-main-section" style={{ display: 'flex', gap: '20px' }}>
+          <div className="form-section risk-input-section" style={{ flex: '1 1 400px', overflowY: 'auto' }}>
             <h2>INPUT HISTORICAL DATA</h2>
 
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <button
+                className="view-mode-buttons-button"
+                onClick={() => document.getElementById('csvFileInput').click()}
+                style={{ flex: 1 }}
+              >
+                Upload CSV
+              </button>
+              <button className="view-mode-buttons-button" onClick={handleDeleteAll} style={{ flex: 1 }}>
+                Delete All
+              </button>
+            </div>
             <input
               id="csvFileInput"
               type="file"
               accept=".csv"
               onChange={handleFileChange}
-              className="upload-button"
+              style={{ display: 'none' }}
             />
-            <button className="delete-all-button" onClick={handleDeleteAll} style={{ marginTop: "1rem" }}>
-              Delete All
-            </button>
             {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
 
             <div className="view-mode-buttons">
@@ -207,9 +227,14 @@ const RiskAssessment = () => {
             </div>
           </div>
 
-          <div className="chart-section">
-            <h2>Risk Heatmap</h2>
-            <RiskAssessmentChart teachers={teachers} viewMode={viewMode} />
+          <div className="charts-column" style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="RiskAssessment-chart" >
+              <h2>Risk Heatmap</h2>
+              <RiskAssessmentChart teachers={teachers} viewMode={viewMode} />
+            </div>
+            <div className="recommendations-section">
+              <RecommendationList recommendations={recommendations} />
+            </div>
           </div>
         </div>
       </main>

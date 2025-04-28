@@ -53,11 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Include Python Bayesian Network model
     // Use full path to python executable and script
     $pythonPath = 'python'; // Adjust this path to your python executable on Windows
-    $scriptPath = __DIR__ . '/../ml_models/risk_assessment_inference.py';
-    $command = escapeshellcmd("$pythonPath $scriptPath 2>&1");
-    $output = shell_exec($command);
-    error_log("Python script output: " . $output);
-    $riskScores = json_decode($output, true);
+    $riskScriptPath = __DIR__ . '/../ml_models/risk_assessment_inference.py';
+    $recScriptPath = __DIR__ . '/../ml_models/recommendations.py';
+
+    // Run risk assessment script
+    $riskCommand = escapeshellcmd("$pythonPath $riskScriptPath 2>&1");
+    $riskOutput = shell_exec($riskCommand);
+    error_log("Risk Python script output: " . $riskOutput);
+    $riskScores = json_decode($riskOutput, true);
     if ($riskScores === null) {
         send_response(['error' => 'Failed to decode risk scores JSON from Python script'], 500);
     }
@@ -84,7 +87,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
 
-        send_response($results);
+        // Run recommendations script with teacher data as input
+        $inputJson = json_encode($results);
+        $descriptorspec = [
+            0 => ["pipe", "r"],  // stdin
+            1 => ["pipe", "w"],  // stdout
+            2 => ["pipe", "w"]   // stderr
+        ];
+        $process = proc_open("$pythonPath $recScriptPath", $descriptorspec, $pipes);
+        if (is_resource($process)) {
+            fwrite($pipes[0], $inputJson);
+            fclose($pipes[0]);
+            $recOutput = stream_get_contents($pipes[1]);
+            fclose($pipes[1]);
+            $recError = stream_get_contents($pipes[2]);
+            fclose($pipes[2]);
+            $return_value = proc_close($process);
+            if ($return_value !== 0) {
+                error_log("Recommendations script error: " . $recError);
+                send_response(['error' => 'Failed to run recommendations script'], 500);
+            }
+            $recommendations = json_decode($recOutput, true);
+            if ($recommendations === null) {
+                send_response(['error' => 'Failed to decode recommendations JSON'], 500);
+            }
+        } else {
+            send_response(['error' => 'Failed to start recommendations script'], 500);
+        }
+
+        $response = [
+            'teachers' => $results,
+            'recommendations' => $recommendations
+        ];
+
+        send_response($response);
     } catch (Exception $e) {
         send_response(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
 import RiskAssessmentChart from '../RiskAssessment/RiskAssessmentChart';
 import EnrollmentChart from '../StudentEnrollmentPrediction/EnrollmentChart';
+import ScatterPlot from '../TrendIdentification/ScatterPlot';
 import '../RiskAssessment/Risk-Assessment.css';
 import './Dashboard.css';
 
@@ -15,7 +16,7 @@ function Dashboard() {
       const response = await fetch('http://localhost:8000/api/risk_assessment.php');
       if (!response.ok) throw new Error('Failed to fetch risk assessment data');
       const data = await response.json();
-      setTeachers(data);
+      setTeachers(data.teachers || []);
     } catch (error) {
       console.error('Error fetching risk assessment data:', error);
       setTeachers([]);
@@ -66,27 +67,32 @@ function Dashboard() {
               <EnrollmentChart />
             </div>
           </div>
-          <div className="Risk-Assessment">
-            <div className="chart-section">
-              <h2>
-                Risk Heatmap
-              </h2>
-              <div className="view-mode-buttons" style={{ marginBottom: '10px' }}>
-                <button
-                  onClick={() => setViewMode('strand')}
-                  className={viewMode === 'strand' ? 'active' : ''}
-                  style={{ marginRight: '10px' }}
-                >
-                  Strand-wise View
-                </button>
-                <button
-                  onClick={() => setViewMode('teacher')}
-                  className={viewMode === 'teacher' ? 'active' : ''}
-                >
-                  Teacher-wise View
-                </button>
+          <div className="two-column-container">
+            <div className="Scatter-Plot">
+              <ScatterPlot maximized={true} />
+            </div>
+            <div className="risk-main-section risk-assessment-container" >
+              <div className="charts-column" style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="RiskAssessment-chart">
+                  <h2>Risk Heatmap</h2>
+                  <div className="view-mode-buttons" style={{ marginBottom: '10px' }}>
+                    <button
+                      onClick={() => setViewMode('strand')}
+                      className={viewMode === 'strand' ? 'active' : ''}
+                      style={{ marginRight: '10px' }}
+                    >
+                      Strand-wise View
+                    </button>
+                    <button
+                      onClick={() => setViewMode('teacher')}
+                      className={viewMode === 'teacher' ? 'active' : ''}
+                    >
+                      Teacher-wise View
+                    </button>
+                  </div>
+                  <RiskAssessmentChart teachers={teachers} viewMode={viewMode} />
+                </div>
               </div>
-              <RiskAssessmentChart teachers={teachers} viewMode={viewMode} />
             </div>
           </div>
 
@@ -116,5 +122,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-

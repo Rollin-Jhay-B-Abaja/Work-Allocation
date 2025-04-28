@@ -1,15 +1,5 @@
 
-.Enrollment-chart { 
-  max-width: 100%;
-  height: 500px; /* Set a fixed height for the chart */
-  background-color: #0D1117; /* Dark background for visibility */
-  display: flex; /* Use flexbox for alignment */
-  justify-content: center; /* Center content horizontally */
-  padding: 20px;
-  margin-top: 80px; /* Adjusted margin for better spacing */
-  position: inherit;
-  margin-left: 80px;
-}
+
 
 .form-prediction-section {
   display: flex;
@@ -110,7 +100,7 @@
 .btn-group {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px; /* Adjusted margin for better spacing */
+  margin-top: 20px; /* Adjusted margin for better spacing */
 }
 
 .btn-predict {
@@ -149,6 +139,13 @@
 .search-box {
   margin-bottom: 20px; /* Added margin for spacing */
   margin-top: 20px;
+}
+
+.recommendations-section {
+  margin-bottom: 1.5rem; /* Add proper margin below recommendations section */
+  max-height: 150px; /* Limit height to enable scrolling */
+  overflow-y: auto; /* Add vertical scroll if content overflows */
+  padding-right: 10px; /* Add padding to avoid scrollbar overlap */
 }
 
 .search-box input {

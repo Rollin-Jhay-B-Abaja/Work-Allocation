@@ -85,7 +85,16 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
       Papa.parse(file, {
         header: true,
         complete: async (results) => {
-          const newHistoricalData = results.data.map((item) => ({
+          // Filter out rows with empty or invalid year or all empty enrollment values
+          const filteredData = results.data.filter(item => {
+            const yearValid = item.Year && item.Year.trim() !== "";
+            const hasEnrollment = ["STEM", "ABM", "GAS", "HUMSS", "ICT"].some(strand => {
+              const val = item[strand];
+              return val !== undefined && val !== null && val.toString().trim() !== "";
+            });
+            return yearValid && hasEnrollment;
+          });
+          const newHistoricalData = filteredData.map((item) => ({
             year: item.Year,
             STEM: item.STEM,
             ABM: item.ABM,
@@ -166,7 +175,25 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
             const predictionResults = await response.json();
             console.log("Prediction Results:", predictionResults); // Log the prediction results
             alert("Predictions fetched successfully!");
-            setPredictionResults(predictionResults); // Ensure this matches the expected structure
+            // Fetch recommendations based on predictions
+            try {
+              const recResponse = await fetch('http://localhost:5000/api/enrollment_recommendations', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(predictionResults),
+              });
+              if (recResponse.ok) {
+                const recData = await recResponse.json();
+                setPredictionResults({ ...predictionResults, recommendations: recData.recommendations });
+              } else {
+                setPredictionResults(predictionResults);
+              }
+            } catch (recError) {
+              console.error("Error fetching recommendations:", recError);
+              setPredictionResults(predictionResults);
+            }
         } else {
             const errorResponse = await response.json();
             alert(`Failed to fetch predictions: ${errorResponse.error}`);
@@ -278,7 +305,21 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
         </div>
         <div className="prediction-chart">
           <PredictionChart data={predictionResults.predictions} />
-          <div className="btn-group">
+          <div className="recommendations-section">
+            <h3>Automated Recommendations</h3>
+            {predictionResults.recommendations && predictionResults.recommendations.length > 0 ? (
+              <ul>
+                {predictionResults.recommendations.map((rec, index) => (
+                  <li key={index}>
+                    <strong>{rec.type} ({rec.strand || ''}):</strong> {rec.message}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No recommendations available. Please run predictions first.</p>
+            )}
+          </div>
+          <div className="btn-group btn-align">
             <button
               className="btn btn-predict"
               onClick={handlePredict}
@@ -295,6 +336,7 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
                   if (response.ok) {
                     alert('All enrollment data deleted successfully.');
                     setHistoricalData([]);
+                    setPredictionResults({}); // Reset prediction results and chart
                   } else {
                     alert('Failed to delete enrollment data.');
                   }
@@ -311,59 +353,59 @@ const EnrollmentForm = ({ setHistoricalData, historicalData, searchTerm, setSear
       </section>
     </div>
   );
-};
+  };
 
-const StudentEnrollmentPrediction = () => {
-  const [historicalData, setHistoricalData] = React.useState([]);
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [filteredData, setFilteredData] = React.useState([]);
-  const [predictionResults, setPredictionResults] = React.useState({});
+  const StudentEnrollmentPrediction = () => {
+    const [historicalData, setHistoricalData] = React.useState([]);
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [filteredData, setFilteredData] = React.useState([]);
+    const [predictionResults, setPredictionResults] = React.useState({});
 
-  React.useEffect(() => {
-    if (searchTerm === "") {
-      setFilteredData(historicalData);
-    } else {
-      const lowerSearchTerm = searchTerm.toLowerCase();
-      const filtered = historicalData.filter((data) =>
-        Object.values(data).some(
-          (value) =>
-            value &&
-            value.toString().toLowerCase().includes(lowerSearchTerm)
-        )
-      );
-      setFilteredData(filtered);
-    }
-  }, [searchTerm, historicalData]);
-
-  React.useEffect(() => {
-    const fetchEnrollmentData = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/enrollment_data');
-        if (response.ok) {
-          const data = await response.json();
-          setHistoricalData(data);
-        } else {
-          console.error('Failed to fetch enrollment data:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching enrollment data:', error);
+    React.useEffect(() => {
+      if (searchTerm === "") {
+        setFilteredData(historicalData);
+      } else {
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        const filtered = historicalData.filter((data) =>
+          Object.values(data).some(
+            (value) =>
+              value &&
+              value.toString().toLowerCase().includes(lowerSearchTerm)
+          )
+        );
+        setFilteredData(filtered);
       }
-    };
+    }, [searchTerm, historicalData]);
 
-    fetchEnrollmentData();
-  }, []);
+    React.useEffect(() => {
+      const fetchEnrollmentData = async () => {
+        try {
+          const response = await fetch('http://localhost:5000/api/enrollment_data');
+          if (response.ok) {
+            const data = await response.json();
+            setHistoricalData(data);
+          } else {
+            console.error('Failed to fetch enrollment data:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error fetching enrollment data:', error);
+        }
+      };
 
-  return (
-    <EnrollmentForm
-      historicalData={historicalData}
-      setHistoricalData={setHistoricalData}
-      searchTerm={searchTerm}
-      setSearchTerm={setSearchTerm}
-      filteredData={filteredData}
-      predictionResults={predictionResults}
-      setPredictionResults={setPredictionResults}
-    />
-  );
-};
+      fetchEnrollmentData();
+    }, []);
 
-export default StudentEnrollmentPrediction;
+    return (
+      <EnrollmentForm
+        historicalData={historicalData}
+        setHistoricalData={setHistoricalData}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        filteredData={filteredData}
+        predictionResults={predictionResults}
+        setPredictionResults={setPredictionResults}
+      />
+    );
+  };
+
+  export default StudentEnrollmentPrediction;

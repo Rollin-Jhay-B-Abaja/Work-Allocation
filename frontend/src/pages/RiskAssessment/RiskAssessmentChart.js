@@ -21,21 +21,92 @@ const RiskAssessmentChart = ({ teachers, viewMode }) => {
 
   // Legend component for risk levels
   const RiskLegend = () => (
-    <div className="risk-legend">
-      <div className="legend-item">
-        <span className="color-box high"></span>
+    <div className="risk-legend" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', alignItems: 'center' }}>
+      <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="color-box high" style={{ backgroundColor: '#f44336', width: '20px', height: '20px', display: 'inline-block' }}></span>
         <span>High Risk</span>
       </div>
-      <div className="legend-item">
-        <span className="color-box medium"></span>
+      <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="color-box medium" style={{ backgroundColor: '#ffc107', width: '20px', height: '20px', display: 'inline-block' }}></span>
         <span>Medium Risk</span>
       </div>
-      <div className="legend-item">
-        <span className="color-box low"></span>
+      <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="color-box low" style={{ backgroundColor: '#4caf50', width: '20px', height: '20px', display: 'inline-block' }}></span>
         <span>Low Risk</span>
       </div>
     </div>
   );
+
+  // Generate insights summary based on risk data
+  const generateInsights = () => {
+    if (viewMode === "strand") {
+      // Find strands with highest average risk
+      const strandMap = {};
+      teachers.forEach((t) => {
+        const strand = t["Strand"] || "Unknown";
+        if (!strandMap[strand]) {
+          strandMap[strand] = { count: 0, riskSum: 0 };
+        }
+        let riskValue = 0;
+        switch (t["Risk Level"]) {
+          case "High":
+            riskValue = 3;
+            break;
+          case "Medium":
+            riskValue = 2;
+            break;
+          case "Low":
+          default:
+            riskValue = 1;
+            break;
+        }
+        strandMap[strand].count += 1;
+        strandMap[strand].riskSum += riskValue;
+      });
+
+      const strands = Object.keys(strandMap);
+      const avgRiskLevels = strands.map((strand) => {
+        const avg = strandMap[strand].riskSum / strandMap[strand].count;
+        return { strand, avgRisk: avg };
+      });
+
+      // Sort strands by avgRisk descending
+      avgRiskLevels.sort((a, b) => b.avgRisk - a.avgRisk);
+
+      if (avgRiskLevels.length === 0) return null;
+
+      const highestRiskStrand = avgRiskLevels[0];
+      let riskLabel = "Low";
+      if (highestRiskStrand.avgRisk >= 2.5) riskLabel = "High";
+      else if (highestRiskStrand.avgRisk >= 1.5) riskLabel = "Medium";
+
+      return (
+        <div className="risk-insights" style={{ marginBottom: '1rem', fontStyle: 'italic', color: '#ccc' }}>
+          <p>
+            The strand <strong>{highestRiskStrand.strand}</strong> has the highest average risk level: <strong>{riskLabel}</strong>.
+            This may indicate increased workload or low satisfaction in this strand.
+          </p>
+          <p>
+            Consider prioritizing resource allocation or interventions for this strand to mitigate risks.
+          </p>
+        </div>
+      );
+    } else if (viewMode === "teacher") {
+      // Find teachers with high risk
+      const highRiskTeachers = teachers.filter(t => t["Risk Level"] === "High");
+      if (highRiskTeachers.length === 0) return null;
+
+      return (
+        <div className="risk-insights" style={{ marginBottom: '1rem', fontStyle: 'italic', color: '#ccc' }}>
+          <p>
+            There are <strong>{highRiskTeachers.length}</strong> teachers identified as high risk.
+            Consider reviewing their workload and satisfaction metrics for targeted support.
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   if (viewMode === "strand") {
     // Aggregate risk levels by strand
@@ -74,6 +145,7 @@ const RiskAssessmentChart = ({ teachers, viewMode }) => {
     return (
       <div>
         <RiskLegend />
+        {generateInsights()}
         <div className="heatmap-container">
           <h3>Strand-wise Risk Heatmap</h3>
           <div className="heatmap-grid">
@@ -96,7 +168,8 @@ const RiskAssessmentChart = ({ teachers, viewMode }) => {
     return (
       <div>
         <RiskLegend />
-        <div className="heatmap-container">
+        {generateInsights()}
+        <div className="heatmap-container" style={{ position: 'relative', zIndex: 1 }}>
           <h3>Teacher-wise Risk Heatmap</h3>
           <div className="heatmap-grid teacher-grid">
             {teachers.map((teacher) => (
