@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Extract year from date
     $year = date('Y', strtotime($date));
 
-    $stmt = $conn->prepare("INSERT INTO studentenrollmentprediction (date, year, STEM, ABM, GAS, HUMSS, ICT) VALUES (:date, :year, :STEM, :ABM, :GAS, :HUMSS, :ICT)");
+    $stmt = $conn->prepare("INSERT INTO studentenrollmentprediction (year, STEM, ABM, GAS, HUMSS, ICT) VALUES (:year, :STEM, :ABM, :GAS, :HUMSS, :ICT)");
     
-    $stmt->bindParam(':date', $date); // Bind date
+    //$stmt->bindParam(':date', $date); // Bind date
     $stmt->bindParam(':year', $year); // Bind extracted year
     $stmt->bindParam(':STEM', $enrollees_per_strand['STEM']); // Bind STEM
     $stmt->bindParam(':ABM', $enrollees_per_strand['ABM']); // Bind ABM

@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors = [];
         $headerMap = array_flip($headers);
         $rowNumber = 1;
-        $insertQuery = "INSERT INTO trend_identification (teacher_id, teacher_name, year, strand, class_size, average_grades, classroom_observation_scores, teacher_evaluation_scores) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO trend_identification (teacher_id, year, strand_id, class_size, average_grades, classroom_observation_scores, teacher_evaluation_scores) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($insertQuery);
 
         $pdo->beginTransaction();
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Check mandatory fields
-            foreach (["Teacher ID", "Teacher Name", "Year", "Strand", "Class Size"] as $col) {
+            foreach (["Teacher ID", "Year", "Strand", "Class Size"] as $col) {
                 $value = $row[$headerMap[$col]];
                 if (empty($value)) {
                     $errors[] = "Row $rowNumber: Missing value for $col.";
@@ -139,11 +139,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (count($errors) === 0) {
                 try {
+                    // Get strand_id from strands table
+                    $strandName = $row[$headerMap["Strand"]];
+                    $strandStmt = $pdo->prepare("SELECT id FROM strands WHERE name = ?");
+                    $strandStmt->execute([$strandName]);
+                    $strandId = $strandStmt->fetchColumn();
+                    if (!$strandId) {
+                        $errors[] = "Row $rowNumber: Strand '$strandName' not found in strands table.";
+                        continue;
+                    }
+
                     $stmt->execute([
                         $row[$headerMap["Teacher ID"]],
-                        $row[$headerMap["Teacher Name"]],
                         intval($row[$headerMap["Year"]]),
-                        $row[$headerMap["Strand"]],
+                        $strandId,
                         $classSize,
                         floatval($avgGrades),
                         floatval($obsScores),
@@ -170,19 +179,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         file_put_contents('python_script_error.log', "CSV Path: $destinationPath\nCWD: $cwd\n", FILE_APPEND);
 
         $cwd = getcwd();
-        $pythonScriptPath = $cwd . '/../ml_models/trend_identification_runner.py';
+        $pythonScriptPath = realpath($cwd . '/../ml_models/trend_identification_runner.py');
         $escapedPythonScriptPath = escapeshellarg($pythonScriptPath);
 
         $command = "python $escapedPythonScriptPath $escapedCsvPath";
 
         $output = shell_exec($command . ' 2>&1');
 
+        // Enhanced logging for Python script execution
         if ($output === null) {
-            send_response(['error' => 'Failed to execute Python script'], 500);
+            $errorMsg = "Failed to execute Python script. Command: $command";
+            file_put_contents('python_script_error.log', $errorMsg . "\n", FILE_APPEND);
+            send_response(['error' => $errorMsg], 500);
         }
 
         // Log Python script output for debugging
-        file_put_contents('python_script_error.log', $output . "\n", FILE_APPEND);
+        file_put_contents('python_script_error.log', "Python script output:\n" . $output . "\n", FILE_APPEND);
 
         $decodedOutput = json_decode($output, true);
         if ($decodedOutput === null) {
@@ -197,8 +209,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
-        $stmt = $pdo->query("SELECT teacher_id AS 'Teacher ID', teacher_name AS 'Teacher Name', year AS 'Year', strand AS 'Strand', class_size AS 'Class Size', average_grades AS 'Average Grades of Students', classroom_observation_scores AS 'Classroom Observation Scores', teacher_evaluation_scores AS 'Teacher Evaluation Scores' FROM trend_identification");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->query("SELECT ti.teacher_id AS 'Teacher ID', t.name AS 'Teacher Name', ti.year AS 'Year', s.name AS 'Strand', ti.class_size AS 'Class Size', ti.average_grades AS 'Average Grades of Students', ti.classroom_observation_scores AS 'Classroom Observation Scores', ti.teacher_evaluation_scores AS 'Teacher Evaluation Scores' FROM trend_identification ti JOIN teachers t ON ti.teacher_id = t.id JOIN strands s ON ti.strand_id = s.id");
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Prepare temporary CSV file for Python script input
         $tempCsvPath = sys_get_temp_dir() . '/trend_identification_temp.csv';
@@ -233,13 +245,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $output = shell_exec($command . ' 2>&1');
 
+        // Enhanced logging for Python script execution
         if ($output === null) {
-            send_response(['error' => 'Failed to execute Python script'], 500);
+            $errorMsg = "Failed to execute Python script. Command: $command";
+            file_put_contents('python_script_error.log', $errorMsg . "\n", FILE_APPEND);
+            send_response(['error' => $errorMsg], 500);
         }
 
         $decodedOutput = json_decode($output, true);
         if ($decodedOutput === null) {
-            send_response(['error' => 'Python script output is not valid JSON', 'raw_output' => $output], 500);
+            $errorMsg = "Python script output is not valid JSON. Output: $output";
+            file_put_contents('python_script_error.log', $errorMsg . "\n", FILE_APPEND);
+            send_response(['error' => $errorMsg, 'raw_output' => $output], 500);
         }
 
         // Merge correlation_matrix and recommendations into data response
@@ -307,12 +324,16 @@ $inputData = json_encode([
 
 $escapedInput = escapeshellarg($inputData);
 
-$command = "python ../ml_models/trend_identification_runner.py $escapedInput";
+$cwd = getcwd();
+$pythonScriptPath = realpath($cwd . '/../ml_models/trend_identification_runner.py');
+$escapedPythonScriptPath = escapeshellarg($pythonScriptPath);
+
+$command = "python $escapedPythonScriptPath $escapedInput";
 
 // Log command and input data for debugging
 file_put_contents('python_script_error.log', "Command: $command\nInputData: $inputData\n", FILE_APPEND);
 
-$output = shell_exec($command);
+$output = shell_exec($command . ' 2>&1');
 
 // Log raw output for debugging
 file_put_contents('python_script_error.log', "Output: $output\n", FILE_APPEND);

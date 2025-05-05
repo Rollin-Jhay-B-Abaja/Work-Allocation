@@ -2,8 +2,8 @@ Teacher ID,Name,Strand,Performance,Hours per week,Class size,Teacher satisfactio
 T001,John Doe,STEM,85,45,35,55,60
 T002,Jane Smith,ABM,90,35,40,75,80
 T003,Bob Johnson,HUMSS,70,25,30,85,90
-T004,Alice Williams,STEM,60,50,45,50,55
-T005,Chris Evans,ABM,95,20,25,90,95
+T004,Alice Williams,GAS,60,50,45,50,55
+T005,Chris Evans,ICT,95,20,25,90,95
 T006,Nancy Drew,HUMSS,80,38,40,65,70
 T007,Mark Spencer,STEM,65,42,38,58,62
 T008,Linda Brown,ABM,88,33,37,72,78

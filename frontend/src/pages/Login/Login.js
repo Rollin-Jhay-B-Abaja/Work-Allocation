@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.css';
 import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,15 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
+  // ✅ Add or remove class to body
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,15 +38,12 @@ function Login() {
     try {
       const response = await login(username, password);
       if (response && response.success) {
-        // Store token and role in localStorage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userRole', response.data.role);
         
-        // Redirect based on role
         switch (response.data.role) {
           case 'admin':
             navigate('/dashboard');
-
             break;
           case 'manager':
             navigate('/manager-dashboard');
@@ -115,9 +121,6 @@ function Login() {
           </form>
         </div>
       </main>
-      <footer className="footer">
-        © [(2024)] | [Lyceum of Alabang]
-      </footer>
     </div>
   );
 }

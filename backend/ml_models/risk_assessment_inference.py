@@ -13,7 +13,11 @@ def fetch_teacher_data():
     )
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT teacher_id, strand, performance, hours_per_week, class_size, teacher_satisfaction, student_satisfaction FROM risk_assessment"
+            sql = """
+                SELECT ra.id AS risk_id, trd.id AS teacher_retention_id, trd.year, ra.performance, ra.hours_per_week, ra.class_size, ra.teacher_satisfaction, ra.student_satisfaction
+                FROM risk_assessment ra
+                JOIN teacher_retention_data trd ON ra.teacher_retention_id = trd.id
+            """
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
@@ -51,7 +55,7 @@ def main():
 
         for teacher in teacher_data:
             risk_distribution = assign_risk_distribution(teacher)
-            risk_scores[teacher['teacher_id']] = risk_distribution
+            risk_scores[teacher['teacher_retention_id']] = risk_distribution
 
         print(json.dumps(risk_scores))
     except Exception as e:

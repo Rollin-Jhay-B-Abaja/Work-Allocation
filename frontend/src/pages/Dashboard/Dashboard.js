@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
 import RiskAssessmentChart from '../RiskAssessment/RiskAssessmentChart';
-import EnrollmentChart from '../StudentEnrollmentPrediction/EnrollmentChart';
 import ScatterPlot from '../TrendIdentification/ScatterPlot';
 import '../RiskAssessment/Risk-Assessment.css';
 import './Dashboard.css';
@@ -63,9 +62,6 @@ function Dashboard() {
         {/* Main Content */}
         <div className="main-content">
           <div className="content-header">
-            <div className="Enrollment-Chart">
-              <EnrollmentChart />
-            </div>
           </div>
           <div className="two-column-container">
             <div className="Scatter-Plot">

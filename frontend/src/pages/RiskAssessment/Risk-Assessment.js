@@ -123,18 +123,6 @@ const RiskAssessment = () => {
     }
   };
 
-  const handleDeleteAll = async () => {
-    if (!window.confirm("Are you sure you want to delete ALL data?")) return;
-    try {
-      const result = await sendRequest("http://localhost:8000/api/risk_assessment.php", { method: "DELETE" });
-      setTeachers([]);
-      setRecommendations([]);  // Clear recommendations as well
-      setUploadMessage("All data deleted successfully.");
-    } catch (error) {
-      setUploadMessage("Failed to delete all data: " + error.message);
-    }
-  };
-
   return (
     <div className="risk-assessment-container">
       <header className="header">
@@ -156,9 +144,6 @@ const RiskAssessment = () => {
                 style={{ flex: 1 }}
               >
                 Upload CSV
-              </button>
-              <button className="view-mode-buttons-button" onClick={handleDeleteAll} style={{ flex: 1 }}>
-                Delete All
               </button>
             </div>
             <input
@@ -228,6 +213,10 @@ const RiskAssessment = () => {
           </div>
 
           <div className="charts-column" style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="RiskAssessment-chart" >
+              <h2>Risk Assessment Radar Chart</h2>
+              <RiskAssessmentChart teachers={teachers} viewMode="radar" />
+            </div>
             <div className="RiskAssessment-chart" >
               <h2>Risk Heatmap</h2>
               <RiskAssessmentChart teachers={teachers} viewMode={viewMode} />

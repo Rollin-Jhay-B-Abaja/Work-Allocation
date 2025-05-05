@@ -1,12 +1,3 @@
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--primary-bg);
-  font-family: 'Inter', sans-serif;
-  padding: 20px;
-}
-
 .sidebar {
   font-family: 'Poppins', sans-serif;
 }
@@ -16,8 +7,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background-color: var(--primary-bg);
+  height: 80px;
+  background-color: #121212;
   color: var(--primary-text);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;

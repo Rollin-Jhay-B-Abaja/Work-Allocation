@@ -6,6 +6,7 @@ export const login = async (username, password) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({ username, password }),
     });
 
@@ -37,7 +38,7 @@ export const logout = () => {
 
 export const changePassword = async (username, currentPassword, newPassword) => {
   try {
-    const response = await fetch('http://localhost:8000/api/change_password.php', {
+    const response = await fetch('http://localhost:8000/change_password.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

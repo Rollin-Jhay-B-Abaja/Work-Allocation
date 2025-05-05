@@ -8,36 +8,48 @@ $allowed_origins = [
     'http://localhost:3003'
 ];
 
-
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, $allowed_origins)) {
-    header("Access-Control-Allow-Origin: $origin");
+function sendCorsHeaders() {
+    global $allowed_origins;
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    error_log("auth.php Origin header: " . ($origin ?: 'none'));
+    if (in_array($origin, $allowed_origins)) {
+        error_log("auth.php sending CORS headers for origin: $origin");
+        header("Access-Control-Allow-Origin: $origin");
+        header("Vary: Origin");
+        header("Access-Control-Allow-Methods: POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        header("Access-Control-Allow-Credentials: true");
+    } else {
+        error_log("auth.php origin not allowed: $origin");
+    }
 }
-
-
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
-
-
-require_once __DIR__ . '/../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     // Preflight request
-    http_response_code(204);
+    sendCorsHeaders();
     header("Access-Control-Max-Age: 3600");
+    http_response_code(204);
     exit();
 }
 
+sendCorsHeaders();
+
+require_once __DIR__ . '/../config.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    sendCorsHeaders();
     $data = json_decode(file_get_contents('php://input'), true);
     
     $username = $data['username'] ?? '';
     $password = $data['password'] ?? '';
 
+    // Trim inputs to remove whitespace
+    $username_trimmed = trim($username);
+    $password_trimmed = trim($password);
+
     // Validate input
-    if (empty($username) || empty($password)) {
+    if (empty($username_trimmed) || empty($password_trimmed)) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
@@ -52,21 +64,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Prepare and execute query
-        $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE username = :username");
-        $stmt->execute(['username' => $username]);
+        $stmt = $conn->prepare("SELECT id, password_hash, role FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username_trimmed]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        error_log("auth.php login attempt: username='$username', password='$password', username_trimmed='$username_trimmed', password_trimmed='$password_trimmed', user_found=" . ($user ? 'true' : 'false'));
+
         if ($user) {
-            $passwordMatch = password_verify($password, $user['password']);
+            $passwordMatch = password_verify($password_trimmed, $user['password_hash']);
+            error_log("auth.php password match: " . ($passwordMatch ? 'true' : 'false'));
+
+            // Fallback password verification using crypt if password_verify fails
+            if (!$passwordMatch && function_exists('crypt')) {
+                $passwordMatch = (crypt($password_trimmed, $user['password_hash']) === $user['password_hash']);
+                error_log("auth.php fallback crypt password match: " . ($passwordMatch ? 'true' : 'false'));
+            }
             
             if ($passwordMatch) {
                 // Successful login
                 $token = bin2hex(random_bytes(32));
                 $role = $user['role'];
                 
-                // Store token in database
+                // Store token in database with error handling
                 $stmt = $conn->prepare("UPDATE users SET token = :token WHERE id = :id");
-                $stmt->execute(['token' => $token, 'id' => $user['id']]);
+                $updateSuccess = $stmt->execute(['token' => $token, 'id' => $user['id']]);
+                if (!$updateSuccess) {
+                    error_log("auth.php failed to update token for user id: " . $user['id']);
+                }
 
                 http_response_code(200);
                 echo json_encode([
@@ -84,8 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'debug' => [
                         'username' => $username,
                         'password' => $password,
+                        'username_trimmed' => $username_trimmed,
+                        'password_trimmed' => $password_trimmed,
                         'user_found' => true,
-                        'password_match' => false
+                        'password_match' => false,
+                        'stored_password_hash' => $user['password_hash']
                     ]
                 ]);
             }
@@ -98,6 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'debug' => [
                     'username' => $username,
                     'password' => $password,
+                    'username_trimmed' => $username_trimmed,
+                    'password_trimmed' => $password_trimmed,
                     'user_found' => false
                 ]
             ]);

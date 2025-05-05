@@ -1,3 +1,4 @@
+
 .dashboard-container {
   max-width: 100%;
   overflow-x: hidden;
@@ -49,7 +50,7 @@
 .dashboard-container .Scatter-Plot {
   flex: 2;
   max-width: 400px; /* Reduced max-width to fit better */
-  max-height: 600px; /* Reduced max-height */
+  max-height: 400px; /* Reduced max-height */
   height: 100%;
   background-color: #0D1117;
   display: flex;
@@ -63,7 +64,7 @@
 
 .dashboard-container .Scatter-Plot canvas {
   width: 100% !important;
-  height: 100% !important;
+  height: 80% !important;
   display: block;
   margin: 0;
   padding: 0;

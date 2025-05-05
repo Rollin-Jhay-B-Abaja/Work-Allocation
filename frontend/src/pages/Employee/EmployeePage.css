@@ -55,3 +55,28 @@
   font-size: 16px;
   color: #cbd5e1;
 }
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input,
+input[type="email"],
+input[type="tel"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #444;
+  color: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.input:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+  border-color: #2188ff;
+  outline: none;
+  box-shadow: 0 0 5px #2188ff;
+}
