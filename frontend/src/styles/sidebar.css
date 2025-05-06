@@ -1,6 +1,4 @@
-.sidebar {
-  font-family: 'Poppins', sans-serif;
-}
+
 
 .header {
   position: fixed;
@@ -34,8 +32,6 @@
   margin-top: 100px;
   gap: 30px;
 }
-
-
 
 .profile-section {
   display: flex;
@@ -112,13 +108,6 @@
   margin-top: 30px;
 }
 
-.main-content {
-  margin-left: 330px;
-  flex: 1;
-  padding: 30px;
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
-}
 
 .content-header {
   display: flex;

@@ -160,49 +160,49 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
                 className="input"
                 disabled={uploading}
               />
-              {csvError && <p style={{ color: 'red', marginTop: '8px' }}>{csvError}</p>}
-              {uploadSuccess && <p style={{ color: 'green', marginTop: '8px' }}>{uploadSuccess}</p>}
-              {uploading && <p>Uploading CSV...</p>}
-            </div>
-            <div style={{ marginTop: '20px' }}>
+            {csvError && <p className="error-message">{csvError}</p>}
+            {uploadSuccess && <p className="success-message">{uploadSuccess}</p>}
+            {uploading && <p className="uploading-message">Uploading CSV...</p>}
+          </div>
+          <div className="csv-required-fields-container">
               <h3>Required CSV Data Fields</h3>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table className="csv-required-fields-table">
                 <thead>
                   <tr>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Field</th>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Example Value</th>
+                    <th>Field</th>
+                    <th>Example Value</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>name</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>John Doe</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>email</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>john.doe@example.com</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>contact_number</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>+1234567890</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>position</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Teacher</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>department</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Mathematics</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>photo</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>URL or file path</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>subjects_expertise</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Math;Science;English</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>teaching_certifications</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Certified Math Teacher</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>teaching_experience_years</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>5</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>additional_skills</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Public Speaking</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>preferred_grade_levels</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Grade 9;Grade 10</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>proficiency_level</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Math:Advanced;Science:Intermediate</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>availability_schedule</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>M-F 8am-4pm</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>preferred_time_slots</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>8am-12pm</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>preferred_days_off</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Saturday</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>shift_preferences</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Day Shift</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>overtime_willingness</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>true</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>leave_requests</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>None</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>assigned_classes</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Class 9A</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>teaching_hours_per_week</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>20</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>administrative_duties</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Committee Member</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>extracurricular_duties</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Coach</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>feedback_scores</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>4.5</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>absences</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>2</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>max_teaching_hours</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>25</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>min_rest_period</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>12 hours</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>contractual_constraints</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>None</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>substitute_eligible_subjects</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>Math;Science</td></tr>
-                  <tr><td style={{ border: '1px solid #ddd', padding: '8px' }}>substitute_availability</td><td style={{ border: '1px solid #ddd', padding: '8px' }}>M-F</td></tr>
+                  <tr><td>name</td><td>John Doe</td></tr>
+                  <tr><td>email</td><td>john.doe@example.com</td></tr>
+                  <tr><td>contact_number</td><td>+1234567890</td></tr>
+                  <tr><td>position</td><td>Teacher</td></tr>
+                  <tr><td>department</td><td>Mathematics</td></tr>
+                  <tr><td>photo</td><td>URL or file path</td></tr>
+                  <tr><td>subjects_expertise</td><td>Math;Science;English</td></tr>
+                  <tr><td>teaching_certifications</td><td>Certified Math Teacher</td></tr>
+                  <tr><td>teaching_experience_years</td><td>5</td></tr>
+                  <tr><td>additional_skills</td><td>Public Speaking</td></tr>
+                  <tr><td>preferred_grade_levels</td><td>Grade 9;Grade 10</td></tr>
+                  <tr><td>proficiency_level</td><td>Math:Advanced;Science:Intermediate</td></tr>
+                  <tr><td>availability_schedule</td><td>M-F 8am-4pm</td></tr>
+                  <tr><td>preferred_time_slots</td><td>8am-12pm</td></tr>
+                  <tr><td>preferred_days_off</td><td>Saturday</td></tr>
+                  <tr><td>shift_preferences</td><td>Day Shift</td></tr>
+                  <tr><td>overtime_willingness</td><td>true</td></tr>
+                  <tr><td>leave_requests</td><td>None</td></tr>
+                  <tr><td>assigned_classes</td><td>Class 9A</td></tr>
+                  <tr><td>teaching_hours_per_week</td><td>20</td></tr>
+                  <tr><td>administrative_duties</td><td>Committee Member</td></tr>
+                  <tr><td>extracurricular_duties</td><td>Coach</td></tr>
+                  <tr><td>feedback_scores</td><td>4.5</td></tr>
+                  <tr><td>absences</td><td>2</td></tr>
+                  <tr><td>max_teaching_hours</td><td>25</td></tr>
+                  <tr><td>min_rest_period</td><td>12 hours</td></tr>
+                  <tr><td>contractual_constraints</td><td>None</td></tr>
+                  <tr><td>substitute_eligible_subjects</td><td>Math;Science</td></tr>
+                  <tr><td>substitute_availability</td><td>M-F</td></tr>
                 </tbody>
               </table>
             </div>

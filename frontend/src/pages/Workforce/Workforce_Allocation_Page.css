@@ -1,0 +1,10 @@
+/* Workforce Allocation Page Styles */
+
+.Workforce-content{
+  max-width: 1200px;
+  width: 100%;
+  padding-top: 130px;
+  margin: 0 auto;
+  padding-left: 80px;/* Add padding to separate from sidebar */
+  font-size: 1.2rem; /* Adjust font size for better readability */
+}

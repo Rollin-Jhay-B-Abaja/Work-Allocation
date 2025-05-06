@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Papa from 'papaparse';
 import PredictionChart from './PredictionChart';
 import TeacherRetentionDataTable from './TeacherRetentionDataTable';
 import TeacherRetentionForm from './TeacherRetentionForm';
@@ -166,8 +165,8 @@ const TeacherRetentionPredictionPage = () => {
     // No longer needed since form is always visible, but keep for compatibility
   };
 
-  return (
-    <div>
+return (
+    <div className="page-scroll-container">
       <header className="header">
         <div className="logo"></div>
         <h1 className="title" onClick={() => navigate("/analysis")}>

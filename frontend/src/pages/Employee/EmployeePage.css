@@ -1,15 +1,20 @@
 .employee-page-container {
   display: flex;
-  min-height: 100vh;
-  margin-left: 35rem;
-  width:50%;
+  /* Removed max-height to allow container to grow and enable scrolling */
+  width: 100%;
+  margin-bottom: 20px;  
+  padding: 30px;
+  margin-left: 100px;
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  height: 100vh; /* Keep full viewport height */
 }
 
 .employee-page-container .main-content {
   flex-grow: 1;
-  max-width: 700px;
-  margin: 40px auto;
-  background-color: #0F1C32;
+  max-width: 1250px;
+  max-height: 580px; /* Set a max height for the main content area */
+  margin: .5px auto;
+  background-color: #1e1e1e;
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -79,4 +84,220 @@ input[type="tel"]:focus {
   border-color: #2188ff;
   outline: none;
   box-shadow: 0 0 5px #2188ff;
+}
+
+/* Updated styles for EmployeeViewProfile table to fill available space with margins */
+
+
+.employee-view-profile-container {
+  max-width: 100vw;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.employee-view-profile-container h1 {
+  margin-bottom: 15px;
+}
+
+.back-button {
+  margin-bottom: 15px;
+  background-color: #2188ff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #1767d1;
+}
+
+.table-container {
+  max-height: 350px; /* added max-height to enable scroll */
+  overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #1e1e1e !important; /* background color */
+}
+
+
+/* Removed alternate row background color */
+.employee-table tbody tr:nth-child(even) {
+  background-color: transparent !important;
+}
+
+/* Removed hover effect on rows */
+.employee-table tbody tr:hover {
+  background-color: transparent !important;
+}
+
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.placeholder-icon {
+  border-radius: 50%;
+  background-color: #1e1e1e;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #888;
+}
+
+.view-button {
+  background-color: #2188ff;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.view-button:hover {
+  background-color: #1767d1;
+}
+
+/* Responsive table for smaller screens */
+@media (max-width: 850px) {
+  .employee-view-profile-container {
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .employee-table th,
+  .employee-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+}
+
+/* EmployeeCreateForm styles */
+.main-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #444c56;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: default;
+  transition: background-color 0.3s ease;
+}
+
+.step-circle.active {
+  background-color: #2188ff;
+  box-shadow: 0 0 8px #2188ff;
+}
+
+.button {
+  background-color: #2188ff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.button:hover {
+  background-color: #1767d1;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: white;
+}
+
+input[type="file"].input {
+  padding: 6px;
+  background-color: #444;
+  border-radius: 4px;
+  border: 1px solid #444;
+  color: white;
+}
+
+p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-top: 8px;
+}
+
+.success-message {
+  color: #52c41a;
+  margin-top: 8px;
+}
+
+.uploading-message {
+  margin-top: 8px;
+}
+
+.csv-required-fields-container {
+  margin-top: 20px;
+}
+
+.csv-required-fields-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  display: block;
+}
+
+.csv-required-fields-table th,
+.csv-required-fields-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.csv-required-fields-table th {
+  background-color: #222;
 }

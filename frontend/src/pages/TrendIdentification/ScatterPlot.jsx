@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     ScatterController,
@@ -20,19 +20,6 @@ ChartJS.register(
     Legend,
     Title
 );
-
-// Function to calculate Pearson correlation coefficient between two arrays
-const calculateCorrelation = (x, y) => {
-    const n = x.length;
-    const meanX = x.reduce((a, b) => a + b, 0) / n;
-    const meanY = y.reduce((a, b) => a + b, 0) / n;
-    const numerator = x.reduce((acc, val, i) => acc + (val - meanX) * (y[i] - meanY), 0);
-    const denominatorX = Math.sqrt(x.reduce((acc, val) => acc + (val - meanX) ** 2, 0));
-    const denominatorY = Math.sqrt(y.reduce((acc, val) => acc + (val - meanY) ** 2, 0));
-    const denominator = denominatorX * denominatorY;
-    if (denominator === 0) return 0;
-    return numerator / denominator;
-};
 
 // Function to calculate regression line points
 const calculateRegressionLine = (points) => {
@@ -61,126 +48,88 @@ const calculateRegressionLine = (points) => {
     return regressionPoints;
 };
 
-const ScatterPlot = ({ maximized }) => {
+const ScatterPlot = ({ dataPoints, correlation, maximized, xLabel, yLabel }) => {
     const [scatterData, setScatterData] = useState(null);
     const [scatterOptions, setScatterOptions] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [correlation, setCorrelation] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await fetch('http://localhost:8000/api/trend_identification.php');
-                const text = await response.text();
-                const data = JSON.parse(text);
+        if (!dataPoints || dataPoints.length === 0) {
+            setScatterData(null);
+            return;
+        }
 
-                if (data.error) {
-                    setError(data.error);
-                    setLoading(false);
-                    return;
-                }
+        // Calculate regression line points if correlation is significant
+        let regressionLine = [];
+        if (correlation && Math.abs(correlation) > 0.3) { // threshold for trend detection
+            regressionLine = calculateRegressionLine(dataPoints);
+        }
 
-                // Process data to scatterData format
-                // Adjust to handle new response structure with data key
-                const points = (data.data || []).map(row => ({
-                    x: Number(row['Class Size']),
-                    y: Number(row['Teacher Evaluation Scores'])
-                })).filter(point => !isNaN(point.x) && !isNaN(point.y));
+        setScatterData({
+            datasets: [
+                {
+                    label: xLabel + ' vs ' + yLabel,
+                    data: dataPoints,
+                    backgroundColor: 'rgba(75,192,192,1)',
+                    showLine: false,
+                },
+                ...(regressionLine.length > 0 ? [{
+                    label: 'Regression Line',
+                    data: regressionLine,
+                    type: 'line',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 2,
+                    fill: false,
+                    pointRadius: 0,
+                    tension: 0
+                }] : [])
+            ]
+        });
 
-                // Calculate correlation coefficient
-                const xVals = points.map(p => p.x);
-                const yVals = points.map(p => p.y);
-                const corr = calculateCorrelation(xVals, yVals);
-                setCorrelation(corr);
-
-                // Calculate regression line points if correlation is significant
-                let regressionLine = [];
-                if (Math.abs(corr) > 0.3) { // threshold for trend detection
-                    regressionLine = calculateRegressionLine(points);
-                }
-
-                setScatterData({
-                    datasets: [
-                        {
-                            label: 'Class Size vs Teacher Evaluation Scores',
-                            data: points,
-                            backgroundColor: 'rgba(75,192,192,1)',
-                            showLine: false,
-                        },
-                        ...(regressionLine.length > 0 ? [{
-                            label: 'Regression Line',
-                            data: regressionLine,
-                            type: 'line',
-                            borderColor: 'rgba(255,99,132,1)',
-                            borderWidth: 2,
-                            fill: false,
-                            pointRadius: 0,
-                            tension: 0
-                        }] : [])
-                    ]
-                });
-
-                setScatterOptions({
-                    responsive: true,
-                    maintainAspectRatio: maximized ? false : true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: `Scatter Plot with Correlation Coefficient: ${corr.toFixed(3)}`,
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `Class Size: ${context.parsed.x}, Teacher Evaluation Score: ${context.parsed.y}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'Class Size'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Teacher Evaluation Scores'
-                            }
+        setScatterOptions({
+            responsive: true,
+            maintainAspectRatio: maximized ? false : true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Scatter Plot with Correlation Coefficient: ' + (correlation ? correlation.toFixed(3) : 'N/A'),
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return xLabel + ': ' + context.parsed.x + ', ' + yLabel + ': ' + context.parsed.y;
                         }
                     }
-                });
-
-                setLoading(false);
-            } catch (err) {
-                setError('Error fetching data: ' + err.message);
-                setLoading(false);
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: xLabel
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: yLabel
+                    }
+                }
             }
-        };
+        });
+    }, [dataPoints, correlation, maximized, xLabel, yLabel]);
 
-        fetchData();
-    }, [maximized]);
-
-    if (loading) {
-        return <div>Loading scatter plot...</div>;
-    }
-
-    if (error) {
-        return <div className="error-message">Error: {error}</div>;
+    if (!scatterData) {
+        return <div>No data available for scatter plot.</div>;
     }
 
     return (
-        <div className="scatter-container" style={{ height: maximized ? '100%' : '600px', width: '100%' }}>
+        <div className="scatter-container" style={{ height: maximized ? '90%' : '600px', width: '100%' }}>
             <Scatter data={scatterData} options={scatterOptions} />
         </div>
     );

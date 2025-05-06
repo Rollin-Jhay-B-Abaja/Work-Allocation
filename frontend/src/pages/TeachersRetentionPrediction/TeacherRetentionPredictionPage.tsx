@@ -245,69 +245,71 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         </h1>
       </header>
 
-      {!showForm && (
-        <>
-          <button onClick={() => setShowForm(true)} className="open-form-button">
-            Update Prediction Data
-          </button>
-          <div className="visualization-section">
-            <h2>Prediction Visualization</h2>
-            {notification && <div className="notification">{notification}</div>}
-            {predictionData ? (
-              (() => {
-                console.log('Prediction data passed to PredictionChart:', predictionData);
-                return (
-                  <>
-                    <PredictionChart data={predictionData} />
-                    <div className="prediction-summary" style={{ marginTop: '1rem', color: 'white' }}>
-                      <h3>Prediction Summary (Per Strand)</h3>
-                      {predictionData.map((item, index) => (
-                        <div key={index} style={{ marginBottom: '1rem' }}>
-                          <strong>Year {item.year}:</strong>
-                          <div style={{ marginLeft: '1rem' }}>
-                            {Object.keys(item.resignations_count || {}).map(strand => {
-                              const resigning = item.resignations_count?.[strand] ?? 0;
-                              const retaining = item.retentions_count?.[strand] ?? 0;
-                              const hiresNeeded = item.hires_needed?.[strand] ?? 0;
-                              return (
-                                <React.Fragment key={strand}>
-                                  {resigning !== undefined && retaining !== undefined && hiresNeeded !== undefined && (
-                                    <div style={{ marginBottom: '0.25rem' }}>
-                                      <em>{strand}</em> - Resigning: {resigning.toFixed(2)}, Retaining: {retaining.toFixed(2)}, To be Hired: {hiresNeeded.toFixed(2)}
-                                    </div>
-                                  )}
-                                </React.Fragment>
-                              );
-                            })}
+      <div style={{ maxWidth: '1200px', margin: '100px auto 20px auto', padding: '0 20px' }}>
+        {!showForm && (
+          <>
+            <button onClick={() => setShowForm(true)} className="open-form-button">
+              Update Prediction Data
+            </button>
+            <div className="visualization-section">
+              <h2>Prediction Visualization</h2>
+              {notification && <div className="notification">{notification}</div>}
+              {predictionData ? (
+                (() => {
+                  console.log('Prediction data passed to PredictionChart:', predictionData);
+                  return (
+                    <>
+                      <PredictionChart data={predictionData} />
+                      <div className="prediction-summary" style={{ marginTop: '1rem', color: 'white' }}>
+                        <h3>Prediction Summary (Per Strand)</h3>
+                        {predictionData.map((item, index) => (
+                          <div key={index} style={{ marginBottom: '1rem' }}>
+                            <strong>Year {item.year}:</strong>
+                            <div style={{ marginLeft: '1rem' }}>
+                              {Object.keys(item.resignations_count || {}).map(strand => {
+                                const resigning = item.resignations_count?.[strand] ?? 0;
+                                const retaining = item.retentions_count?.[strand] ?? 0;
+                                const hiresNeeded = item.hires_needed?.[strand] ?? 0;
+                                return (
+                                  <React.Fragment key={strand}>
+                                    {resigning !== undefined && retaining !== undefined && hiresNeeded !== undefined && (
+                                      <div style={{ marginBottom: '0.25rem' }}>
+                                        <em>{strand}</em> - Resigning: {resigning.toFixed(2)}, Retaining: {retaining.toFixed(2)}, To be Hired: {hiresNeeded.toFixed(2)}
+                                      </div>
+                                    )}
+                                  </React.Fragment>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                );
-              })()
-            ) : (
-              <PredictionChart data={[]} />
-            )}
-          </div>
-          <div className="saved-data-container">
-            <div className="saved-data-section">
-              <h2>Historical Data</h2>
-              <TeacherRetentionDataTable data={savedData} />
+                        ))}
+                      </div>
+                    </>
+                  );
+                })()
+              ) : (
+                <PredictionChart data={[]} />
+              )}
             </div>
-          </div>
-        </>
-      )}
+            <div className="saved-data-container">
+              <div className="saved-data-section">
+                <h2>Historical Data</h2>
+                <TeacherRetentionDataTable data={savedData} />
+              </div>
+            </div>
+          </>
+        )}
 
-      {showForm && (
-        <TeacherRetentionForm
-          priorYearData={savedData.length > 0 ? savedData[savedData.length - 1] : null}
-          onSubmit={handleFormSubmit}
-          onCancel={handleFormCancel}
-          successMessage={successMessage}
-          errorMessage={errorMessage}
-        />
-      )}
+        {showForm && (
+          <TeacherRetentionForm
+            priorYearData={savedData.length > 0 ? savedData[savedData.length - 1] : null}
+            onSubmit={handleFormSubmit}
+            onCancel={handleFormCancel}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+          />
+        )}
+      </div>
     </div>
   );
 };

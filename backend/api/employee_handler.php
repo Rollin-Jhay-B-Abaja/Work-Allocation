@@ -102,198 +102,238 @@ function mapInputData($data) {
     ];
 }
 
-// Parse input data (CSV or JSON)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    try {
+        $stmt = $conn->prepare("
+            SELECT
+                t.teacher_id AS id, 
+                t.name AS teacher_name, 
+                t.photo AS photo,
+                d.department AS strand_name, 
+                MAX(CASE WHEN ct.type_name = 'Email' THEN tc.contact_value ELSE NULL END) AS email,
+                MAX(CASE WHEN ct.type_name = 'Phone' THEN tc.contact_value ELSE NULL END) AS phone,
+                DATE_FORMAT(t.hire_date, '%Y-%m-%d') AS hire_date
+            FROM teachers t
+            LEFT JOIN teacher_positions tp ON t.teacher_id = tp.teacher_id
+            LEFT JOIN departments d ON tp.department_id = d.department_id
+            LEFT JOIN teacher_contacts tc ON t.teacher_id = tc.teacher_id
+            LEFT JOIN contact_types ct ON tc.contact_type_id = ct.contact_type_id
+            GROUP BY t.teacher_id, t.name, t.photo, d.department, t.hire_date
+            ORDER BY t.name ASC
+        ");
+        $stmt->execute();
+        $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['employees' => $employees]);
+    } catch (PDOException $e) {
+        error_log("Error fetching employees: " . $e->getMessage());
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to fetch employees: ' . $e->getMessage()]);
+    }
+    exit;
+}
+
 $inputData = null;
-if (isset($_FILES['csv_upload']) && $_FILES['csv_upload']['error'] === UPLOAD_ERR_OK) {
-    debug_log("CSV upload detected.");
-    $fileTmpPath = $_FILES['csv_upload']['tmp_name'];
-    $handle = fopen($fileTmpPath, 'r');
-    if ($handle === false) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Failed to open uploaded CSV file.']);
-        exit;
-    }
-    $header = fgetcsv($handle);
-    if ($header === false) {
-        http_response_code(400);
-        echo json_encode(['error' => 'CSV file is empty or invalid.']);
-        exit;
-    }
-    $inputData = [];
-    while (($row = fgetcsv($handle)) !== false) {
-        if (count($row) !== count($header)) {
-            continue; // skip invalid rows
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    if (isset($_FILES['csv_upload']) && $_FILES['csv_upload']['error'] === UPLOAD_ERR_OK) {
+        debug_log("CSV upload detected.");
+        $fileTmpPath = $_FILES['csv_upload']['tmp_name'];
+        $handle = fopen($fileTmpPath, 'r');
+        if ($handle === false) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Failed to open uploaded CSV file.']);
+            exit;
         }
-        $inputData[] = array_combine($header, $row);
-    }
-    fclose($handle);
-} else {
-    $inputData = json_decode(file_get_contents('php://input'), true);
-    if (!$inputData) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Invalid JSON input']);
-        exit;
-    }
-    // Wrap single object into array for uniform processing
-    if (isset($inputData['name'])) {
-        $inputData = [$inputData];
+        $header = fgetcsv($handle);
+        if ($header === false) {
+            http_response_code(400);
+            echo json_encode(['error' => 'CSV file is empty or invalid.']);
+            exit;
+        }
+        $inputData = [];
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) !== count($header)) {
+                continue; // skip invalid rows
+            }
+            $inputData[] = array_combine($header, $row);
+        }
+        fclose($handle);
+    } else {
+        $inputData = json_decode(file_get_contents('php://input'), true);
+        if (!$inputData) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON input']);
+            exit;
+        }
+        // Wrap single object into array for uniform processing
+        if (isset($inputData['name'])) {
+            $inputData = [$inputData];
+        }
     }
 }
 
 $errors = [];
 $successCount = 0;
 
-try {
-    $conn->beginTransaction();
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    try {
+        $conn->beginTransaction();
 
-    foreach ($inputData as $index => $data) {
-        $rowNum = $index + 1;
+        foreach ($inputData as $index => $data) {
+            $rowNum = $index + 1;
 
-        $mapped = mapInputData($data);
+            $mapped = mapInputData($data);
 
-        // Validate required fields
-        $err = validate_required('teacher_name', $mapped['teacher_name']);
-        if ($err) {
-            $errors[] = "Row $rowNum: $err";
-            continue;
-        }
-
-        // Insert or update teacher
-        $teacherId = $mapped['teacher_id'];
-        if ($teacherId) {
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM teachers WHERE teacher_id = :id");
-            $stmt->execute([':id' => $teacherId]);
-            $exists = $stmt->fetchColumn() > 0;
-        } else {
-            $exists = false;
-        }
-
-        if ($exists) {
-        $sql = "UPDATE teachers SET name = :name, hire_date = :hire_date, employment_status = :status WHERE teacher_id = :id";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([
-            ':name' => $mapped['teacher_name'],
-            ':hire_date' => $mapped['hire_date'],
-            ':status' => $mapped['employment_status'],
-            ':id' => $teacherId,
-        ]);
-        } else {
-        if (!$teacherId) {
-            // Generate UUID for teacher_id
-            $teacherId = bin2hex(random_bytes(16));
-        }
-        $sql = "INSERT INTO teachers (teacher_id, name, hire_date, employment_status) VALUES (:id, :name, :hire_date, :status)";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([
-            ':id' => $teacherId,
-            ':name' => $mapped['teacher_name'],
-            ':hire_date' => $mapped['hire_date'],
-            ':status' => $mapped['employment_status'],
-        ]);
-        }
-
-        // Handle contacts (email, phone)
-        $contactTypes = ['email' => 'Email', 'phone' => 'Phone'];
-        foreach ($contactTypes as $field => $typeName) {
-            if (!empty($mapped[$field])) {
-                $stmt = $conn->prepare("SELECT contact_type_id FROM contact_types WHERE type_name = :name");
-                $stmt->execute([':name' => $typeName]);
-                $contactTypeId = $stmt->fetchColumn();
-                if (!$contactTypeId) {
-                    $stmt = $conn->prepare("INSERT INTO contact_types (type_name) VALUES (:name)");
-                    $stmt->execute([':name' => $typeName]);
-                    $contactTypeId = $conn->lastInsertId();
-                }
-                // Insert or update teacher_contacts
-                $stmt = $conn->prepare("SELECT contact_id FROM teacher_contacts WHERE teacher_id = :tid AND contact_type_id = :ctid");
-                $stmt->execute([':tid' => $teacherId, ':ctid' => $contactTypeId]);
-                $contactId = $stmt->fetchColumn();
-                if ($contactId) {
-                    $stmt = $conn->prepare("UPDATE teacher_contacts SET contact_value = :val, is_primary = 1 WHERE contact_id = :cid");
-                    $stmt->execute([':val' => $mapped[$field], ':cid' => $contactId]);
-                } else {
-                    $stmt = $conn->prepare("INSERT INTO teacher_contacts (teacher_id, contact_type_id, contact_value, is_primary) VALUES (:tid, :ctid, :val, 1)");
-                    $stmt->execute([':tid' => $teacherId, ':ctid' => $contactTypeId, ':val' => $mapped[$field]]);
-                }
+            // Validate required fields
+            $err = validate_required('teacher_name', $mapped['teacher_name']);
+            if ($err) {
+                $errors[] = "Row $rowNum: $err";
+                continue;
             }
-        }
 
-        // Handle position and department
-        if (!empty($mapped['position']) && !empty($mapped['department'])) {
-            $positionId = getPositionId($conn, $mapped['position']);
-            $departmentId = getDepartmentId($conn, $mapped['department']);
-            // Insert teacher_positions with current date as effective_date
-            $stmt = $conn->prepare("INSERT INTO teacher_positions (teacher_id, position_id, department_id, effective_date) VALUES (:tid, :pid, :did, CURDATE())");
-            $stmt->execute([':tid' => $teacherId, ':pid' => $positionId, ':did' => $departmentId]);
-        }
-
-        // Handle certifications
-        if (!empty($mapped['teaching_certifications'])) {
-            $certs = preg_split('/[;,]/', $mapped['teaching_certifications']);
-            foreach ($certs as $certName) {
-                $certName = trim($certName);
-                if ($certName === '') continue;
-                $certId = getCertificationTypeId($conn, $certName);
-                $stmt = $conn->prepare("INSERT INTO teacher_certifications (teacher_id, cert_id) VALUES (:tid, :cid)");
-                $stmt->execute([':tid' => $teacherId, ':cid' => $certId]);
+            // Insert or update teacher
+            $teacherId = $mapped['teacher_id'];
+            if ($teacherId) {
+                $stmt = $conn->prepare("SELECT COUNT(*) FROM teachers WHERE teacher_id = :id");
+                $stmt->execute([':id' => $teacherId]);
+                $exists = $stmt->fetchColumn() > 0;
+            } else {
+                $exists = false;
             }
-        }
 
-        // Handle subject expertise
-        if (!empty($mapped['subjects_expertise'])) {
-            $subjects = preg_split('/[;,]/', $mapped['subjects_expertise']);
-            foreach ($subjects as $subjectName) {
-                $subjectName = trim($subjectName);
-                if ($subjectName === '') continue;
-                $subjectId = getSubjectAreaId($conn, $subjectName);
-                $stmt = $conn->prepare("INSERT INTO teacher_subject_expertise (teacher_id, subject_id) VALUES (:tid, :sid)");
-                $stmt->execute([':tid' => $teacherId, ':sid' => $subjectId]);
-            }
-        }
-
-        // Handle workload
-        if (!empty($mapped['teaching_hours_per_week'])) {
-            $periodName = date('Y');
-            $stmt = $conn->prepare("SELECT period_id FROM workload_periods WHERE period_name = :name");
-            $stmt->execute([':name' => $periodName]);
-            $periodId = $stmt->fetchColumn();
-            if (!$periodId) {
-                $stmt = $conn->prepare("INSERT INTO workload_periods (period_name, start_date, end_date) VALUES (:name, :start, :end)");
+            if ($exists) {
+                $sql = "UPDATE teachers SET name = :name, hire_date = :hire_date, employment_status = :status WHERE teacher_id = :id";
+                $stmt = $conn->prepare($sql);
                 $stmt->execute([
-                    ':name' => $periodName,
-                    ':start' => date('Y-01-01'),
-                    ':end' => date('Y-12-31'),
+                    ':name' => $mapped['teacher_name'],
+                    ':hire_date' => $mapped['hire_date'],
+                    ':status' => $mapped['employment_status'],
+                    ':id' => $teacherId,
                 ]);
-                $periodId = $conn->lastInsertId();
+            } else {
+                if (!$teacherId) {
+                    // Generate incremental zero-padded teacher_id starting from 0001
+                    $stmtMax = $conn->prepare("SELECT MAX(CAST(teacher_id AS UNSIGNED)) FROM teachers");
+                    $stmtMax->execute();
+                    $maxId = $stmtMax->fetchColumn();
+                    $nextId = $maxId ? $maxId + 1 : 1;
+                    $teacherId = str_pad($nextId, 4, '0', STR_PAD_LEFT);
+                }
+                $sql = "INSERT INTO teachers (teacher_id, name, hire_date, employment_status) VALUES (:id, :name, :hire_date, :status)";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    ':id' => $teacherId,
+                    ':name' => $mapped['teacher_name'],
+                    ':hire_date' => $mapped['hire_date'],
+                    ':status' => $mapped['employment_status'],
+                ]);
             }
-            $stmt = $conn->prepare("INSERT INTO teacher_workload (teacher_id, period_id, teaching_hours, admin_hours, extracurricular_hours, max_allowed_hours) VALUES (:tid, :pid, :teach, :admin, :extra, :max)");
-            $stmt->execute([
-                ':tid' => $teacherId,
-                ':pid' => $periodId,
-                ':teach' => is_numeric($mapped['teaching_hours_per_week']) ? $mapped['teaching_hours_per_week'] : 0,
-                ':admin' => is_numeric($mapped['administrative_duties']) ? $mapped['administrative_duties'] : 0,
-                ':extra' => is_numeric($mapped['extracurricular_duties']) ? $mapped['extracurricular_duties'] : 0,
-                ':max' => is_numeric($mapped['max_teaching_hours']) ? $mapped['max_teaching_hours'] : null,
-            ]);
+
+            // Handle contacts (email, phone)
+            $contactTypes = ['email' => 'Email', 'phone' => 'Phone'];
+            foreach ($contactTypes as $field => $typeName) {
+                if (!empty($mapped[$field])) {
+                    $stmt = $conn->prepare("SELECT contact_type_id FROM contact_types WHERE type_name = :name");
+                    $stmt->execute([':name' => $typeName]);
+                    $contactTypeId = $stmt->fetchColumn();
+                    if (!$contactTypeId) {
+                        $stmt = $conn->prepare("INSERT INTO contact_types (type_name) VALUES (:name)");
+                        $stmt->execute([':name' => $typeName]);
+                        $contactTypeId = $conn->lastInsertId();
+                    }
+                    // Insert or update teacher_contacts
+                    $stmt = $conn->prepare("SELECT contact_id FROM teacher_contacts WHERE teacher_id = :tid AND contact_type_id = :ctid");
+                    $stmt->execute([':tid' => $teacherId, ':ctid' => $contactTypeId]);
+                    $contactId = $stmt->fetchColumn();
+                    if ($contactId) {
+                        $stmt = $conn->prepare("UPDATE teacher_contacts SET contact_value = :val, is_primary = 1 WHERE contact_id = :cid");
+                        $stmt->execute([':val' => $mapped[$field], ':cid' => $contactId]);
+                    } else {
+                        $stmt = $conn->prepare("INSERT INTO teacher_contacts (teacher_id, contact_type_id, contact_value, is_primary) VALUES (:tid, :ctid, :val, 1)");
+                        $stmt->execute([':tid' => $teacherId, ':ctid' => $contactTypeId, ':val' => $mapped[$field]]);
+                    }
+                }
+            }
+
+            // Handle position and department
+            if (!empty($mapped['position']) && !empty($mapped['department'])) {
+                $positionId = getPositionId($conn, $mapped['position']);
+                $departmentId = getDepartmentId($conn, $mapped['department']);
+                // Insert teacher_positions with current date as effective_date
+                $stmt = $conn->prepare("INSERT INTO teacher_positions (teacher_id, position_id, department_id, effective_date) VALUES (:tid, :pid, :did, CURDATE())");
+                $stmt->execute([':tid' => $teacherId, ':pid' => $positionId, ':did' => $departmentId]);
+            }
+
+            // Handle certifications
+            if (!empty($mapped['teaching_certifications'])) {
+                $certs = preg_split('/[;,]/', $mapped['teaching_certifications']);
+                foreach ($certs as $certName) {
+                    $certName = trim($certName);
+                    if ($certName === '') continue;
+                    $certId = getCertificationTypeId($conn, $certName);
+                    $stmt = $conn->prepare("INSERT INTO teacher_certifications (teacher_id, cert_id) VALUES (:tid, :cid)");
+                    $stmt->execute([':tid' => $teacherId, ':cid' => $certId]);
+                }
+            }
+
+            // Handle subject expertise
+            if (!empty($mapped['subjects_expertise'])) {
+                $subjects = preg_split('/[;,]/', $mapped['subjects_expertise']);
+                foreach ($subjects as $subjectName) {
+                    $subjectName = trim($subjectName);
+                    if ($subjectName === '') continue;
+                    $subjectId = getSubjectAreaId($conn, $subjectName);
+                    $stmt = $conn->prepare("INSERT INTO teacher_subject_expertise (teacher_id, subject_id) VALUES (:tid, :sid)");
+                    $stmt->execute([':tid' => $teacherId, ':sid' => $subjectId]);
+                }
+            }
+
+            // Handle workload
+            if (!empty($mapped['teaching_hours_per_week'])) {
+                $periodName = date('Y');
+                $stmt = $conn->prepare("SELECT period_id FROM workload_periods WHERE period_name = :name");
+                $stmt->execute([':name' => $periodName]);
+                $periodId = $stmt->fetchColumn();
+                if (!$periodId) {
+                    $stmt = $conn->prepare("INSERT INTO workload_periods (period_name, start_date, end_date) VALUES (:name, :start, :end)");
+                    $stmt->execute([
+                        ':name' => $periodName,
+                        ':start' => date('Y-01-01'),
+                        ':end' => date('Y-12-31'),
+                    ]);
+                    $periodId = $conn->lastInsertId();
+                }
+                $stmt = $conn->prepare("INSERT INTO teacher_workload (teacher_id, period_id, teaching_hours, admin_hours, extracurricular_hours, max_allowed_hours) VALUES (:tid, :pid, :teach, :admin, :extra, :max)");
+                $stmt->execute([
+                    ':tid' => $teacherId,
+                    ':pid' => $periodId,
+                    ':teach' => is_numeric($mapped['teaching_hours_per_week']) ? $mapped['teaching_hours_per_week'] : 0,
+                    ':admin' => is_numeric($mapped['administrative_duties']) ? $mapped['administrative_duties'] : 0,
+                    ':extra' => is_numeric($mapped['extracurricular_duties']) ? $mapped['extracurricular_duties'] : 0,
+                    ':max' => is_numeric($mapped['max_teaching_hours']) ? $mapped['max_teaching_hours'] : null,
+                ]);
+            }
+
+            $successCount++;
         }
 
-        $successCount++;
-    }
+        $conn->commit();
 
-    $conn->commit();
-
-    if (count($errors) > 0) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Some rows failed to save.', 'details' => $errors, 'successCount' => $successCount]);
-        debug_log("Some rows failed to save. Errors: " . json_encode($errors));
-    } else {
-        echo json_encode(['success' => true, 'message' => "All $successCount rows saved successfully."]);
-        debug_log("All $successCount rows saved successfully.");
+        if (count($errors) > 0) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Some rows failed to save.', 'details' => $errors, 'successCount' => $successCount]);
+            debug_log("Some rows failed to save. Errors: " . json_encode($errors));
+        } else {
+            echo json_encode(['success' => true, 'message' => "All $successCount rows saved successfully."]);
+            debug_log("All $successCount rows saved successfully.");
+        }
+    } catch (PDOException $e) {
+        $conn->rollBack();
+        http_response_code(500);
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+        debug_log("Database error: " . $e->getMessage());
     }
-} catch (PDOException $e) {
-    $conn->rollBack();
-    http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    debug_log("Database error: " . $e->getMessage());
 }
-?>

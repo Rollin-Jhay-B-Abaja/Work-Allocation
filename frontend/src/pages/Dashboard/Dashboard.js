@@ -60,7 +60,7 @@ function Dashboard() {
         <Sidebar activeMenu={activeMenu} onMenuClick={setActiveMenu} />
 
         {/* Main Content */}
-        <div className="main-content">
+        <div className="Dashboard-main-content">
           <div className="content-header">
           </div>
           <div className="two-column-container">

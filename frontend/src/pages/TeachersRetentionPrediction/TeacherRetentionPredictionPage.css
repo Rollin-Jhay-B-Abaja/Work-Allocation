@@ -1,8 +1,11 @@
 .saved-data-table {
+  height: 80%;
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   background-color: #1e1e1e;
+  overflow-x: auto;
+  margin-bottom: 20px;
 }
 
 .saved-data-table th,
@@ -36,7 +39,7 @@
   padding: 20px;
   border-radius: 8px;
   height: 800px;
-  max-width: 100%;
+  max-width: 90%
 }
 
 .visualization-section {
@@ -50,7 +53,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.7);
   align-items: flex-start;
   justify-content: flex-start;
-  max-width: 800px;
+  max-width: 600px;
 }
 
 .chart-container {
@@ -142,7 +145,22 @@
   }
 }
 
+
 .saved-data-container {
+  margin-bottom: 10px;
   margin-left: 50px;
   margin-right: 50px;
+  overflow-x: auto;
+  overflow-y: auto !important
+}
+
+
+.page-scroll-container {
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+.page-scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

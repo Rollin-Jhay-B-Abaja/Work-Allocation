@@ -4,7 +4,7 @@ const EmployeeHome = ({ onSelect }) => {
   return (
     <div className="employee-home-container" style={{ padding: '20px' }}>
       <h1>Employee Management</h1>
-      <div style={{ marginTop: '30px' }}>
+      <div>
         <button
           className="button"
           style={{ marginRight: '20px', padding: '10px 20px', fontSize: '16px' }}

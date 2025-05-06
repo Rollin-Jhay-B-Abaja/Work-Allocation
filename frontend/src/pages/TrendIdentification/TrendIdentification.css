@@ -2,19 +2,87 @@
   overflow-y: visible !important;
   max-height: none !important;
 }
-body {
-  background-color: #121212; /* Dark theme background */
-  color: white; /* Text color */
-  min-height: 100vh;
-  margin-top: 5rem;
-  font-family: 'Poppins', sans-serif;
+
+.Trend-container {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.trend-identification-main {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
+  margin: 10px 0 0 20px; /* Removed right margin to eliminate space on right */
+  padding-top: 80px;
+  margin-left: 55px;
 }
 
-/* Container */
-.form-container {
-  padding: 1rem;
+
+.Scatterplot-container {
+  flex-grow: 1;
+  max-width: 800px; /* Increased max width */
+  margin-left: 0; /* Remove negative left margin */
+  height: 500px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: white;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scatter-container {
+  width: 100%;
+  height: 900px;
+  margin: 20px 0 0 0; /* Remove left and right auto margin */
+}
+
+.table-section {
+  flex: 1 1 100%;
+  max-height: 600px;
+  max-width: 1420px; /* Changed to full width */
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 10px; /* Reduce padding */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: white;
+  overflow-y: auto;
+  overflow-x: auto; /* Allow horizontal scroll if needed */
+  margin-left: 55px; /* Reduced margin */
+  margin-bottom: 10px;
+}
+
+.table-container {
+  margin-top: 1rem;
+  max-height: 400px;
+  max-width: 100%; /* Changed to full width */
+  overflow-y: auto;
+  background-color: #4a5568;
+  border-radius: 6px;
+}
+
+.Analysis-container {
+  background-color: #1e1e1e;
+  flex-grow: 1;
+  max-width: 600px; /* Increased max width */
+  width: 100%; /* Added width for responsiveness */
+  flex: 1 1 50%; /* Share space equally */
+  padding: 20px; /* Added padding for proper margin */
+  border-radius: 8px;
+  height: 500px;
+}
+
+.top-section {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 100%; /* Changed to full width */
 }
 
 /* Header */
@@ -32,63 +100,6 @@ body {
   color: #ffffff;
 }
 
-/* CSV Upload Section */
-.csv-upload-section {
-  margin-bottom: 1rem;
-}
-
-.upload-button {
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-.btn-upload {
-  margin-left: 10px;
-  padding: 0.5rem 1rem;
-  background-color: #121212;
-  color: white;
-  border: 1px solid #61dafb;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-upload:hover {
-  background-color: #61dafb;
-  color: #000;
-}
-
-.btn-download {
-  margin-left: 10px;
-  padding: 0.5rem 1rem;
-  background-color: #121221;
-  color: white;
-  border: 1px solid #61dafb;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btn-download:hover {
-  background-color: #61dafb;
-  color: #000;
-}
-
-.delete-all-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-top: 1rem;
-}
-
-.delete-all-button:hover {
-  background-color: #d32f2f;
-}
-
 .upload-message {
   margin-top: 0.5rem;
   font-weight: bold;
@@ -98,9 +109,39 @@ body {
 .table-container {
   margin-top: 1rem;
   max-height: 400px;
+  max-width: 100%; /* Changed to full width */
   overflow-y: auto;
   background-color: #4a5568;
   border-radius: 6px;
+}
+
+.teachers-table.table-scroll {
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.teachers-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #222;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.teachers-table th {
+  background-color: #222;
+}
+
+.table-container thead {
+  position: sticky;
+  top: 0;
+  background-color: #222;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.table-container th {
+  background-color: #222;
 }
 
 .table-container table {
@@ -126,113 +167,13 @@ body {
 
 /* Scatter Container */
 .scatter-container {
-  width: 80%;
-  height: 300px;
-  margin: 90px auto 0 auto;
-}
-
-/* Correlation Info */
-.correlation-info {
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
-.trend-identification {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
   width: 100%;
-}
-
-.correlation-matrix-top-container {
-  max-width: 100%;
-  background-color: #0D1117;
-  padding: 20px;
-  margin: 10px 0;
-  display: flex;
-  justify-content: center;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.ScatterPlot-section {
-  flex: 1 1 600px;
-  background-color: #0F1C32;
-  margin-left: 20px;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: 900px;
+  margin: 20px 0 0 0; /* Reduced top margin to move chart up */
 }
 
 
-.charts-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.charts-section {
-  flex: 1 1 600px;
-  max-height: 300px;
-  background-color: #0D1117;
-  border-radius: 8px;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.correlation-matrix-section {
-  margin-bottom: 20px;
-}
-
-.trend-identification-main {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: nowrap;
-  width: 100%;
-}
-
-.csv-upload-column {
-  flex: 1 1 400px;
-  height: 680px;
-  background-color: #0D1117;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  color: white;
-  overflow-y: auto;
-}
-
-.charts-column {
-  flex: 1 1 600px;
-  max-height: 680px;
-  max-width: 90%;
-  background-color: #0D1117;
-  border-radius: 8px;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.ScatterPlot-chart {
-  flex: 1 1 auto;
-}
-
-.recommendations-section {
-  flex: 0 0 auto;
-  color: white;
-  border-top: 1px solid #444;
-  padding-top: 10px;
-}
-
-.ScatterPlot-section {
-  margin-bottom: 20px;
-  background-color: #0D1117;
-  
+.scatterplot-row h2 {
+  margin-top: 15px;
+  margin-bottom: 10px;
 }

@@ -10,7 +10,7 @@ const PlaceholderIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    style={{ borderRadius: '50%', backgroundColor: '#ddd', marginRight: '10px' }}
+    className="placeholder-icon"
   >
     <circle cx="12" cy="12" r="10" />
     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
@@ -22,67 +22,84 @@ const EmployeeViewProfile = ({ onBack }) => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    // Mock data for demonstration since backend API may not be available
-    const mockEmployees = [
-      { id: 1, name: 'John Doe', strand: 'Mathematics', contact: '+1234567890', hire_date: '2020-01-15', url: '' },
-      { id: 2, name: 'Jane Smith', strand: 'Science', contact: '+1987654321', hire_date: '2019-08-23', url: '' },
-    ];
-    setEmployees(mockEmployees);
+    // Fetch employees from backend API
+    fetch('http://localhost:8000/api/employee_handler.php')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.employees) {
+          setEmployees(data.employees);
+        } else {
+          setEmployees([]);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching employees:', error);
+        setEmployees([]);
+      });
   }, []);
 
   return (
-    <div style={{ width: '800px', height: '600px', overflow: 'auto' }}>
-      <h1>View Employee Profile</h1>
-      <button className="button" onClick={onBack} style={{ marginBottom: '10px' }}>
+    <div className="employee-view-profile-container">
+      <h1>View Teachers Profile</h1>
+      <button className="button back-button" onClick={onBack}>
         Back
       </button>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>ID</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Strand</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Contact</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Hire Date</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.length === 0 ? (
+      <div className="table-container">
+        <table className="employee-table">
+          <thead>
             <tr>
-              <td colSpan="6" style={{ textAlign: 'center', padding: '8px' }}>
-                No employees found.
-              </td>
+              <th>ID</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Subject</th>
+              <th>Contact</th>
+              <th>Hire Date</th>
+              <th>Action</th>
             </tr>
-          ) : (
-            employees.map((emp) => (
-              <tr key={emp.id}>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{emp.id}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px', display: 'flex', alignItems: 'center' }}>
-                  {emp.url ? (
-                    <img
-                      src={emp.url}
-                      alt={`${emp.name} profile`}
-                      style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
-                    />
-                  ) : (
-                    <PlaceholderIcon />
-                  )}
-                  {emp.name}
-                </td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{emp.strand}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{emp.contact}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{emp.hire_date}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                  <button className="button" onClick={() => alert(`View details for ${emp.name}`)}>
-                    View
-                  </button>
+          </thead>
+          <tbody>
+            {employees.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="no-data">
+                  No employees found.
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              employees.map((emp) => (
+                <tr key={emp.id}>
+                  <td>{emp.id}</td>
+                  <td>
+                    {emp.photo ? (
+                      <img
+                        src={emp.photo}
+                        alt={`${emp.teacher_name} profile`}
+                        className="profile-photo"
+                      />
+                    ) : (
+                      <PlaceholderIcon />
+                    )}
+                  </td>
+                  <td>{emp.teacher_name}</td>
+                  <td>{emp.strand_name}</td>
+                  <td>
+                    {emp.email && <div>Email: {emp.email}</div>}
+                    {emp.phone && <div>Phone: {emp.phone}</div>}
+                  </td>
+                  <td>{emp.hire_date}</td>
+                  <td>
+                    <button
+                      className="button view-button"
+                      onClick={() => alert(`View details for ${emp.teacher_name}`)}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

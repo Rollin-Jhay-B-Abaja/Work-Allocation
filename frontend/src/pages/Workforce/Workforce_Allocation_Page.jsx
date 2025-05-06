@@ -6,6 +6,8 @@ import SkillBasedMatching from './SkillBasedMatching';
 import DynamicWorkloadDistribution from './DynamicWorkloadDistribution';
 import FlexibleScheduling from './FlexibleScheduling';
 
+import './Workforce_Allocation_Page.css';
+
 export default function Home() {
   const [activeModule, setActiveModule] = useState("modules");
 
@@ -64,7 +66,7 @@ export default function Home() {
     <div className="app-container">
       <div className="content-wrapper" style={{ display: 'flex' }}>
         <Sidebar activeMenu={activeModule} onMenuClick={setActiveModule} />
-        <main className="main-content" style={{ flexGrow: 1 }}>{renderModule()}</main>
+        <main className="Workforce-content" style={{ flexGrow: 1 }}>{renderModule()}</main>
       </div>
     </div>
   );

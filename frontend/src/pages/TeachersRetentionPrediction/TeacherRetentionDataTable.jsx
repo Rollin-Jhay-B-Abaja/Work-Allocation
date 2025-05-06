@@ -6,8 +6,7 @@ const TeacherRetentionDataTable = ({ data }) => {
   }
 
   return (
-    <div style={{ overflowX: 'auto', maxWidth: '800vh' }}>
-      <table className="saved-data-table" style={{ minWidth: '1000vh' }}>
+      <table className="saved-data-table">
         <thead>
           <tr>
             <th>id</th>
@@ -57,7 +56,6 @@ const TeacherRetentionDataTable = ({ data }) => {
           ))}
         </tbody>
       </table>
-    </div>
   );
 };
 
