@@ -11,10 +11,12 @@ const TeacherRetentionPredictionPage = () => {
   const [predictionData, setPredictionData] = useState(null);
   const [notification, setNotification] = useState('');
   const [savedData, setSavedData] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     // Fetch saved prediction data on component mount
-    fetch('http://localhost:8000/api/get_prediction_data.php')
+    fetch('http://localhost:8000/api/teacher_retention.php')
       .then(async (res) => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
@@ -23,8 +25,8 @@ const TeacherRetentionPredictionPage = () => {
         return JSON.parse(text);
       })
       .then((data) => {
-        if (data.data) {
-          setSavedData(data.data);
+        if (data) {
+          setSavedData(data);
         }
       })
       .catch((err) => {
@@ -35,8 +37,28 @@ const TeacherRetentionPredictionPage = () => {
   useEffect(() => {
     if (savedData.length > 0) {
       callPredictionAPI(savedData);
+      fetchRecommendations();
     }
   }, [savedData]);
+
+  const fetchRecommendations = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/teacher_retention_recommendations.php');
+      if (!response.ok) {
+        throw new Error('Failed to fetch recommendations');
+      }
+      const data = await response.json();
+      console.log('Recommendations API response:', data);
+      if (data.recommendations) {
+        setRecommendations(data.recommendations);
+      } else {
+        setRecommendations([]);
+      }
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      setRecommendations([]);
+    }
+  };
 
   const callPredictionAPI = async (data) => {
     try {
@@ -165,8 +187,8 @@ const TeacherRetentionPredictionPage = () => {
     // No longer needed since form is always visible, but keep for compatibility
   };
 
-return (
-    <div className="page-scroll-container">
+  return (
+    <div className="Trend-container">
       <header className="header">
         <div className="logo"></div>
         <h1 className="title" onClick={() => navigate("/analysis")}>
@@ -174,53 +196,85 @@ return (
         </h1>
       </header>
 
-      <div className="teacher-retention-prediction-container">
-        <div className="form-section">
-          <TeacherRetentionForm
-            priorYearData={savedData.length > 0 ? savedData[savedData.length - 1] : null}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-            successMessage={notification === 'Successfully added!' ? notification : ''}
-            errorMessage={notification && notification !== 'Successfully added!' ? notification : ''}
-          />
-          {/* Remove external notification display since errorMessage is shown inside form */}
-          {/* {notification && notification !== 'Successfully added!' && <div className="notification">{notification}</div>} */}
-        </div>
-
-        <div className="visualization-section">
-          <h2>Prediction Visualization</h2>
-          {predictionData ? (
-            <>
-              {console.log('Prediction data passed to PredictionChart:', predictionData)}
-              <div className="chart-container">
-                <PredictionChart data={predictionData} />
+      <div className="Prediction-main">
+        {!showForm ? (
+          <div style={{ display: 'flex', flexDirection: 'column', width: '100%',}}>
+            <div style={{ marginBottom: '20px' }}>
+              <button onClick={() => setShowForm(true)} style={{ padding: '10px 20px', fontSize: '16px', backgroundColor: '#1e1e1e'}}>
+                Upload Data
+              </button>
+            </div>
+            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
+              <div style={{ flex: 1, marginRight: '10px', }}>
+                {predictionData ? (
+                  <div className="chart-container" style={{ maxWidth:'800px', maxHeight: '500px', overflowY: 'hidden',backgroundColor: '#1e1e1e' }}>
+                    <PredictionChart data={predictionData} />
+                  </div>
+                ) : (
+                  <div className="chart-container">
+                    <PredictionChart data={[]} />
+                  </div>
+                )}
+                <div className="recommendations-prediction" style={{ height: '150px', width: '100%', maxWidth: '800px', overflowY: 'auto', marginTop: '1rem', color: 'white', backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '1rem' }}>
+                  {recommendations.length > 0 ? (
+                    <>
+                      <h3>Recommendations</h3>
+                      <ul>
+                        {recommendations.map((rec, idx) => (
+                          <li key={idx}>{rec.message}</li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <div>No recommendations available.</div>
+                  )}
+                </div>
               </div>
-              <div className="prediction-summary">
-                <h3>Prediction Summary (Per Strand)</h3>
-                {predictionData.map((item, index) => (
-                  <div key={index} style={{ marginBottom: '1rem' }}>
-                    <strong>Year {item.year}:</strong>
-                    <div style={{ marginLeft: '1rem' }}>
-                      {Object.keys(item.resignations_count || {}).map(strand => (
-                        <div key={strand} style={{ marginBottom: '0.25rem' }}>
-                          <em>{strand}</em> - Resigning: {(item.resignations_count[strand] || 0).toFixed(2)}, Retaining: {(item.retentions_count[strand] || 0).toFixed(2)}, To be Hired: {typeof item.hires_needed[strand] === 'number' ? item.hires_needed[strand].toFixed(2) : Array.isArray(item.hires_needed[strand]) ? item.hires_needed[strand].map(val => val.toFixed(2)).join(', ') : '0.00'}
+              <div className="Right-column" style={{ flex: 1, marginLeft: '10px', maxWidth:'500px',maxHeight:'500px', display: 'flex', flexDirection: 'column' }}>
+                <div>
+                  {predictionData ? (
+                    <div className="prediction-summary">
+                      <h3>Prediction Summary (Per Strand)</h3>
+                      {predictionData.map((item, index) => (
+                        <div key={index} style={{ marginBottom: '1rem' }}>
+                          <strong>Year {item.year}:</strong>
+                          <div style={{ marginLeft: '1rem' }}>
+                            {Object.keys(item.resignations_count || {}).map(strand => (
+                              <div key={strand} style={{ marginBottom: '0.25rem' }}>
+                                <em>{strand}</em> - Resigning: {(item.resignations_count[strand] || 0).toFixed(2)}, Retaining: {(item.retentions_count[strand] || 0).toFixed(2)}, To be Hired: {typeof item.hires_needed[strand] === 'number' ? item.hires_needed[strand].toFixed(2) : Array.isArray(item.hires_needed[strand]) ? item.hires_needed[strand].map(val => val.toFixed(2)).join(', ') : '0.00'}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       ))}
                     </div>
-                  </div>
-                ))}
+                  ) : (
+                    <div>No prediction data available.</div>
+                  )}
+                </div>
               </div>
-            </>
-          ) : (
-            <div className="chart-container">
-              <PredictionChart data={[]} />
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <div className="Prediction-form" style={{ width: '800px', height: '500px', overflowY: 'auto' }}>
+            <button onClick={() => setShowForm(false)} style={{ marginBottom: '10px', padding: '8px 16px', fontSize: '14px' }}>
+              Back
+            </button>
+            <TeacherRetentionForm
+              priorYearData={savedData.length > 0 ? savedData[savedData.length - 1] : null}
+              onSubmit={handleFormSubmit}
+              onCancel={() => setShowForm(false)}
+              successMessage={notification === 'Successfully added!' ? notification : ''}
+              errorMessage={notification && notification !== 'Successfully added!' ? notification : ''}
+            />
+          </div>
+          </div>
+        )}
       </div>
 
-      <div className="saved-data-container">
-        <div className="saved-data-section">
+      <div className="table-section saved-data-container">
+        <div className="saved-data-section" >
           <h2>Historical Data</h2>
           <TeacherRetentionDataTable data={savedData} />
         </div>

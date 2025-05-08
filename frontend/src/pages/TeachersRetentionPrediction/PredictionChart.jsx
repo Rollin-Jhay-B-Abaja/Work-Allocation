@@ -105,7 +105,8 @@ const PredictionChart = ({ data }) => {
   };
 
   return (
-    <div style={{ width: '100%', height: 400, position: 'relative' }}>
+    <div style={{ width: '100%', height: 300, position: 'relative' }}>
+      <h2 style={{ marginBottom: '12px' }}>Prediction Visualization</h2>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={chartData}

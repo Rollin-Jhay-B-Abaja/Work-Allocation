@@ -1,12 +1,15 @@
 import numpy as np
 from scipy import stats
-from recommendations import generate_recommendations
+from recommendations import generate_trend_recommendations
 
 def calculate_pearson_correlation(x, y):
     """
     Calculate Pearson correlation coefficient and p-value between two arrays.
     """
     if len(x) == 0 or len(y) == 0 or len(x) != len(y):
+        return None, None
+    # Check if all values in x or y are identical
+    if len(set(x)) == 1 or len(set(y)) == 1:
         return None, None
     corr_coef, p_value = stats.pearsonr(x, y)
     return corr_coef, p_value
@@ -16,6 +19,9 @@ def calculate_regression_line(x, y):
     Calculate slope and intercept of the regression line for x and y.
     """
     if len(x) == 0 or len(y) == 0 or len(x) != len(y):
+        return None, None
+    # Check if all values in x are identical
+    if len(set(x)) == 1:
         return None, None
     slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
     return slope, intercept

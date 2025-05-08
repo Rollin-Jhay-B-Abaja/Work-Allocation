@@ -245,7 +245,7 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         </h1>
       </header>
 
-      <div style={{ maxWidth: '1200px', margin: '100px auto 20px auto', padding: '0 20px' }}>
+      <div style={{ maxWidth: '600px', margin: '100px auto 20px auto', padding: '0 20px' }}>
         {!showForm && (
           <>
             <button onClick={() => setShowForm(true)} className="open-form-button">

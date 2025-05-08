@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TrendIdentification.css';
 import { useNavigate } from 'react-router-dom';
-import { FaTrash } from 'react-icons/fa';
 import ScatterPlot from './ScatterPlot';
-import CorrelationMatrix from './CorrelationMatrix';
 
 // Function to calculate Pearson correlation coefficient between two arrays
 const calculateCorrelation = (x, y) => {
@@ -37,37 +35,122 @@ const calculateRegressionParams = (points) => {
     return { slope, intercept };
 };
 
+// Function to generate recommendations and improvement suggestions based on correlation coefficient and regression slope
+const generateRecommendations = (correlation, slope) => {
+    const recommendations = [];
+
+    if (correlation === null) {
+        recommendations.push({
+            type: 'No Data',
+            message: 'No correlation data available to generate recommendations.'
+        });
+        return recommendations;
+    }
+
+    const absCorr = Math.abs(correlation);
+
+    if (absCorr > 0.7) {
+        recommendations.push({
+            type: 'Strong Correlation',
+            message: `The correlation coefficient is strong (${correlation.toFixed(3)}), indicating a significant relationship.`
+        });
+        recommendations.push({
+            type: 'Improvement Suggestion',
+            message: `Strong positive correlation detected. Consider:\n1. Optimizing class sizes by redistributing students more evenly across teachers to avoid overloading some teachers.\n2. Hiring additional teaching staff if workload per teacher is consistently high.\n3. Implementing workload monitoring tools to proactively manage teacher assignments.\n4. Providing professional development and support to help teachers manage workload efficiently.`
+        });
+    } else if (absCorr > 0.4) {
+        recommendations.push({
+            type: 'Moderate Correlation',
+            message: `The correlation coefficient is moderate (${correlation.toFixed(3)}), consider monitoring trends.`
+        });
+        recommendations.push({
+            type: 'Improvement Suggestion',
+            message: `Moderate positive correlation detected. Consider:\n1. Monitoring trends closely and adjusting workload distribution as needed.\n2. Collecting more data on student counts and teacher workloads to identify imbalances early.\n3. Reviewing policies related to class size limits and teacher workload standards.`
+        });
+    } else if (absCorr > 0.2) {
+        recommendations.push({
+            type: 'Weak Correlation',
+            message: `The correlation coefficient is weak (${correlation.toFixed(3)}), limited relationship observed.`
+        });
+        recommendations.push({
+            type: 'Improvement Suggestion',
+            message: `Weak positive correlation detected. Consider:\n1. Basic monitoring of student load and teacher workload.\n2. Encouraging professional development and workload management training.`
+        });
+    } else {
+        recommendations.push({
+            type: 'No Correlation',
+            message: `The correlation coefficient is very weak or none (${correlation.toFixed(3)}), no significant relationship.`
+        });
+        recommendations.push({
+            type: 'Improvement Suggestion',
+            message: `No significant correlation detected and the trend is stable. Continue regular monitoring and data collection to ensure any future changes are detected early.`
+        });
+    }
+
+    if (slope !== null) {
+        if (slope > 0.05) {
+            recommendations.push({
+                type: 'Positive Trend',
+                message: `The regression slope is positive (${slope.toFixed(3)}), indicating an increasing trend.`
+            });
+        } else if (slope < -0.05) {
+            recommendations.push({
+                type: 'Negative Trend',
+                message: `The regression slope is negative (${slope.toFixed(3)}), indicating a decreasing trend.`
+            });
+        } else {
+            recommendations.push({
+                type: 'Stable Trend',
+                message: `The regression slope is near zero (${slope.toFixed(3)}), indicating a stable trend.`
+            });
+        }
+    }
+
+    return recommendations;
+};
+
 const TrendIdentification = () => {
-    const [tableData, setTableData] = useState([]);
-    const [correlationMatrix, setCorrelationMatrix] = useState(null);
-    const [recommendations, setRecommendations] = useState([]);
+    const navigate = useNavigate();
     const [uploadError, setUploadError] = useState('');
     const [invalidJsonError, setInvalidJsonError] = useState('');
-    const navigate = useNavigate();
+    const [studentsCountVsWorkload, setStudentsCountVsWorkload] = useState({ dataPoints: [], correlation: null });
+    const [regressionParams, setRegressionParams] = useState(null);
+    const [recommendations, setRecommendations] = useState([]);
+    const [tableData, setTableData] = useState([]);
+    const [correlationMatrix, setCorrelationMatrix] = useState(null);
 
     const fetchTrendData = () => {
         fetch('http://localhost:8000/api/trend_identification.php')
-            .then(async response => {
-                const text = await response.text();
-                try {
-                    const data = JSON.parse(text);
-                    if (data.error) {
-                        setUploadError(data.error);
-                    } else {
-                        let flatData = data.data || [];
-                        if (Array.isArray(flatData) && flatData.length > 0 && flatData[0].strands) {
-                            flatData = flatData.reduce((acc, yearGroup) => {
-                                return acc.concat(yearGroup.strands);
-                            }, []);
-                        }
-                        setTableData(flatData);
-                        setCorrelationMatrix(data.correlation_matrix || null);
-                        setRecommendations(data.recommendations || []);
-                        setUploadError('');
-                        setInvalidJsonError('');
-                    }
-                } catch (e) {
-                    setInvalidJsonError('Invalid JSON input from server');
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    setUploadError(data.error);
+                } else {
+                    setTableData(Array.isArray(data.data) ? data.data : []);
+                    setCorrelationMatrix(data.correlation_matrix || null);
+                    setUploadError('');
+                    setInvalidJsonError('');
+
+                    const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => ({
+                        x: Number(row['StudentsCount'] || 0),
+                        y: Number(row['WorkloadPerTeacher'] || 0)
+                    })).filter(point => !isNaN(point.x) && !isNaN(point.y));
+                    const xVals = dataPoints.map(p => p.x);
+                    const yVals = dataPoints.map(p => p.y);
+                    const correlation = (xVals.length === yVals.length && xVals.length > 0) ? calculateCorrelation(xVals, yVals) : null;
+                    setStudentsCountVsWorkload({ dataPoints, correlation });
+
+                    const regParams = dataPoints.length > 0 ? calculateRegressionParams(dataPoints) : null;
+                    setRegressionParams(regParams);
+
+                    // Generate recommendations including improvement suggestions
+                    const recs = generateRecommendations(correlation, regParams ? regParams.slope : null);
+                    setRecommendations(recs);
                 }
             })
             .catch(error => {
@@ -79,25 +162,6 @@ const TrendIdentification = () => {
         fetchTrendData();
     }, []);
 
-    // Prepare data points and correlations for multiple variable pairs
-    const prepareScatterData = (xKey, yKey) => {
-        const dataPoints = tableData.map(row => ({
-            x: Number(row[xKey] || 0),
-            y: Number(row[yKey] || 0)
-        })).filter(point => !isNaN(point.x) && !isNaN(point.y));
-        const xVals = dataPoints.map(p => p.x);
-        const yVals = dataPoints.map(p => p.y);
-        const correlation = (xVals.length === yVals.length && xVals.length > 0) ? calculateCorrelation(xVals, yVals) : null;
-        return { dataPoints, correlation };
-    };
-
-    const classSizeVsTeacherEval = prepareScatterData('Class Size', 'Teacher Evaluation Scores');
-    const studentsCountVsWorkload = prepareScatterData('StudentsCount', 'WorkloadPerTeacher');
-
-    // Calculate regression parameters for studentsCountVsWorkload
-    const regressionParams = studentsCountVsWorkload.dataPoints.length > 0 ? calculateRegressionParams(studentsCountVsWorkload.dataPoints) : null;
-
-    // Interpret correlation strength
     const interpretCorrelation = (corr) => {
         if (corr === null) return 'No correlation data';
         const absCorr = Math.abs(corr);
@@ -108,39 +172,42 @@ const TrendIdentification = () => {
     };
 
     return (
-        <>
-            <div className="Trend-container">
-                <header className="header">
-                    <div className="logo"></div>
-                    <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
-                </header>
+        <div className="Trend-container">
+            <header className="header">
+                <div className="logo"></div>
+                <h1 className="title" onClick={() => navigate('/analysis')}>LYCEUM OF ALABANG</h1>
+            </header>
 
-                {uploadError && <p className="upload-message error">{uploadError}</p>}
-                {invalidJsonError && <p className="upload-message error">{invalidJsonError}</p>}
+            {uploadError && <p className="upload-message error">{uploadError}</p>}
+            {invalidJsonError && <p className="upload-message error">{invalidJsonError}</p>}
 
-                <div className="trend-identification-main">
-                    <div className="top-section">
-                        <div className="Scatterplot-container">
-                            <div className="scatterplot-row">
-                                <h2>Scatter Plot: Students Count vs Workload Per Teacher</h2>
-                                <ScatterPlot
-                                    dataPoints={studentsCountVsWorkload.dataPoints}
-                                    correlation={studentsCountVsWorkload.correlation}
-                                    xLabel="Students Count"
-                                    yLabel="Workload Per Teacher"
-                                />
-                            </div>
+            <div className="trend-identification-main">
+                <div className="top-section">
+                    <div className="Scatterplot-container">
+                        <div className="scatterplot-row">
+                            <h2>Scatter Plot: Students Count vs Workload Per Teacher</h2>
+                            <ScatterPlot
+                                dataPoints={studentsCountVsWorkload.dataPoints}
+                                correlation={studentsCountVsWorkload.correlation}
+                                xLabel="Students Count"
+                                yLabel="Workload Per Teacher"
+                            />
                         </div>
+                    </div>
+                    <div className="Analysis-Recommendation-container">
                         <div className="Analysis-container">
                             <h2>Trend Analysis</h2>
                             <p><strong>Correlation Coefficient:</strong> {studentsCountVsWorkload.correlation !== null ? studentsCountVsWorkload.correlation.toFixed(3) : 'N/A'} ({interpretCorrelation(studentsCountVsWorkload.correlation)})</p>
                             {regressionParams && Math.abs(studentsCountVsWorkload.correlation) > 0.3 && (
                                 <p><strong>Regression Line:</strong> y = {regressionParams.slope.toFixed(3)}x + {regressionParams.intercept.toFixed(3)}</p>
                             )}
+                        </div>
+                        <div className="Recommendation-container">
+                            <h2>Recommendations</h2>
                             {recommendations.length > 0 ? (
                                 <ul>
                                     {recommendations.map((rec, idx) => (
-                                        <li key={idx}>{rec}</li>
+                                        <li key={idx} style={{ whiteSpace: 'pre-line' }}>{rec.message}</li>
                                     ))}
                                 </ul>
                             ) : (
@@ -149,50 +216,50 @@ const TrendIdentification = () => {
                         </div>
                     </div>
                 </div>
-                <div className="table-section">
-                    <div className="teachers-table table-scroll">
-                        <table>
-                            <thead>
+            </div>
+            <div className="table-section">
+                <div className="teachers-table table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Strand</th>
+                                <th>Teachers Count</th>
+                                <th>Students Count</th>
+                                <th>Max Class Size</th>
+                                <th>Salary Ratio</th>
+                                <th>Professional Development Hours</th>
+                                <th>Historical Resignations</th>
+                                <th>Historical Retentions</th>
+                                <th>Workload Per Teacher</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableData.length === 0 ? (
                                 <tr>
-                                    <th>Year</th>
-                                    <th>Strand</th>
-                                    <th>Teachers Count</th>
-                                    <th>Students Count</th>
-                                    <th>Max Class Size</th>
-                                    <th>Salary Ratio</th>
-                                    <th>Professional Development Hours</th>
-                                    <th>Historical Resignations</th>
-                                    <th>Historical Retentions</th>
-                                    <th>Workload Per Teacher</th>
+                                    <td colSpan="11" className="no-data">No data available</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {tableData.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="11" className="no-data">No data available</td>
+                            ) : (
+                                tableData.map((row, index) => (
+                                    <tr key={index} className="table-row">
+                                        <td>{row.Year || ''}</td>
+                                        <td>{row.Strand || ''}</td>
+                                        <td>{row.TeachersCount !== undefined && row.TeachersCount !== null ? row.TeachersCount : ''}</td>
+                                        <td>{row.StudentsCount !== undefined && row.StudentsCount !== null ? row.StudentsCount : ''}</td>
+                                        <td>{row.MaxClassSize !== undefined && row.MaxClassSize !== null ? row.MaxClassSize : ''}</td>
+                                        <td>{row.SalaryRatio !== undefined && row.SalaryRatio !== null ? row.SalaryRatio.toFixed(2) : ''}</td>
+                                        <td>{row.ProfessionalDevHours !== undefined && row.ProfessionalDevHours !== null ? row.ProfessionalDevHours.toFixed(2) : ''}</td>
+                                        <td>{row.HistoricalResignations !== undefined && row.HistoricalResignations !== null ? row.HistoricalResignations : ''}</td>
+                                        <td>{row.HistoricalRetentions !== undefined && row.HistoricalRetentions !== null ? row.HistoricalRetentions : ''}</td>
+                                        <td>{row.WorkloadPerTeacher !== undefined && row.WorkloadPerTeacher !== null ? row.WorkloadPerTeacher.toFixed(2) : ''}</td>
                                     </tr>
-                                ) : (
-                                    tableData.map((row, index) => (
-                                        <tr key={index} className="table-row">
-                                            <td>{row.Year || ''}</td>
-                                            <td>{row.Strand || ''}</td>
-                                            <td>{row.TeachersCount !== undefined && row.TeachersCount !== null ? row.TeachersCount : ''}</td>
-                                            <td>{row.StudentsCount !== undefined && row.StudentsCount !== null ? row.StudentsCount : ''}</td>
-                                            <td>{row.MaxClassSize !== undefined && row.MaxClassSize !== null ? row.MaxClassSize : ''}</td>
-                                            <td>{row.SalaryRatio !== undefined && row.SalaryRatio !== null ? row.SalaryRatio.toFixed(2) : ''}</td>
-                                            <td>{row.ProfessionalDevHours !== undefined && row.ProfessionalDevHours !== null ? row.ProfessionalDevHours.toFixed(2) : ''}</td>
-                                            <td>{row.HistoricalResignations !== undefined && row.HistoricalResignations !== null ? row.HistoricalResignations : ''}</td>
-                                            <td>{row.HistoricalRetentions !== undefined && row.HistoricalRetentions !== null ? row.HistoricalRetentions : ''}</td>
-                                            <td>{row.WorkloadPerTeacher !== undefined && row.WorkloadPerTeacher !== null ? row.WorkloadPerTeacher.toFixed(2) : ''}</td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

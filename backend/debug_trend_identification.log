@@ -1,0 +1,1491 @@
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: 
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: {"error": "No valid data found in CSV for analysis"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: C:\Users\Public\Work-Allocation\backend\ml_models\trend_identification.py:11: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  corr_coef, p_value = stats.pearsonr(x, y)
+{"error": "Failed to process CSV file: Cannot calculate a linear regression if all x values are identical"}
+
+GET request received
+Fetched rows count: 40
+Python script return code: 1
+Python script output: C:\Users\Public\Work-Allocation\backend\ml_models\trend_identification.py:11: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  corr_coef, p_value = stats.pearsonr(x, y)
+{"error": "Failed to process CSV file: Cannot calculate a linear regression if all x values are identical"}
+
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmpr4nvfch9.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmp7a40kfyd.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmpndd8lst7.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmp2571l5p1.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmp3u596g1e.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\ROLLIN~1.ABA\\\\AppData\\\\Local\\\\Temp\\\\tmpq0fbrq1h.csv'"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Python script execution failed",
+  "output": ""
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Python script execution failed",
+  "output": ""
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Python script execution failed",
+  "output": ""
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Python script execution failed",
+  "output": ""
+}
+
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: Cannot calculate a linear regression if all x values are identical"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: Cannot calculate a linear regression if all x values are identical"
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+GET request received
+Fetched rows count: 40
+Sample row: {"Year":2015,"Strand":"ABM","TeachersCount":4,"StudentsCount":160,"MaxClassSize":40,"SalaryRatio":0.95,"ProfessionalDevHours":18,"HistoricalResignations":6,"HistoricalRetentions":19,"WorkloadPerTeacher":34}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {
+  "correlation_coefficient": null,
+  "correlation_matrix": {
+    "Average Grades of Students": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Class Size": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Classroom Observation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    },
+    "Teacher Evaluation Scores": {
+      "Average Grades of Students": NaN,
+      "Class Size": NaN,
+      "Classroom Observation Scores": NaN,
+      "Teacher Evaluation Scores": NaN
+    }
+  },
+  "p_value": null,
+  "recommendations": [],
+  "regression_intercept": null,
+  "regression_slope": null
+}
+
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}}, "recommendations": []}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}, {"type": "Improvement Suggestion", "message": "To improve the balance between student load and teacher workload based on the trend analysis results, consider the following:\n1. Optimize class sizes by redistributing students more evenly across teachers to avoid overloading some teachers.\n2. Hire additional teaching staff if workload per teacher is consistently high.\n3. Implement workload monitoring tools to proactively manage teacher assignments.\n4. Continuously collect and analyze data on student counts and teacher workloads to identify imbalances early.\n5. Provide professional development and support to help teachers manage workload efficiently.\n6. Review and adjust policies related to class size limits and teacher workload standards.\n7. Allocate resources to support hiring, training, and workload management initiatives.\nImplementing these recommendations will help maintain a healthy balance between student load and teacher workload, improving educational outcomes and teacher satisfaction."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}, {"type": "Improvement Suggestion", "message": "To improve the balance between student load and teacher workload based on the trend analysis results, consider the following:\n1. Optimize class sizes by redistributing students more evenly across teachers to avoid overloading some teachers.\n2. Hire additional teaching staff if workload per teacher is consistently high.\n3. Implement workload monitoring tools to proactively manage teacher assignments.\n4. Continuously collect and analyze data on student counts and teacher workloads to identify imbalances early.\n5. Provide professional development and support to help teachers manage workload efficiently.\n6. Review and adjust policies related to class size limits and teacher workload standards.\n7. Allocate resources to support hiring, training, and workload management initiatives.\nImplementing these recommendations will help maintain a healthy balance between student load and teacher workload, improving educational outcomes and teacher satisfaction."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 40
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 32
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": 0.0, "p_value": 1.0, "regression_slope": 0.0, "regression_intercept": 72.0, "correlation_matrix": {"Class Size": {"Class Size": 0.9999999999999999, "Average Grades of Students": 0.0, "Classroom Observation Scores": 0.0, "Teacher Evaluation Scores": 0.0}, "Average Grades of Students": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Classroom Observation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}, "Teacher Evaluation Scores": {"Class Size": 0.0, "Average Grades of Students": 1.0, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 1.0}}, "recommendations": [{"type": "No Correlation", "message": "The correlation coefficient is very weak or none (0.000), no significant relationship."}, {"type": "Stable Trend", "message": "The regression slope is near zero (0.000), indicating a stable trend."}]}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ti.year' in 'where clause'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ti.year' in 'where clause'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ti.year' in 'where clause'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ti.year' in 'where clause'
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'strand_id' in where clause is ambiguous
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.strand_id' in 'field list'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.strand_id' in 'field list'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.strand_id' in 'field list'
+GET request received
+SQL query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.strand_id' in 'field list'
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 0.9999999999999998}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 0.9999999999999999, "Teacher Evaluation Scores": 1.0}}, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 0.9999999999999998}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 0.9999999999999999, "Teacher Evaluation Scores": 1.0}}, "recommendations": []}

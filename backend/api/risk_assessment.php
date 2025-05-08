@@ -77,6 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if ($return_value !== 0) {
             send_response(['error' => 'Failed to run risk assessment script', 'details' => $riskError], 500);
         }
+        // Check if riskOutput contains error key and handle gracefully
+        $riskScoresCheck = json_decode($riskOutput, true);
+        if (isset($riskScoresCheck['error'])) {
+            error_log("Risk assessment script returned error: " . $riskScoresCheck['error']);
+            send_response(['error' => 'Risk assessment script error', 'details' => $riskScoresCheck['error']], 500);
+        }
     } else {
         $errorMsg = "Failed to start risk assessment script process.";
         error_log($errorMsg);
@@ -91,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         send_response(['error' => $errorMsg], 500);
     }
 
-    $selectQuery = "SELECT ra.id AS risk_id, trd.id AS teacher_retention_id, trd.year, ra.performance, ra.hours_per_week, ra.class_size, ra.teacher_satisfaction, ra.student_satisfaction FROM risk_assessment ra JOIN teacher_retention_data trd ON ra.teacher_retention_id = trd.id";
+    $selectQuery = "SELECT ra.id AS risk_id, trd.id AS teacher_retention_id, trd.year, ti.strand, ra.performance, COALESCE(trd.workload_per_teacher, 0) AS hours_per_week, ra.teacher_satisfaction, ra.student_satisfaction, ti.teachers_count, ti.students_count, ti.salary_ratio, ti.professional_dev_hours, ti.historical_resignations, ti.historical_retentions, ti.workload_per_teacher FROM risk_assessment ra JOIN teacher_retention_data trd ON ra.teacher_retention_id = trd.id JOIN trend_identification ti ON ti.year = trd.year AND ti.strand_id = trd.strand_id";
     $stmt = $pdo->prepare($selectQuery);
     try {
         $stmt->execute();
@@ -113,6 +119,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
 
+        // Compute burnout analysis averages for high risk teachers
+        $highRiskTeachers = array_filter($results, function ($t) {
+            return isset($t['Risk Level']) && $t['Risk Level'] === 'High';
+        });
+
+        $burnoutAnalysis = [
+            'average_hours_per_week' => 0,
+            'average_performance' => 0,
+            'average_teacher_satisfaction' => 0,
+            'average_student_satisfaction' => 0,
+            'count' => count($highRiskTeachers),
+        ];
+
+        if ($burnoutAnalysis['count'] > 0) {
+            $sumHours = 0;
+            $sumPerformance = 0;
+            $sumTeacherSat = 0;
+            $sumStudentSat = 0;
+
+            foreach ($highRiskTeachers as $teacher) {
+                $sumHours += isset($teacher['hours_per_week']) ? floatval($teacher['hours_per_week']) : 0;
+                $sumPerformance += isset($teacher['performance']) ? floatval($teacher['performance']) : 0;
+                $sumTeacherSat += isset($teacher['teacher_satisfaction']) ? floatval($teacher['teacher_satisfaction']) : 0;
+                $sumStudentSat += isset($teacher['student_satisfaction']) ? floatval($teacher['student_satisfaction']) : 0;
+            }
+
+            $burnoutAnalysis['average_hours_per_week'] = $sumHours / $burnoutAnalysis['count'];
+            $burnoutAnalysis['average_performance'] = $sumPerformance / $burnoutAnalysis['count'];
+            $burnoutAnalysis['average_teacher_satisfaction'] = $sumTeacherSat / $burnoutAnalysis['count'];
+            $burnoutAnalysis['average_student_satisfaction'] = $sumStudentSat / $burnoutAnalysis['count'];
+
+            error_log("Burnout Analysis computed averages: Hours: " . $burnoutAnalysis['average_hours_per_week'] . ", Performance: " . $burnoutAnalysis['average_performance'] . ", Teacher Sat: " . $burnoutAnalysis['average_teacher_satisfaction'] . ", Student Sat: " . $burnoutAnalysis['average_student_satisfaction']);
+        }
+
         // Run recommendations script with teacher data as input
         $inputJson = json_encode($results);
         $descriptorspec = [
@@ -122,7 +162,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         ];
         $process = proc_open("$pythonPath $recScriptPath", $descriptorspec, $pipes);
         if (is_resource($process)) {
-            fwrite($pipes[0], $inputJson);
+            // Write input JSON to the recommendations script stdin
+            $writeResult = fwrite($pipes[0], $inputJson);
+            if ($writeResult === false) {
+                error_log("Failed to write input JSON to recommendations script stdin.");
+                fclose($pipes[0]);
+                send_response(['error' => 'Failed to write input to recommendations script'], 500);
+            }
+            fflush($pipes[0]);
             fclose($pipes[0]);
             $recOutput = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
@@ -132,6 +179,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($return_value !== 0) {
                 error_log("Recommendations script error: " . $recError);
                 send_response(['error' => 'Failed to run recommendations script', 'details' => $recError], 500);
+            }
+            if (empty($recOutput)) {
+                $errorMsg = "Recommendations script output is empty.";
+                error_log($errorMsg);
+                send_response(['error' => $errorMsg], 500);
             }
             $recommendations = json_decode($recOutput, true);
             if ($recommendations === null) {
@@ -143,9 +195,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             send_response(['error' => 'Failed to start recommendations script'], 500);
         }
 
+        // Fetch individual teacher evaluations joined with teachers table for teacher-wise heatmap
+        $evalQuery = "SELECT te.evaluation_id, te.teacher_id, t.name as teacher_name, te.eval_period_id, te.evaluator_id, te.overall_score, te.classroom_observation_score, te.student_feedback_score, te.peer_review_score FROM teacher_evaluations te LEFT JOIN teachers t ON te.teacher_id = t.teacher_id";
+        $evalStmt = $pdo->prepare($evalQuery);
+        $evalStmt->execute();
+        $teacherEvaluations = $evalStmt->fetchAll(PDO::FETCH_ASSOC);
+
         $response = [
             'teachers' => $results,
-            'recommendations' => $recommendations
+            'recommendations' => $recommendations,
+            'burnoutAnalysis' => $burnoutAnalysis,
+            'teacherEvaluations' => $teacherEvaluations
         ];
 
         send_response($response);
@@ -196,14 +256,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         }
 
         $header = fgetcsv($handle);
-        $expectedHeaders = ['Teacher ID', 'Name', 'Strand', 'Performance', 'Hours per week', 'Class size', 'Teacher satisfaction', 'Student satisfaction'];
+        $expectedHeaders = ['Teacher Retention ID', 'Year', 'Strand', 'Performance', 'Hours per week', 'Class size', 'Teacher satisfaction', 'Student satisfaction'];
+
+        // Remove 'Class size' from expected headers and validation
+        $expectedHeaders = ['Teacher Retention ID', 'Year', 'Strand', 'Performance', 'Hours per week', 'Teacher satisfaction', 'Student satisfaction'];
 
         if ($header !== $expectedHeaders) {
             fclose($handle);
             send_response(['error' => 'CSV headers do not match expected format'], 400);
         }
 
-        $insertQuery = "INSERT INTO risk_assessment (teacher_id, strand_id, performance, hours_per_week, class_size, teacher_satisfaction, student_satisfaction) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO risk_assessment (teacher_retention_id, year, strand, performance, hours_per_week, teacher_satisfaction, student_satisfaction) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($insertQuery);
 
         $pdo->beginTransaction();
@@ -214,28 +277,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 if (count($row) !== count($expectedHeaders)) {
                     continue; // skip invalid rows
                 }
-                $teacherSatRaw = str_replace('%', '', trim($row[6]));
-                $studentSatRaw = str_replace('%', '', trim($row[7]));
+                $teacherSatRaw = str_replace('%', '', trim($row[5]));
+                $studentSatRaw = str_replace('%', '', trim($row[6]));
 
                 $teacherSat = (strlen($teacherSatRaw) > 0 && is_numeric($teacherSatRaw)) ? (float)$teacherSatRaw : 0.0;
                 $studentSat = (strlen($studentSatRaw) > 0 && is_numeric($studentSatRaw)) ? (float)$studentSatRaw : 0.0;
 
-                // Get strand_id from strands table
-                $strandName = $row[2];
-                $strandStmt = $pdo->prepare("SELECT id FROM strands WHERE name = ?");
-                $strandStmt->execute([$strandName]);
-                $strandId = $strandStmt->fetchColumn();
-                if (!$strandId) {
-                    fclose($handle);
-                    send_response(['error' => "Strand '$strandName' not found in strands table."], 400);
-                }
-
                 $stmt->execute([
-                    $row[0],
-                    $strandId,
-                    $row[3],
+                    $row[0], // teacher_retention_id
+                    $row[1], // year
+                    $row[2], // strand
+                    $row[3], // performance
                     is_numeric($row[4]) ? (int)$row[4] : null,
-                    is_numeric($row[5]) ? (int)$row[5] : null,
                     $teacherSat,
                     $studentSat,
                 ]);

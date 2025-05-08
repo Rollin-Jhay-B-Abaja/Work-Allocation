@@ -177,3 +177,29 @@
   margin-top: 15px;
   margin-bottom: 10px;
 }
+
+.Analysis-Recommendation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 38%;
+  }
+  
+  .Analysis-container, .Recommendation-container {
+  background-color: #1e1e1e;
+  border: 1px solid #242323;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .Recommendation-container ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  }
+  
+  .Recommendation-container li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #ffffff;
+  }
