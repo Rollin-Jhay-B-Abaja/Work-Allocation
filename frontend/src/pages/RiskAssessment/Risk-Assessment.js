@@ -2,17 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse"; // For CSV parsing
 import RiskAssessmentChart from "./RiskAssessmentChart";
-import { FaTrash } from 'react-icons/fa';
 import "./Risk-Assessment.css";
 import RecommendationList from "./RecommendationList";
 
 const RiskAssessment = () => {
   const [teachers, setTeachers] = useState([]);
+  const [latestYear, setLatestYear] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [burnoutAnalysis, setBurnoutAnalysis] = useState(null);
   const [teacherEvaluations, setTeacherEvaluations] = useState([]);
   const [viewMode, setViewMode] = useState("strand"); // "strand" or "teacher"
   const [uploadMessage, setUploadMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [riskHeatmap, setRiskHeatmap] = useState([]);
+  const [riskHeatmapImageUrl, setRiskHeatmapImageUrl] = useState("");
   const navigate = useNavigate();
 
   const sendRequest = useCallback(async (url, options = {}) => {
@@ -34,9 +37,13 @@ const RiskAssessment = () => {
   }, []);
 
   const fetchData = useCallback(async () => {
+    setLoading(true);
+    setUploadMessage("");
     try {
       // Fetch combined risk assessment data (includes teacher retention and trend identification)
       const riskData = await sendRequest("http://localhost:8000/api/risk_assessment.php");
+      console.log("Fetched riskData:", riskData);
+      console.log("Risk Heatmap data:", riskData.riskHeatmap);
       if (riskData.teachers) {
         const mappedTeachers = riskData.teachers.map(item => ({
           "teacher_retention_id": item.teacher_retention_id,
@@ -56,15 +63,38 @@ const RiskAssessment = () => {
           //"class_size": item.class_size,
           "teacher_satisfaction": item.teacher_satisfaction,
           "student_satisfaction": item.student_satisfaction,
-          "Risk Level": item["Risk Level"] || null
+          "riskLevel": item["Risk Level"] || null
         }));
         setTeachers(mappedTeachers);
+        // Determine latest year
+        const years = mappedTeachers.map(t => t.year);
+        const maxYear = Math.max(...years);
+        setLatestYear(maxYear);
       } else {
         setTeachers([]);
+        setLatestYear(null);
+      }
+      if (riskData.riskHeatmap) {
+        setRiskHeatmap(riskData.riskHeatmap);
+      } else {
+        setRiskHeatmap([]);
+      }
+      if (riskData.riskHeatmapImageUrl) {
+        setRiskHeatmapImageUrl(riskData.riskHeatmapImageUrl);
+      } else {
+        setRiskHeatmapImageUrl("");
       }
 
       if (riskData.recommendations) {
-        setRecommendations(riskData.recommendations);
+        console.log("Type of recommendations:", typeof riskData.recommendations);
+        if (Array.isArray(riskData.recommendations)) {
+          setRecommendations(riskData.recommendations);
+        } else if (typeof riskData.recommendations === 'object') {
+          // Convert object values to array if recommendations is an object
+          setRecommendations(Object.values(riskData.recommendations));
+        } else {
+          setRecommendations([]);
+        }
       } else {
         setRecommendations([]);
       }
@@ -78,19 +108,36 @@ const RiskAssessment = () => {
       } else {
         setTeacherEvaluations([]);
       }
-      setUploadMessage("");
     } catch (error) {
       console.error("Error fetching data:", error);
       setUploadMessage("Failed to load data: " + error.message);
+    } finally {
+      setLoading(false);
     }
   }, [sendRequest]);
-  
-  useEffect(() => {
-    console.log("Current viewMode:", viewMode);
-  }, [viewMode]);
 
   useEffect(() => {
     fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        fetchData();
+      }
+    };
+
+    const handleWindowFocus = () => {
+      fetchData();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
   }, [fetchData]);
 
   const riskColor = (level) => {
@@ -102,23 +149,6 @@ const RiskAssessment = () => {
       case "Low":
       default:
         return "rgba(76, 175, 80, 0.7)"; // Green
-    }
-  };
-
-  const handleDelete = async (index) => {
-    const teacherToDelete = teachers[index];
-    if (!teacherToDelete || !teacherToDelete["Teacher ID"]) {
-      alert("Invalid teacher selected for deletion.");
-      return;
-    }
-    if (!window.confirm(`Are you sure you want to delete teacher ID ${teacherToDelete["Teacher ID"]}?`)) return;
-
-    try {
-      const result = await sendRequest(`http://localhost:8000/api/risk_assessment.php?teacher_id=${encodeURIComponent(teacherToDelete["Teacher ID"])}`, { method: "DELETE" });
-      setTeachers(prev => prev.filter((_, i) => i !== index));
-      setUploadMessage("Deletion successful: " + (result.message || ""));
-    } catch (error) {
-      setUploadMessage("Deletion failed: " + error.message);
     }
   };
 
@@ -163,6 +193,9 @@ const RiskAssessment = () => {
     }
   };
 
+  // Filter teachers by latestYear for display and passing to RiskAssessmentChart
+  const filteredTeachers = latestYear !== null ? teachers.filter(t => t.year === latestYear) : [];
+
   return (
     <div className="risk-assessment-container">
       <header className="header">
@@ -182,11 +215,21 @@ const RiskAssessment = () => {
             <button onClick={() => setViewMode("teacher")} className={viewMode === "teacher" ? "active" : ""}>
               Teacher-wise View
             </button>
+            <button onClick={fetchData} style={{ marginLeft: "10px", padding: "0.5rem 1rem", cursor: "pointer" }}>
+              Refresh Data
+            </button>
           </div>
           <div className="two-columns">
             <div className="right-column">
-              <h2>Risk Heatmap</h2>
-              <RiskAssessmentChart teachers={teachers} teacherEvaluations={teacherEvaluations} viewMode={viewMode} burnoutAnalysis={burnoutAnalysis} />
+              <h2>Risk Heatmap {latestYear ? `- Year: ${latestYear}` : ""}</h2>
+              <RiskAssessmentChart
+                teachers={filteredTeachers}
+                teacherEvaluations={teacherEvaluations}
+                viewMode={viewMode}
+                burnoutAnalysis={burnoutAnalysis}
+                riskHeatmap={riskHeatmap}
+                riskHeatmapImageUrl={riskHeatmapImageUrl}
+              />
             </div>
           </div>
         </div>
@@ -194,67 +237,66 @@ const RiskAssessment = () => {
         {/* Second Section */}
         <div className="second-section">
           <div className="teachers-table table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Teacher Retention ID</th>
-                  <th>Year</th>
-                  <th>Strand</th>
-                  <th>Performance</th>
-                  <th>Hours per week</th>
-                  <th>Class size</th>
-                  <th>Teacher satisfaction</th>
-                  <th>Student satisfaction</th>
-                  <th>Teachers Count</th>
-                  <th>Students Count</th>
-                  <th>Max Class Size</th>
-                  <th>Salary Ratio</th>
-                  <th>Professional Dev Hours</th>
-                  <th>Historical Resignations</th>
-                  <th>Historical Retentions</th>
-                  <th>Workload per Teacher</th>
-                  <th>Risk Level</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {teachers.length === 0 ? (
+            {loading ? (
+              <div style={{ color: "white", textAlign: "center", padding: "20px" }}>Loading data...</div>
+            ) : (
+              <table>
+                <thead>
                   <tr>
-                    <td colSpan="17" style={{ textAlign: "center" }}>
-                      No data available
-                    </td>
+                    <th>Teacher Retention ID</th>
+                    <th>Year</th>
+                    <th>Strand</th>
+                    <th>Performance</th>
+                    <th>Hours per week</th>
+                {/* Removed Class size column as it is dropped from backend */}
+                {/* <th>Class size</th> */}
+                    <th>Teacher satisfaction</th>
+                    <th>Student satisfaction</th>
+                    <th>Teachers Count</th>
+                    <th>Students Count</th>
+                    <th>Max Class Size</th>
+                    <th>Salary Ratio</th>
+                    <th>Professional Dev Hours</th>
+                    <th>Historical Resignations</th>
+                    <th>Historical Retentions</th>
+                    <th>Workload per Teacher</th>
+                    <th>Risk Level</th>
                   </tr>
-                ) : (
-                  teachers.map((teacher, index) => (
-                    <tr key={`${teacher["Teacher Retention ID"]}-${index}`}>
-                      <td>{teacher["teacher_retention_id"]}</td>
-                      <td>{teacher["year"]}</td>
-                      <td>{teacher["strand"]}</td>
-                      <td>{teacher["performance"]}</td>
-                      <td>{teacher["hours_per_week"]}</td>
-                      {/* Removed class_size column display as it is dropped */}
-                      {/* <td>{teacher["class_size"]}</td> */}
-                      <td>{typeof teacher["teacher_satisfaction"] === "number" ? teacher["teacher_satisfaction"].toFixed(1) + "%" : teacher["teacher_satisfaction"]}</td>
-                      <td>{typeof teacher["student_satisfaction"] === "number" ? teacher["student_satisfaction"].toFixed(1) + "%" : teacher["student_satisfaction"]}</td>
-                      <td>{teacher["teachers_count"]}</td>
-                      <td>{teacher["students_count"]}</td>
-                      <td>{teacher["max_class_size"]}</td>
-                      <td>{teacher["salary_ratio"]}</td>
-                      <td>{teacher["professional_dev_hours"]}</td>
-                      <td>{teacher["historical_resignations"]}</td>
-                      <td>{teacher["historical_retentions"]}</td>
-                      <td>{teacher["workload_per_teacher"]}</td>
-                      <td style={{ color: riskColor(teacher["Risk Level"]) }}>{teacher["Risk Level"]}</td>
-                      <td>
-                        <button onClick={() => handleDelete(index)} aria-label="Delete teacher">
-                          <FaTrash />
-                        </button>
+                </thead>
+                <tbody>
+                  {filteredTeachers.length === 0 ? (
+                    <tr>
+                      <td colSpan="16" style={{ textAlign: "center" }}>
+                        No data available
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    filteredTeachers.map((teacher, index) => (
+                      <tr key={`${teacher["Teacher Retention ID"]}-${index}`}>
+                        <td>{teacher["teacher_retention_id"]}</td>
+                        <td>{teacher["year"]}</td>
+                        <td>{teacher["strand"]}</td>
+                        <td>{teacher["performance"]}</td>
+                        <td>{teacher["hours_per_week"]}</td>
+                        {/* Removed class_size column display as it is dropped */}
+                        {/* <td>{teacher["class_size"]}</td> */}
+                        <td>{typeof teacher["teacher_satisfaction"] === "number" ? teacher["teacher_satisfaction"].toFixed(1) + "%" : teacher["teacher_satisfaction"]}</td>
+                        <td>{typeof teacher["student_satisfaction"] === "number" ? teacher["student_satisfaction"].toFixed(1) + "%" : teacher["student_satisfaction"]}</td>
+                        <td>{teacher["teachers_count"]}</td>
+                        <td>{teacher["students_count"]}</td>
+                        <td>{teacher["max_class_size"]}</td>
+                        <td>{teacher["salary_ratio"]}</td>
+                        <td>{teacher["professional_dev_hours"]}</td>
+                        <td>{teacher["historical_resignations"]}</td>
+                        <td>{teacher["historical_retentions"]}</td>
+                        <td>{teacher["workload_per_teacher"]}</td>
+                        <td style={{ color: riskColor(teacher.riskLevel) }}>{teacher.riskLevel}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>

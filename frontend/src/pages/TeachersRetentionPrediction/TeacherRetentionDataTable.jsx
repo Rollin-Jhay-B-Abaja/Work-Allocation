@@ -9,7 +9,6 @@ const TeacherRetentionDataTable = ({ data }) => {
       <table className="saved-data-table">
         <thead>
           <tr>
-            <th>id</th>
             <th>year</th>
             <th>strand_name</th>
             <th>teachers_count</th>
@@ -26,7 +25,6 @@ const TeacherRetentionDataTable = ({ data }) => {
         <tbody>
           {data.map((row, index) => (
             <tr key={index}>
-              <td>{row.id}</td>
               <td>{row.year}</td>
               <td>{row.strand_name}</td>
               <td>{row.teachers_count}</td>

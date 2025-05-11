@@ -2,22 +2,23 @@
   display: flex;
   /* Removed max-height to allow container to grow and enable scrolling */
   width: 100%;
+  margin-top: 50px;
   margin-bottom: 20px;  
   padding: 30px;
-  margin-left: 100px;
+  margin-left: 80px;
   overflow-y: auto; /* Enable vertical scrolling if content overflows */
   height: 100vh; /* Keep full viewport height */
 }
 
 .employee-page-container .main-content {
   flex-grow: 1;
-  max-width: 1250px;
+  margin-left: 100px;
+  max-width: 1200px;
   max-height: 580px; /* Set a max height for the main content area */
   margin: .5px auto;
-  background-color: #1e1e1e;
+  background-color: #121212;
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   color: white;
 }
 

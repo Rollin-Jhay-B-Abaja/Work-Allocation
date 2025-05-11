@@ -1,28 +1,29 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login/Login'; // Import Login component
-import Dashboard from './pages/Dashboard/Dashboard'; // Import Dashboard component
-import AnalysisPage from './pages/Analysis/AnalysisPage'; // Import AnalysisPage component
-import TeacherRetentionPredictionPage from './pages/TeachersRetentionPrediction/TeacherRetentionPredictionPage'; // Import Teachers Retention prediction component
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
+import AnalysisPage from './pages/Analysis/AnalysisPage';
+import TeacherRetentionPredictionPage from './pages/TeachersRetentionPrediction/TeacherRetentionPredictionPage';
 import TrendIdentification from './pages/TrendIdentification/TrendIdentification';
-import RiskAssessment from './pages/RiskAssessment/Risk-Assessment'; // Import RiskAssessment component
-import PredictionChart from './pages/TeachersRetentionPrediction/PredictionChart'; // Import PredictionChart component
-import Workforce_Allocation_Page from './pages/Workforce/Workforce_Allocation_Page'; // Import Workforce Allocation Page
-import EmployeePage from './pages/Employee/EmployeePage'; // Import Employee Page
+import RiskAssessment from './pages/RiskAssessment/Risk-Assessment';
+import PredictionChart from './pages/TeachersRetentionPrediction/PredictionChart';
+import EmployeePage from './pages/Employee/EmployeePage';
+import UnifiedWorkforceAllocation from './pages/Workforce/UnifiedWorkforceAllocation';
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} /> {/* Set Login as the default route */}
-        <Route path="/dashboard" element={<Dashboard />} /> {/* Route for Dashboard page */}
-        <Route path="/analysis" element={<AnalysisPage />} /> {/* Route for Analysis page */}
-        <Route path="/data-forecasting" element={<TeacherRetentionPredictionPage />} /> {/* Route for data-forecasting page */}
-        <Route path="/trend-identification" element={<TrendIdentification />} /> {/* Route for trend-identification page */}
-        <Route path="/risk-assessment" element={<RiskAssessment />} /> {/* Route for risk-assessment page */}
-        <Route path="/prediction-results" element={<PredictionChart />} /> {/* Route for prediction results */}
-        <Route path="/workforce-allocation" element={<Workforce_Allocation_Page />} /> {/* Route for Workforce Allocation page */}
-        <Route path="/employee/create" element={<EmployeePage />} /> {/* Route for Employee page */}
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/analysis" element={<AnalysisPage />} />
+        <Route path="/data-forecasting" element={<TeacherRetentionPredictionPage />} />
+        <Route path="/trend-identification" element={<TrendIdentification />} />
+        <Route path="/risk-assessment" element={<RiskAssessment />} />
+        <Route path="/prediction-results" element={<PredictionChart />} />
+        <Route path="/workforce-allocation" element={<Navigate to="/workforce-allocation/unified" replace />} />
+        <Route path="/workforce-allocation/unified" element={<UnifiedWorkforceAllocation />} />
+        <Route path="/employee/create" element={<EmployeePage />} />
       </Routes>
     </Router>
   );

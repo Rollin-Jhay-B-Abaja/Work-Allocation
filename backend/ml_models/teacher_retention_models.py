@@ -20,7 +20,12 @@ def train_models_per_strand(df, strands, target_col, feature_cols, model_type='r
             # Check if data is sufficient
             if len(X) < 2 or y.isnull().all():
                 logger.warning(f"Insufficient data to train model for strand {strand}")
-                models[strand] = None
+                # Fallback: create a simple model that predicts average of y
+                avg_value = y.mean() if not y.isnull().all() else 0.0
+                class SimpleModel:
+                    def predict(self, X):
+                        return [avg_value] * len(X)
+                models[strand] = SimpleModel()
                 continue
 
             # Initialize model

@@ -93,4 +93,4 @@ if __name__ == "__main__":
         preferences = json.load(f)
 
     assignments = distribute_workload(teachers, classes, constraints, preferences)
-    print(json.dumps(assignments))
+    print(json.dumps(assignments, indent=2))

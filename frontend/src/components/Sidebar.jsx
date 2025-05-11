@@ -78,10 +78,6 @@ function Sidebar() {
             <FontAwesomeIcon icon={faChartPie} />
             <span>Analysis</span>
           </li>
-          <li className="nav-item">
-            <FontAwesomeIcon icon={faUsers} />
-            <span>Workforce Monitoring</span>
-          </li>
           <li
             className={`nav-item ${activeMenu === 'workforce-allocation' ? 'active' : ''}`}
             onClick={() => handleMenuClick('/workforce-allocation')}

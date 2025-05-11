@@ -1,113 +1,162 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Content-Type");
+// skill_based_matching.php
+// API endpoint to perform skill-based matching by calling the Python module
+// Ensure no whitespace or BOM before opening PHP tag
 
-$method = $_SERVER['REQUEST_METHOD'];
+// Disable error display to avoid HTML error output breaking JSON response
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL);
 
-if ($method === 'GET') {
-    if (isset($_GET['resource'])) {
-        $resource = $_GET['resource'];
-        if ($resource === 'teachers') {
-            // Sample teacher profiles data
-            $teachers = [
-                [
-                    "id" => "T-1001",
-                    "name" => "John Smith",
-                    "subjects_expertise" => ["Physics", "Mathematics"],
-                    "certifications" => ["LET Passer", "NC2"],
-                    "proficiency" => ["Physics" => "Advanced", "Mathematics" => "Intermediate"],
-                    "experience_years" => 8,
-                    "additional_skills" => ["Drama", "Sports Coaching"],
-                    "availability" => ["Monday" => true, "Tuesday" => true, "Wednesday" => true, "Thursday" => true, "Friday" => true],
-                    "max_hours_per_week" => 20,
-                    "preferences" => ["grades" => [11, 12], "subjects" => ["Physics"], "preferred_hours" => "morning", "preferred_days_off" => ["Friday"], "shift_preference" => "early"]
-                ],
-                [
-                    "id" => "T-1002",
-                    "name" => "Maria Garcia",
-                    "subjects_expertise" => ["Biology", "Chemistry"],
-                    "certifications" => ["LET Passer"],
-                    "proficiency" => ["Biology" => "Advanced", "Chemistry" => "Intermediate"],
-                    "experience_years" => 5,
-                    "additional_skills" => ["Counseling"],
-                    "availability" => ["Monday" => true, "Tuesday" => false, "Wednesday" => true, "Thursday" => true, "Friday" => true],
-                    "max_hours_per_week" => 18,
-                    "preferences" => ["grades" => [10, 11], "subjects" => ["Biology"], "preferred_hours" => "any", "preferred_days_off" => ["Monday"], "shift_preference" => null]
-                ]
-            ];
-            echo json_encode($teachers);
-            exit;
-        } elseif ($resource === 'classes') {
-            // Sample class/activity requirements data
-            $classes = [
-                [
-                    "id" => "C-101",
-                    "name" => "Grade 11 Physics",
-                    "required_skills" => ["Physics", "Lab Safety Certification"],
-                    "hours_per_week" => 10,
-                    "class_time" => "08:00",
-                    "class_end_time" => "10:00",
-                    "class_day" => "Monday",
-                    "shift" => "early",
-                    "status" => "unassigned"
-                ],
-                [
-                    "id" => "C-102",
-                    "name" => "Grade 10 Biology",
-                    "required_skills" => ["Biology"],
-                    "hours_per_week" => 8,
-                    "class_time" => "13:00",
-                    "class_end_time" => "15:00",
-                    "class_day" => "Tuesday",
-                    "shift" => "late",
-                    "status" => "assigned"
-                ]
-            ];
-            echo json_encode($classes);
+// Log errors to a file
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error_log.txt');
+
+header('Content-Type: application/json');
+
+// Database connection parameters
+$host = 'localhost';
+$dbname = 'workforce';
+$user = 'root';
+$pass = 'Omamam@010101';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $resource = $_GET['resource'] ?? '';
+
+        try {
+            if ($resource === 'teachers') {
+                $stmt = $pdo->query("SELECT teacher_id AS id, name FROM teachers");
+                $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                $stmt = $pdo->query("SELECT tc.teacher_id, ct.certification FROM teacher_certifications tc JOIN certification_types ct ON tc.cert_id = ct.cert_id");
+                $certifications = [];
+                foreach ($stmt as $row) {
+                    $certifications[$row['teacher_id']][] = $row['certification'];
+                }
+
+                $stmt = $pdo->query("SELECT tse.teacher_id, sa.subject FROM teacher_subject_expertise tse JOIN subject_areas sa ON tse.subject_id = sa.subject_id");
+                $expertise = [];
+                foreach ($stmt as $row) {
+                    $expertise[$row['teacher_id']][] = $row['subject'];
+                }
+
+                // Fetch max_allowed_hours from teacher_workload table
+                $stmt = $pdo->query("SELECT teacher_id, max_allowed_hours FROM teacher_workload");
+                $workload_hours = [];
+                foreach ($stmt as $row) {
+                    $workload_hours[$row['teacher_id']] = $row['max_allowed_hours'];
+                }
+
+                foreach ($teachers as &$teacher) {
+                    $id = $teacher['id'];
+                    $teacher['teaching_certifications'] = $certifications[$id] ?? [];
+                    $teacher['subjects_expertise'] = $expertise[$id] ?? [];
+                    $teacher['max_allowed_hours'] = $workload_hours[$id] ?? 40; // default to 40 if not found
+                }
+                unset($teacher);
+
+                echo json_encode($teachers);
+                exit;
+            } elseif ($resource === 'classes') {
+                $stmt = $pdo->query("SELECT subject_id AS id, subject AS name FROM subject_areas");
+                $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                // Removed usage of subject_name and description columns
+                echo json_encode($classes);
+                exit;
+            } else {
+                http_response_code(400);
+                echo json_encode(['error' => 'Invalid resource']);
+                exit;
+            }
+        } catch (PDOException $e) {
+            error_log("Database query error in GET $resource: " . $e->getMessage());
+            http_response_code(500);
+            echo json_encode(['error' => 'Database query error: ' . $e->getMessage()]);
             exit;
         }
-    }
-} elseif ($method === 'POST') {
-    // For matching request - to be implemented with ML integration
-    $input = json_decode(file_get_contents('php://input'), true);
-    // Integrate with Python ML script for matching with extended parameters
-    $teachers = $input['teachers'] ?? [];
-    $classes = $input['classes'] ?? [];
-    $constraints = $input['constraints'] ?? [];
-    $preferences = $input['preferences'] ?? [];
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Parse JSON POST body
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, true);
 
-    // Save input data to temp files
-    $teachers_file = sys_get_temp_dir() . '/teachers_input.json';
-    $classes_file = sys_get_temp_dir() . '/classes_input.json';
-    $constraints_file = sys_get_temp_dir() . '/constraints_input.json';
-    $preferences_file = sys_get_temp_dir() . '/preferences_input.json';
+        if ($input === null) {
+            error_log("Invalid JSON input in POST request");
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON input']);
+            exit;
+        }
 
-    file_put_contents($teachers_file, json_encode($teachers));
-    file_put_contents($classes_file, json_encode($classes));
-    file_put_contents($constraints_file, json_encode($constraints));
-    file_put_contents($preferences_file, json_encode($preferences));
+        $teachers = $input['teachers'] ?? [];
+        $classes = $input['classes'] ?? [];
+        $constraints = $input['constraints'] ?? ['max_hours_per_week' => 40, 'min_rest_hours' => 8];
+        $preferences = $input['preferences'] ?? [];
 
-    // Determine which Python script to run based on presence of constraints and preferences
-    if (!empty($constraints) && !empty($preferences)) {
-        $command = escapeshellcmd("python backend/ml_models/workload_distribution.py $teachers_file $classes_file $constraints_file $preferences_file");
+        $tempDir = __DIR__ . '/temp';
+        if (!file_exists($tempDir)) {
+            mkdir($tempDir, 0777, true);
+        }
+
+        $teachersFile = $tempDir . '/teachers_input.json';
+        $classesFile = $tempDir . '/classes_input.json';
+        $constraintsFile = $tempDir . '/constraints_input.json';
+        $preferencesFile = $tempDir . '/preferences_input.json';
+
+        if (file_put_contents($teachersFile, json_encode($teachers)) === false ||
+            file_put_contents($classesFile, json_encode($classes)) === false ||
+            file_put_contents($constraintsFile, json_encode($constraints)) === false ||
+            file_put_contents($preferencesFile, json_encode($preferences)) === false) {
+            error_log("Failed to write input JSON files for skill based matching");
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to write input files']);
+            exit;
+        }
+
+        // Correct path to python script
+        $pythonScript = realpath(__DIR__ . '/../ml_models/skill_based_matching.py');
+        if ($pythonScript === false) {
+            error_log("Python script skill_based_matching.py not found");
+            http_response_code(500);
+            echo json_encode(['error' => 'Python script not found']);
+            exit;
+        }
+        // Fix path for Windows backslashes
+        $pythonScript = str_replace('\\', '/', $pythonScript);
+        $command = escapeshellcmd("python \"$pythonScript\" 2>&1");
+        exec($command, $output, $return_var);
+
+        $fullOutput = implode("\n", $output);
+
+        if ($return_var !== 0) {
+            error_log("Skill based matching script failed with return code $return_var. Output: " . $fullOutput);
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to execute skill based matching', 'details' => $output]);
+            exit;
+        }
+
+        // Validate JSON
+        $jsonData = json_decode($fullOutput, true);
+        if ($jsonData === null) {
+            error_log("Invalid JSON output from skill based matching script: " . $fullOutput);
+            http_response_code(500);
+            echo json_encode(['error' => 'Invalid JSON output from skill based matching script']);
+            exit;
+        }
+
+        // Return JSON with 'result' field as string for frontend compatibility
+        echo json_encode(['result' => $fullOutput]);
     } else {
-        $command = escapeshellcmd("python backend/ml_models/skill_based_matching.py $teachers_file $classes_file");
-    }
-    $output = shell_exec($command);
-
-    if ($output === null) {
-        http_response_code(500);
-        echo json_encode(["error" => "Failed to execute matching script"]);
+        http_response_code(405);
+        echo json_encode(['error' => 'Method not allowed']);
         exit;
     }
-
-    echo $output;
-    exit;
-} else {
-    http_response_code(405);
-    echo json_encode(["error" => "Method not allowed"]);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     exit;
 }
 ?>

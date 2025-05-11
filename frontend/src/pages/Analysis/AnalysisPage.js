@@ -23,36 +23,17 @@ function AnalysisPage() {
 
           <div className="analysis-modules">
             <div className="module-card" onClick={() => navigate('/data-forecasting')} style={{ cursor: 'pointer' }}>
-              <h2>Data Forecasting: Student Enrollment Prediction</h2>
+              <h2>Data Forecasting: Employee Prediction</h2>
             </div>
 
             <div className="module-card" onClick={() => navigate('/trend-identification')} style={{ cursor: 'pointer' }}>
-              <h2>Trend Identification: Faculty Performance Distribution</h2>
+              <h2>Trend Identification: Students Count vs Workload Per Teacher</h2>
             </div>
 
             <div className="module-card" onClick={() => navigate('/risk-assessment')} style={{ cursor: 'pointer' }}>
-              <h2>Risk Assessment: Likelihood of Potential Risk</h2>
+              <h2>Risk Assessment: Teacher Risk of Burnout</h2>
             </div>
           </div>
-
-          <div className="scenario-simulation-section">
-            <h2>Scenario Simulation</h2>
-            <div className="analysis-modules">
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Simulation Result 1</h2>
-                <div className="chart-placeholder">[Placeholder for simulation chart]</div>
-              </div>
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Simulation Result 2</h2>
-                <div className="chart-placeholder">[Placeholder for simulation chart]</div>
-              </div>
-              <div className="module-card" style={{ cursor: 'pointer' }}>
-                <h2>Simulation Result 3</h2>
-                <div className="chart-placeholder">[Placeholder for simulation chart]</div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

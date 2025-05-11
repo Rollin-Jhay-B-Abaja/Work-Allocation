@@ -87,6 +87,8 @@ def forecast_needed_teachers(student_forecasts, current_teachers, retention_rate
             if max_class_size is not None:
                 max_teachers_based_on_class_size = np.ceil(projected_students[i] / max_class_size)
                 val = max(val, max_teachers_based_on_class_size)
+            # Add debug logging for intermediate values
+            logger.debug(f"Strand: {strand}, Year index: {i}, Projected students: {projected_students[i]}, Retention rate: {retention_rate[i]}, Resignation rate: {resignation_rate[i]}, Current teachers: {current_teacher}, Calculated hires needed: {val}")
             required.append(max(0, round(val)))
         hires_needed[strand] = required
     return hires_needed

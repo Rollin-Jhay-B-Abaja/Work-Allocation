@@ -35,8 +35,7 @@
 }
 
 .heatmap-cell {
-  padding: 16px;
-  border-radius: 12px;
+  padding: 10px;
   color: white;
   font-weight: 700;
   text-align: center;
@@ -227,7 +226,7 @@
 }
 
 .teachers-table tr:nth-child(even) {
-  background-color: #1a2a4a;
+  background-color: transparent;
 }
 
 /* Updated styles to match current CSS conventions */
@@ -323,5 +322,5 @@
 }
 
 .teachers-table tr:nth-child(even) {
-  background-color: #1a2a4a;
+  background-color: transparent;
 }

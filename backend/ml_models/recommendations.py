@@ -464,6 +464,29 @@ def generate_risk_assessment_recommendations(risk_data):
                 "teacher_retention_id": teacher_id,
                 "recommendation": "Maintain current support levels."
             })
+
+    # Custom additional recommendations based on risk data metrics
+    for teacher_id, risk_dist in risk_data.items():
+        # Example: if teacher has high risk and low satisfaction, recommend intervention
+        teacher_info = risk_data.get(teacher_id, {})
+        risk_level = "High" if risk_dist.get("High", 0) > 0.5 else "Medium" if risk_dist.get("Medium", 0) > 0.5 else "Low"
+        teacher_satisfaction = teacher_info.get("teacher_satisfaction", None)
+        student_satisfaction = teacher_info.get("student_satisfaction", None)
+
+        if risk_level == "High":
+            if teacher_satisfaction is not None and teacher_satisfaction < 50:
+                recommendations.append({
+                    "teacher_retention_id": teacher_id,
+                    "recommendation": "High risk with low teacher satisfaction. Recommend immediate support and counseling."
+                })
+            if student_satisfaction is not None and student_satisfaction < 50:
+                recommendations.append({
+                    "teacher_retention_id": teacher_id,
+                    "recommendation": "High risk with low student satisfaction. Recommend classroom observation and support."
+                })
+
+        # Additional custom rules can be added here
+
     return recommendations
     # Placeholder for risk assessment recommendation logic
     # Example: if risk score exceeds threshold, recommend intervention
@@ -521,7 +544,12 @@ def generate_enrollment_recommendations(prediction_results):
 if __name__ == "__main__":
     import sys
     try:
-        input_data = sys.stdin.read()
+        if len(sys.argv) > 1:
+            filename = sys.argv[1]
+            with open(filename, 'r') as f:
+                input_data = f.read()
+        else:
+            input_data = sys.stdin.read()
         teachers_data = json.loads(input_data)
         # Call the risk assessment recommendations function
         recommendations = generate_risk_assessment_recommendations(teachers_data)

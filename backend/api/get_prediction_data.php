@@ -1,7 +1,7 @@
 <?php
 ob_start();
-ini_set('display_errors', 0);
-error_reporting(0);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, OPTIONS");
@@ -20,7 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=workforce;charset=utf8mb4", DB_USER, DB_PASS);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $pdo->query("SELECT * FROM teacher_retention_data");
+        // Set a timeout for the query execution
+        $pdo->setAttribute(PDO::ATTR_TIMEOUT, 5);
+
+        $query = "SELECT tr.id, tr.year, s.strand_name, tr.teachers_count, tr.students_count, tr.target_ratio, tr.max_class_size, tr.salary_ratio, tr.professional_dev_hours, tr.historical_resignations, tr.historical_retentions, tr.workload_per_teacher
+                  FROM teacher_retention_data tr
+                  JOIN strands s ON tr.strand_id = s.strand_id
+                  ORDER BY tr.year, s.strand_name";
+        $stmt = $pdo->query($query);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (!$data) {
@@ -32,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         echo json_encode(['data' => $data]);
     } catch (PDOException $e) {
+        error_log('Database error in get_prediction_data.php: ' . $e->getMessage());
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }

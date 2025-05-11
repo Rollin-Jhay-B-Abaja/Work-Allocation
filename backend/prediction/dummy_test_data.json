@@ -1,0 +1,54 @@
+[
+  {
+    "year": "2020",
+    "strand_id": 1,
+    "teachers_count": 40,
+    "students_count": 1000,
+    "historical_resignations": 5,
+    "historical_retentions": 45,
+    "workload_per_teacher": 40,
+    "salary_ratio": 0.8,
+    "professional_dev_hours": 20,
+    "target_ratio": 25,
+    "max_class_size": 40
+  },
+  {
+    "year": "2020",
+    "strand_id": 2,
+    "teachers_count": 40,
+    "students_count": 800,
+    "historical_resignations": 4,
+    "historical_retentions": 36,
+    "workload_per_teacher": 38,
+    "salary_ratio": 0.85,
+    "professional_dev_hours": 18,
+    "target_ratio": 25,
+    "max_class_size": 40
+  },
+  {
+    "year": "2021",
+    "strand_id": 1,
+    "teachers_count": 55,
+    "students_count": 1050,
+    "historical_resignations": 6,
+    "historical_retentions": 46,
+    "workload_per_teacher": 42,
+    "salary_ratio": 0.82,
+    "professional_dev_hours": 22,
+    "target_ratio": 25,
+    "max_class_size": 40
+  },
+  {
+    "year": "2021",
+    "strand_id": 2,
+    "teachers_count": 36,
+    "students_count": 850,
+    "historical_resignations": 5,
+    "historical_retentions": 37,
+    "workload_per_teacher": 39,
+    "salary_ratio": 0.87,
+    "professional_dev_hours": 19,
+    "target_ratio": 25,
+    "max_class_size": 40
+  }
+]

@@ -1,50 +1,67 @@
 import pandas as pd
 import numpy as np
 
-def add_feature_engineering(df):
+def add_feature_engineering_long_format(df):
     """
-    Add engineered features to the dataframe for teacher retention prediction.
+    Add engineered features to the long format dataframe for teacher retention prediction.
+
+    Assumes df has columns: year, strand_name, teachers_count, students_count, historical_resignations, historical_retentions, workload_per_teacher, salary_ratio, professional_dev_hours, target_ratio, max_class_size
 
     Features added:
-    - student_teacher_ratio per strand
+    - student_teacher_ratio per strand (added as a new column)
     - resignation_rate per year
     - retention_rate per year
     - workload_change (yearly % change)
     - salary_growth (yearly % change)
     - training_intensity (professional_dev_hours per teacher)
-    - teacher_shortage_flag (binary, 1 if student_teacher_ratio exceeds threshold)
+    - teacher_shortage_flag (binary, 1 if any strand's student_teacher_ratio exceeds threshold)
     - attrition_risk_score (weighted score of workload, salary, training)
     - strand_growth_rate (% change in students per strand)
     - lagged retention_rate and resignation_rate (1 year lag)
     - rolling averages (3-year) for retention_rate and resignation_rate
     - interaction terms (e.g., salary_ratio * workload_per_teacher)
     """
-    strands = ['STEM', 'ABM', 'GAS', 'HUMSS', 'ICT']
+    strands = df['strand_name'].unique()
+
+    # Convert relevant columns to float to avoid decimal.Decimal issues
+    float_cols = ['workload_per_teacher', 'salary_ratio', 'professional_dev_hours']
+    for col in float_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype(float)
 
     # Calculate total teachers and students per year
-    df['total_teachers'] = df[[f'teachers_{s}' for s in strands]].sum(axis=1)
-    df['total_students'] = df[[f'students_{s}' for s in strands]].sum(axis=1)
+    total_teachers = df.groupby('year')['teachers_count'].sum()
+    total_students = df.groupby('year')['students_count'].sum()
+
+    # Map total teachers and students back to df
+    df['total_teachers'] = df['year'].map(total_teachers)
+    df['total_students'] = df['year'].map(total_students)
 
     # Student-teacher ratio per strand
-    for s in strands:
-        df[f'student_teacher_ratio_{s}'] = df[f'students_{s}'] / df[f'teachers_{s}'].replace(0, np.nan)
+    df['student_teacher_ratio'] = df['students_count'] / df['teachers_count'].replace(0, np.nan)
 
     # Resignation and retention rates per year
-    df['resignation_rate'] = df['historical_resignations'] / df['total_teachers'].replace(0, np.nan)
-    df['retention_rate'] = df['historical_retentions'] / df['total_teachers'].replace(0, np.nan)
+    resignation_rate = df.groupby('year')['historical_resignations'].sum() / total_teachers.replace(0, np.nan)
+    retention_rate = df.groupby('year')['historical_retentions'].sum() / total_teachers.replace(0, np.nan)
+
+    df['resignation_rate'] = df['year'].map(resignation_rate)
+    df['retention_rate'] = df['year'].map(retention_rate)
 
     # Yearly % change in workload_per_teacher
-    df['workload_change'] = df['workload_per_teacher'].pct_change().fillna(0)
+    workload_change = df.groupby('strand_name')['workload_per_teacher'].pct_change().fillna(0)
+    df['workload_change'] = workload_change
 
     # Yearly % change in salary_ratio
-    df['salary_growth'] = df['salary_ratio'].pct_change().fillna(0)
+    salary_growth = df.groupby('strand_name')['salary_ratio'].pct_change().fillna(0)
+    df['salary_growth'] = salary_growth
 
     # Training intensity: professional_dev_hours per teacher
-    df['training_intensity'] = df['professional_dev_hours'] / df['total_teachers'].replace(0, np.nan)
+    df['training_intensity'] = df['professional_dev_hours'] / df['teachers_count'].replace(0, np.nan)
 
-    # Teacher shortage flag: 1 if any strand's student_teacher_ratio exceeds threshold (e.g., 30)
+    # Teacher shortage flag: 1 if any strand's student_teacher_ratio exceeds threshold (e.g., 30) per year
     threshold = 30
-    df['teacher_shortage_flag'] = (df[[f'student_teacher_ratio_{s}' for s in strands]] > threshold).any(axis=1).astype(int)
+    shortage_flag_per_year = df.groupby('year').apply(lambda x: (x['student_teacher_ratio'] > threshold).any()).astype(int)
+    df['teacher_shortage_flag'] = df['year'].map(shortage_flag_per_year)
 
     # Attrition risk score: weighted sum (workload 0.4, salary 0.3, training 0.3 inverse)
     df['attrition_risk_score'] = (
@@ -54,16 +71,16 @@ def add_feature_engineering(df):
     )
 
     # Strand growth rate: yearly % change in students per strand
-    for s in strands:
-        df[f'strand_growth_rate_{s}'] = df[f'students_{s}'].pct_change().fillna(0)
+    strand_growth_rate = df.groupby('strand_name')['students_count'].pct_change().fillna(0)
+    df['strand_growth_rate'] = strand_growth_rate
 
-    # Lagged retention_rate and resignation_rate (1 year lag)
-    df['retention_rate_lag1'] = df['retention_rate'].shift(1).bfill()
-    df['resignation_rate_lag1'] = df['resignation_rate'].shift(1).bfill()
+    # Lagged retention_rate and resignation_rate (1 year lag) per strand
+    df['retention_rate_lag1'] = df.groupby('strand_name')['retention_rate'].shift(1).bfill()
+    df['resignation_rate_lag1'] = df.groupby('strand_name')['resignation_rate'].shift(1).bfill()
 
-    # Rolling averages (3-year) for retention_rate and resignation_rate
-    df['retention_rate_roll3'] = df['retention_rate'].rolling(window=3, min_periods=1).mean()
-    df['resignation_rate_roll3'] = df['resignation_rate'].rolling(window=3, min_periods=1).mean()
+    # Rolling averages (3-year) for retention_rate and resignation_rate per strand
+    df['retention_rate_roll3'] = df.groupby('strand_name')['retention_rate'].rolling(window=3, min_periods=1).mean().reset_index(level=0, drop=True)
+    df['resignation_rate_roll3'] = df.groupby('strand_name')['resignation_rate'].rolling(window=3, min_periods=1).mean().reset_index(level=0, drop=True)
 
     # Interaction terms
     df['salary_workload_interaction'] = df['salary_ratio'] * df['workload_per_teacher']

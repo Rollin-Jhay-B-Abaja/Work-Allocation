@@ -91,17 +91,22 @@ try {
         $errorOutput = stream_get_contents($pipes[2]);
         fclose($pipes[2]);
 
+        // Log output and error to file for debugging
+        // file_put_contents(__DIR__ . '/debug_python_output.log', "Output:\n" . $output . "\nError:\n" . $errorOutput);
+
         $return_value = proc_close($process);
 
         if ($return_value !== 0) {
             send_response(['error' => 'Python script error', 'details' => $errorOutput], 500);
         }
 
+        // Fix: The Python script outputs a JSON array, but the frontend expects an object with 'recommendations' key
         $recommendations = json_decode($output, true);
         if ($recommendations === null) {
-            send_response(['error' => 'Invalid JSON output from Python script'], 500);
+            send_response(['error' => 'Invalid JSON output from Python script', 'raw_output' => $output, 'raw_error' => $errorOutput], 500);
         }
 
+        // Wrap recommendations array in an object with key 'recommendations'
         send_response(['recommendations' => $recommendations]);
     } else {
         send_response(['error' => 'Failed to start Python process'], 500);

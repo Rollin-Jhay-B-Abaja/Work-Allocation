@@ -118,48 +118,70 @@ const TrendIdentification = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [correlationMatrix, setCorrelationMatrix] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const fetchTrendData = () => {
-        fetch('http://localhost:8000/api/trend_identification.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    setUploadError(data.error);
-                } else {
-                    setTableData(Array.isArray(data.data) ? data.data : []);
-                    setCorrelationMatrix(data.correlation_matrix || null);
-                    setUploadError('');
-                    setInvalidJsonError('');
+    const fetchTrendData = async () => {
+        setLoading(true);
+        setUploadError('');
+        setInvalidJsonError('');
+        try {
+            const response = await fetch('http://localhost:8000/api/trend_identification.php');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            if (data.error) {
+                setUploadError(data.error);
+                setLoading(false);
+                return;
+            }
+            setTableData(Array.isArray(data.data) ? data.data : []);
+            setCorrelationMatrix(data.correlation_matrix || null);
 
-                    const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => ({
-                        x: Number(row['StudentsCount'] || 0),
-                        y: Number(row['WorkloadPerTeacher'] || 0)
-                    })).filter(point => !isNaN(point.x) && !isNaN(point.y));
-                    const xVals = dataPoints.map(p => p.x);
-                    const yVals = dataPoints.map(p => p.y);
-                    const correlation = (xVals.length === yVals.length && xVals.length > 0) ? calculateCorrelation(xVals, yVals) : null;
-                    setStudentsCountVsWorkload({ dataPoints, correlation });
+            const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => ({
+                x: Number(row['StudentsCount'] || 0),
+                y: Number(row['WorkloadPerTeacher'] || 0)
+            })).filter(point => !isNaN(point.x) && !isNaN(point.y));
+            const xVals = dataPoints.map(p => p.x);
+            const yVals = dataPoints.map(p => p.y);
+            const correlation = (xVals.length === yVals.length && xVals.length > 0) ? calculateCorrelation(xVals, yVals) : null;
+            setStudentsCountVsWorkload({ dataPoints, correlation });
 
-                    const regParams = dataPoints.length > 0 ? calculateRegressionParams(dataPoints) : null;
-                    setRegressionParams(regParams);
+            const regParams = dataPoints.length > 0 ? calculateRegressionParams(dataPoints) : null;
+            setRegressionParams(regParams);
 
-                    // Generate recommendations including improvement suggestions
-                    const recs = generateRecommendations(correlation, regParams ? regParams.slope : null);
-                    setRecommendations(recs);
-                }
-            })
-            .catch(error => {
-                setUploadError('Error fetching data: ' + error.message);
-            });
+            // Generate recommendations including improvement suggestions
+            const recs = generateRecommendations(correlation, regParams ? regParams.slope : null);
+            setRecommendations(recs);
+        } catch (error) {
+            setUploadError('Error fetching data: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
         fetchTrendData();
+    }, []);
+
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                fetchTrendData();
+            }
+        };
+
+        const handleWindowFocus = () => {
+            fetchTrendData();
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleWindowFocus);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('focus', handleWindowFocus);
+        };
     }, []);
 
     const interpretCorrelation = (corr) => {
@@ -235,7 +257,11 @@ const TrendIdentification = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.length === 0 ? (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="11" style={{ textAlign: 'center' }}>Loading data...</td>
+                                </tr>
+                            ) : tableData.length === 0 ? (
                                 <tr>
                                     <td colSpan="11" className="no-data">No data available</td>
                                 </tr>

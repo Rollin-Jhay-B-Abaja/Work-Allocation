@@ -115,11 +115,7 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         };
       });
 
-      const response = await fetch('http://localhost:8000/api/data_forecasting.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(enhancedData),
-      });
+      const response = await fetch('http://localhost:8000/api/teacher_retention_prediction.php');
       if (!response.ok) {
         const errorText = await response.text();
         setNotification('Prediction API error: ' + errorText);

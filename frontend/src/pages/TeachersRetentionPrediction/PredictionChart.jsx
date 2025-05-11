@@ -128,7 +128,13 @@ const PredictionChart = ({ data }) => {
               onMouseEnter={(data, index, e) => handleMouseEnter(data, index, e, 'resignations')}
               onMouseLeave={handleMouseLeave}
             >
-              <LabelList dataKey={`${strand}_resignations`} position="top" fill="white" fontSize={10} />
+              <LabelList 
+                dataKey={`${strand}_resignations`} 
+                position="top" 
+                fill="white" 
+                fontSize={10} 
+                formatter={(value) => `${value.toFixed(2)}%`} 
+              />
             </Bar>
           ))}
           {strands.map((strand) => (
@@ -141,7 +147,13 @@ const PredictionChart = ({ data }) => {
               onMouseEnter={(data, index, e) => handleMouseEnter(data, index, e, 'retentions')}
               onMouseLeave={handleMouseLeave}
             >
-              <LabelList dataKey={`${strand}_retentions`} position="top" fill="white" fontSize={10} />
+              <LabelList 
+                dataKey={`${strand}_retentions`} 
+                position="top" 
+                fill="white" 
+                fontSize={10} 
+                formatter={(value) => `${value.toFixed(2)}%`} 
+              />
             </Bar>
           ))}
           {strands.map((strand) => (
@@ -154,7 +166,13 @@ const PredictionChart = ({ data }) => {
               onMouseEnter={(data, index, e) => handleMouseEnter(data, index, e, 'hires')}
               onMouseLeave={handleMouseLeave}
             >
-              <LabelList dataKey={`${strand}_hires`} position="top" fill="white" fontSize={10} />
+              <LabelList 
+                dataKey={`${strand}_hires`} 
+                position="top" 
+                fill="white" 
+                fontSize={10} 
+                formatter={(value) => value} 
+              />
             </Bar>
           ))}
         </BarChart>

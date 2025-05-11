@@ -1489,3 +1489,705 @@ GET request received
 Fetched rows count: 45
 Flask API HTTP code: 200
 Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "correlation_matrix": {"Class Size": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Average Grades of Students": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": NaN, "Teacher Evaluation Scores": NaN}, "Classroom Observation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 1.0, "Teacher Evaluation Scores": 0.9999999999999998}, "Teacher Evaluation Scores": {"Class Size": NaN, "Average Grades of Students": NaN, "Classroom Observation Scores": 0.9999999999999999, "Teacher Evaluation Scores": 1.0}}, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 500
+Flask API response: {
+  "error": "Error in trend_identification endpoint: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+}
+
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}

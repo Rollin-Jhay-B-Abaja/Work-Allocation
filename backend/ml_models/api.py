@@ -90,6 +90,8 @@ def forecast_enrollment():
         transformed_result = {
             'resignations_count': resignations_forecast_counts,
             'retentions_count': retentions_forecast_counts,
+            'resignations_forecast': result.get('resignations_forecast', {}),
+            'retentions_forecast': result.get('retentions_forecast', {}),
             'hires_needed': hires_forecast,
             'last_year': int(rows[-1]['year']) if rows else None,
             'warnings': result.get('warnings', [])
@@ -193,7 +195,7 @@ def trend_identification():
             logger.error("Database connection failed.")
             return jsonify({'error': 'Database connection failed'}), 500
         cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT max_class_size AS `Class Size`, average_grades AS `Average Grades of Students`, classroom_observation_scores AS `Classroom Observation Scores`, teacher_evaluation_scores AS `Teacher Evaluation Scores` FROM trend_identification ORDER BY year, strand")
+        cursor.execute("SELECT max_class_size AS `Class Size`, classroom_observation_scores AS `Classroom Observation Scores`, teacher_evaluation_scores AS `Teacher Evaluation Scores` FROM trend_identification ORDER BY year, strand")
         rows = cursor.fetchall()
         cursor.close()
         connection.close()
@@ -209,14 +211,12 @@ def trend_identification():
 
         # Prepare data lists for analysis
         class_sizes = []
-        avg_grades = []
         obs_scores = []
         eval_scores = []
 
         for row in rows:
             try:
                 class_sizes.append(float(row["Class Size"]))
-                avg_grades.append(float(row["Average Grades of Students"]))
                 obs_scores.append(float(row["Classroom Observation Scores"]))
                 eval_scores.append(float(row["Teacher Evaluation Scores"]))
             except (ValueError, TypeError):
@@ -227,7 +227,7 @@ def trend_identification():
             return jsonify({'error': 'No valid data found for analysis'}), 400
 
         # Validate all lists have the same length
-        lengths = [len(class_sizes), len(avg_grades), len(obs_scores), len(eval_scores)]
+        lengths = [len(class_sizes), len(obs_scores), len(eval_scores)]
         if len(set(lengths)) != 1:
             logger.error(f"Data lists have inconsistent lengths: {lengths}")
             return jsonify({'error': 'Data lists have inconsistent lengths'}), 400
@@ -236,17 +236,16 @@ def trend_identification():
         from trend_identification import analyze_trend
         from recommendations import generate_trend_recommendations
 
-        # Calculate combined performance metric as average of the three scores
-        performance_metrics = [(a + o + e) / 3.0 for a, o, e in zip(avg_grades, obs_scores, eval_scores)]
+        # Calculate combined performance metric as average of the two scores
+        performance_metrics = [(o + e) / 2.0 for o, e in zip(obs_scores, eval_scores)]
 
-        result = analyze_trend(class_sizes, performance_metrics, avg_grades, obs_scores, eval_scores)
+        result = analyze_trend(class_sizes, performance_metrics, None, obs_scores, eval_scores)
 
         # Generate recommendations
         teachers = []
-        for cs, ag, os, es in zip(class_sizes, avg_grades, obs_scores, eval_scores):
+        for cs, os, es in zip(class_sizes, obs_scores, eval_scores):
             teachers.append({
                 "Class Size": cs,
-                "Average Grades of Students": ag,
                 "Classroom Observation Scores": os,
                 "Teacher Evaluation Scores": es
             })
@@ -281,6 +280,20 @@ def trend_identification():
     except Exception as e:
         logger.error(f"Error in trend_identification endpoint: {str(e)}")
         return jsonify({'error': f"Error in trend_identification endpoint: {str(e)}"}), 500
+
+@app.route('/api/features', methods=['GET'])
+def list_features():
+    features = [
+        {"route": "/api/enrollment_data", "method": "GET", "description": "Get enrollment data"},
+        {"route": "/api/data_forecasting", "method": "POST", "description": "Forecast enrollment data"},
+        {"route": "/api/enrollment_recommendations", "method": "POST", "description": "Get enrollment recommendations"},
+        {"route": "/api/delete_all_enrollment_data", "method": "DELETE", "description": "Delete all enrollment data"},
+        {"route": "/api/save_teacher_retention_data", "method": "POST", "description": "Save teacher retention data (proxied to PHP)"},
+        {"route": "/api/get_prediction_data", "method": "GET", "description": "Get prediction data (proxied to PHP)"},
+        {"route": "/api/trend_identification", "method": "GET", "description": "Get trend identification data"},
+        # Add more routes here if needed
+    ]
+    return jsonify(features)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

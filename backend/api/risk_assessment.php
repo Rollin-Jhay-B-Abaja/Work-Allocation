@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pythonPath = 'python'; // Adjust this path to your python executable on Windows
     $riskScriptPath = __DIR__ . '/../ml_models/risk_assessment_inference.py';
     $recScriptPath = __DIR__ . '/../ml_models/recommendations.py';
+    $heatmapScriptPath = __DIR__ . '/../ml_models/risk_heatmap_aggregation.py';
 
     // Run risk assessment script using proc_open for better control
     $descriptorspec = [
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         send_response(['error' => $errorMsg], 500);
     }
 
-    $selectQuery = "SELECT ra.id AS risk_id, trd.id AS teacher_retention_id, trd.year, ti.strand, ra.performance, COALESCE(trd.workload_per_teacher, 0) AS hours_per_week, ra.teacher_satisfaction, ra.student_satisfaction, ti.teachers_count, ti.students_count, ti.salary_ratio, ti.professional_dev_hours, ti.historical_resignations, ti.historical_retentions, ti.workload_per_teacher FROM risk_assessment ra JOIN teacher_retention_data trd ON ra.teacher_retention_id = trd.id JOIN trend_identification ti ON ti.year = trd.year AND ti.strand_id = trd.strand_id";
+    $selectQuery = "SELECT id AS risk_id, teacher_retention_id, year, strand, performance, hours_per_week, teacher_satisfaction, student_satisfaction, teachers_count, students_count, max_class_size, salary_ratio, professional_dev_hours, historical_resignations, historical_retentions, workload_per_teacher FROM risk_assessment";
     $stmt = $pdo->prepare($selectQuery);
     try {
         $stmt->execute();
@@ -155,27 +156,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         // Run recommendations script with teacher data as input
         $inputJson = json_encode($results);
+
+        // Write input JSON to a temporary file
+        $tempFile = tempnam(sys_get_temp_dir(), 'rec_input_');
+        file_put_contents($tempFile, $inputJson);
+
         $descriptorspec = [
-            0 => ["pipe", "r"],  // stdin
             1 => ["pipe", "w"],  // stdout
             2 => ["pipe", "w"]   // stderr
         ];
-        $process = proc_open("$pythonPath $recScriptPath", $descriptorspec, $pipes);
+        $command = escapeshellarg($pythonPath) . ' ' . escapeshellarg($recScriptPath) . ' ' . escapeshellarg($tempFile);
+        $process = proc_open($command, $descriptorspec, $pipes);
         if (is_resource($process)) {
-            // Write input JSON to the recommendations script stdin
-            $writeResult = fwrite($pipes[0], $inputJson);
-            if ($writeResult === false) {
-                error_log("Failed to write input JSON to recommendations script stdin.");
-                fclose($pipes[0]);
-                send_response(['error' => 'Failed to write input to recommendations script'], 500);
-            }
-            fflush($pipes[0]);
-            fclose($pipes[0]);
             $recOutput = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
             $recError = stream_get_contents($pipes[2]);
             fclose($pipes[2]);
             $return_value = proc_close($process);
+
+            // Delete the temporary file
+            unlink($tempFile);
+
             if ($return_value !== 0) {
                 error_log("Recommendations script error: " . $recError);
                 send_response(['error' => 'Failed to run recommendations script', 'details' => $recError], 500);
@@ -201,11 +202,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $evalStmt->execute();
         $teacherEvaluations = $evalStmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Run risk heatmap aggregation script with risk assessment data as input
+        $heatmapInputJson = json_encode($results);
+
+        $descriptorspecHeatmap = [
+            0 => ["pipe", "r"],  // stdin
+            1 => ["pipe", "w"],  // stdout
+            2 => ["pipe", "w"]   // stderr
+        ];
+        $commandHeatmap = escapeshellarg($pythonPath) . ' ' . escapeshellarg($heatmapScriptPath);
+        $processHeatmap = proc_open($commandHeatmap, $descriptorspecHeatmap, $pipesHeatmap);
+        if (is_resource($processHeatmap)) {
+            fwrite($pipesHeatmap[0], $heatmapInputJson);
+            fclose($pipesHeatmap[0]);
+            $heatmapOutput = stream_get_contents($pipesHeatmap[1]);
+            fclose($pipesHeatmap[1]);
+            $heatmapError = stream_get_contents($pipesHeatmap[2]);
+            fclose($pipesHeatmap[2]);
+            $return_value_heatmap = proc_close($processHeatmap);
+
+            if ($return_value_heatmap !== 0) {
+                error_log("Risk heatmap aggregation script error: " . $heatmapError);
+                send_response(['error' => 'Failed to run risk heatmap aggregation script', 'details' => $heatmapError], 500);
+            }
+
+            $heatmapData = json_decode($heatmapOutput, true);
+            if ($heatmapData === null) {
+                $errorMsg = "Failed to decode heatmap JSON. Output: $heatmapOutput";
+                error_log($errorMsg);
+                send_response(['error' => $errorMsg], 500);
+            }
+        } else {
+            send_response(['error' => 'Failed to start risk heatmap aggregation script'], 500);
+        }
+
         $response = [
             'teachers' => $results,
             'recommendations' => $recommendations,
             'burnoutAnalysis' => $burnoutAnalysis,
-            'teacherEvaluations' => $teacherEvaluations
+            'teacherEvaluations' => $teacherEvaluations,
+            'riskHeatmap' => $heatmapData,
+            'riskHeatmapImageUrl' => isset($heatmapData['heatmap_image_url']) ? $heatmapData['heatmap_image_url'] : null
         ];
 
         send_response($response);
