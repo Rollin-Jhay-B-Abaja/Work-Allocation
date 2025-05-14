@@ -2191,3 +2191,19 @@ GET request received
 Fetched rows count: 45
 Flask API HTTP code: 200
 Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
+GET request received
+Fetched rows count: 45
+Flask API HTTP code: 200
+Flask API response: {"correlation_coefficient": null, "p_value": null, "regression_slope": null, "regression_intercept": null, "recommendations": []}
