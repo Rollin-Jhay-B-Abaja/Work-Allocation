@@ -6,6 +6,7 @@ import TeacherRetentionDataTable from './TeacherRetentionDataTable';
 import TeacherRetentionForm from './TeacherRetentionForm';
 import '../../styles/employeeFormStyles.css';
 import './TeacherRetentionPredictionPage.css';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 interface PredictionDataItem {
   year: string;
@@ -68,9 +69,11 @@ const TeacherRetentionPredictionPage: React.FC = () => {
 
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch saved prediction data on component mount
+    setLoading(true);
     fetch('http://localhost:8000/api/get_prediction_data.php')
       .then(async (res) => {
         if (!res.ok) {
@@ -83,9 +86,11 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         if (data.data) {
           setSavedData(data.data);
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.error('Error fetching saved data on mount:', err);
+        setLoading(false);
       });
   }, []);
 
@@ -96,10 +101,12 @@ const TeacherRetentionPredictionPage: React.FC = () => {
   }, [savedData]);
 
   const callPredictionAPI = async (data: SavedDataRow[]) => {
+    setLoading(true);
     try {
       if (!Array.isArray(data)) {
         setNotification('Invalid data format for prediction.');
         setPredictionData(null);
+        setLoading(false);
         return;
       }
 
@@ -120,6 +127,7 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         const errorText = await response.text();
         setNotification('Prediction API error: ' + errorText);
         setPredictionData(null);
+        setLoading(false);
         return;
       }
       const result = await response.json();
@@ -158,6 +166,8 @@ const TeacherRetentionPredictionPage: React.FC = () => {
         setNotification('Error calling prediction API.');
       }
       setPredictionData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -250,39 +260,36 @@ const TeacherRetentionPredictionPage: React.FC = () => {
             <div className="visualization-section">
               <h2>Prediction Visualization</h2>
               {notification && <div className="notification">{notification}</div>}
-              {predictionData ? (
-                (() => {
-                  console.log('Prediction data passed to PredictionChart:', predictionData);
-                  return (
-                    <>
-                      <PredictionChart data={predictionData} />
-                      <div className="prediction-summary" style={{ marginTop: '1rem', color: 'white' }}>
-                        <h3>Prediction Summary (Per Strand)</h3>
-                        {predictionData.map((item, index) => (
-                          <div key={index} style={{ marginBottom: '1rem' }}>
-                            <strong>Year {item.year}:</strong>
-                            <div style={{ marginLeft: '1rem' }}>
-                              {Object.keys(item.resignations_count || {}).map(strand => {
-                                const resigning = item.resignations_count?.[strand] ?? 0;
-                                const retaining = item.retentions_count?.[strand] ?? 0;
-                                const hiresNeeded = item.hires_needed?.[strand] ?? 0;
-                                return (
-                                  <React.Fragment key={strand}>
-                                    {resigning !== undefined && retaining !== undefined && hiresNeeded !== undefined && (
-                                      <div style={{ marginBottom: '0.25rem' }}>
-                                        <em>{strand}</em> - Resigning: {resigning.toFixed(2)}, Retaining: {retaining.toFixed(2)}, To be Hired: {hiresNeeded.toFixed(2)}
-                                      </div>
-                                    )}
-                                  </React.Fragment>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        ))}
+              {loading ? (
+                <LoadingSpinner />
+              ) : predictionData ? (
+                <>
+                  <PredictionChart data={predictionData} />
+                  <div className="prediction-summary" style={{ marginTop: '1rem', color: 'white' }}>
+                    <h3>Prediction Summary (Per Strand)</h3>
+                    {predictionData.map((item, index) => (
+                      <div key={index} style={{ marginBottom: '1rem' }}>
+                        <strong>Year {item.year}:</strong>
+                        <div style={{ marginLeft: '1rem' }}>
+                          {Object.keys(item.resignations_count || {}).map(strand => {
+                            const resigning = item.resignations_count?.[strand] ?? 0;
+                            const retaining = item.retentions_count?.[strand] ?? 0;
+                            const hiresNeeded = item.hires_needed?.[strand] ?? 0;
+                            return (
+                              <React.Fragment key={strand}>
+                                {resigning !== undefined && retaining !== undefined && hiresNeeded !== undefined && (
+                                  <div style={{ marginBottom: '0.25rem' }}>
+                                    <em>{strand}</em> - Resigning: {resigning.toFixed(2)}, Retaining: {retaining.toFixed(2)}, To be Hired: {hiresNeeded.toFixed(2)}
+                                  </div>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </>
-                  );
-                })()
+                    ))}
+                  </div>
+                </>
               ) : (
                 <PredictionChart data={[]} />
               )}

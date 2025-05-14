@@ -1,43 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
-import RiskAssessmentChart from '../RiskAssessment/RiskAssessmentChart';
+import { RiskHeatmapChart } from '../RiskAssessment/RiskAssessmentChart';
 import ScatterPlot from '../TrendIdentification/ScatterPlot';
 import PredictionChart from '../TeachersRetentionPrediction/PredictionChart';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import '../RiskAssessment/Risk-Assessment.css';
 import './Dashboard.css';
 
 function Dashboard() {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [teachers, setTeachers] = useState([]);
-  const [riskProbabilities, setRiskProbabilities] = useState({});
   const [riskHeatmapData, setRiskHeatmapData] = useState(null);
-  const [viewMode, setViewMode] = useState('strand');
-
-  // New state for trend identification scatter plot data
+  const [loadingRiskHeatmap, setLoadingRiskHeatmap] = useState(true);
   const [trendDataPoints, setTrendDataPoints] = useState([]);
   const [trendCorrelation, setTrendCorrelation] = useState(null);
-
-  // New state for prediction chart data
   const [predictionData, setPredictionData] = useState([]);
+  const [loadingPrediction, setLoadingPrediction] = useState(true);
+  const [loadingTrend, setLoadingTrend] = useState(true);
 
-  const fetchTeachers = useCallback(async () => {
+  const fetchRiskAssessmentData = useCallback(async () => {
+    setLoadingRiskHeatmap(true);
     try {
       const response = await fetch('http://localhost:8000/api/risk_assessment.php');
       if (!response.ok) throw new Error('Failed to fetch risk assessment data');
       const data = await response.json();
-      setTeachers(data.teachers || []);
-      setRiskProbabilities(data.riskHeatmap || {}); // Use riskHeatmap from API response
-      setRiskHeatmapData(data.riskHeatmap || null);
+      setRiskHeatmapData(data.weightedRiskResults || data);
     } catch (error) {
       console.error('Error fetching risk assessment data:', error);
-      setTeachers([]);
-      setRiskProbabilities({});
       setRiskHeatmapData(null);
+    } finally {
+      setLoadingRiskHeatmap(false);
     }
   }, []);
 
-  // Fetch trend identification data for scatter plot
   const fetchTrendData = useCallback(async () => {
+    setLoadingTrend(true);
     try {
       const response = await fetch('http://localhost:8000/api/trend_identification.php');
       if (!response.ok) throw new Error('Failed to fetch trend identification data');
@@ -63,14 +60,14 @@ function Dashboard() {
       console.error('Error fetching trend identification data:', error);
       setTrendDataPoints([]);
       setTrendCorrelation(null);
+    } finally {
+      setLoadingTrend(false);
     }
   }, []);
 
-  // Fetch prediction data for prediction chart
   const fetchPredictionData = useCallback(async () => {
-    console.log('Fetching saved prediction data for Dashboard...');
+    setLoadingPrediction(true);
     try {
-      // Fetch saved prediction data
       const savedDataResponse = await fetch('http://localhost:8000/api/get_prediction_data.php');
       if (!savedDataResponse.ok) {
         throw new Error('Failed to fetch saved prediction data');
@@ -78,7 +75,6 @@ function Dashboard() {
       const savedDataJson = await savedDataResponse.json();
       const savedData = savedDataJson.data || [];
 
-      // Group data by year and create strand-specific keys (similar to TeachersRetentionPredictionPage)
       const groupedData = {};
       savedData.forEach(row => {
         const year = row.year;
@@ -117,7 +113,6 @@ function Dashboard() {
       });
       const groupedDataArray = Object.values(groupedData);
 
-      // Prepare enhanced data with totals
       const enhancedData = groupedDataArray.map(row => {
         const teachers_total = ['teachers_STEM', 'teachers_ICT', 'teachers_GAS', 'teachers_ABM', 'teachers_HUMSS']
           .reduce((sum, key) => sum + (Number(row[key]) || 0), 0);
@@ -130,7 +125,6 @@ function Dashboard() {
         };
       });
 
-      // Call data_forecasting API (POST)
       const response = await fetch('http://localhost:5000/api/data_forecasting', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -140,20 +134,14 @@ function Dashboard() {
         const errorText = await response.text();
         console.error('Prediction API error:', errorText);
         setPredictionData([]);
-        setPredictionError('Failed to fetch prediction data from server.');
         return;
       }
       const result = await response.json();
-      console.log('Prediction API response data:', result);
 
       if (result.error) {
         console.error('Prediction API returned error:', result.error);
         setPredictionData([]);
-        setPredictionError(result.error);
         return;
-      }
-      if (result.warnings && result.warnings.length > 0) {
-        console.warn('Prediction API warnings:', result.warnings.join(' '));
       }
       if (result['resignations_count'] && result['retentions_count'] && result['hires_needed']) {
         const yearsCount = Object.values(result['resignations_count'])[0]?.length || 0;
@@ -177,46 +165,24 @@ function Dashboard() {
           }
           transformedData.push(yearData);
         }
-        console.log('Transformed prediction data:', transformedData);
         setPredictionData(transformedData.length > 0 ? transformedData : []);
-        setPredictionError(null);
       } else {
-        console.warn('Prediction API missing expected keys or empty data');
         setPredictionData([]);
-        setPredictionError('Prediction data is empty or incomplete.');
       }
     } catch (error) {
       console.error('Error fetching prediction data:', error);
       setPredictionData([]);
-      setPredictionError('Error fetching prediction data.');
+    } finally {
+      setLoadingPrediction(false);
     }
   }, []);
 
-  const [loadingPrediction, setLoadingPrediction] = useState(true);
-  const [predictionError, setPredictionError] = useState(null);
-
   useEffect(() => {
-    const loadPredictionData = async () => {
-      setLoadingPrediction(true);
-      setPredictionError(null);
-      try {
-        await fetchPredictionData();
-      } catch (error) {
-        setPredictionError('Failed to load prediction data');
-      } finally {
-        setLoadingPrediction(false);
-      }
-    };
-    loadPredictionData();
-  }, [fetchPredictionData]);
-
-  useEffect(() => {
-    fetchTeachers();
+    fetchRiskAssessmentData();
     fetchTrendData();
     fetchPredictionData();
-  }, [fetchTeachers, fetchTrendData, fetchPredictionData]);
+  }, [fetchRiskAssessmentData, fetchTrendData, fetchPredictionData]);
 
-  // Helper function to calculate Pearson correlation coefficient
   const calculateCorrelation = (x, y) => {
     const n = x.length;
     const meanX = x.reduce((a, b) => a + b, 0) / n;
@@ -229,108 +195,48 @@ function Dashboard() {
     return numerator / denominator;
   };
 
-  const getHighestRiskLevel = () => {
-    if (!teachers || teachers.length === 0) return null;
-    if (teachers.some(t => t['Risk Level'] === 'High')) return 'High';
-    if (teachers.some(t => t['Risk Level'] === 'Medium')) return 'Medium';
-    return 'Low';
-  };
-
-  const highestRiskLevel = getHighestRiskLevel();
-
-  const riskLevelColor = (level) => {
-    switch (level) {
-      case 'High':
-        return 'red';
-      case 'Medium':
-        return 'orange';
-      case 'Low':
-      default:
-        return 'green';
-    }
-  };
-
-  useEffect(() => {
-    fetchTeachers();
-    fetchTrendData();
-    fetchPredictionData();
-  }, [fetchTeachers, fetchTrendData, fetchPredictionData]);
-
   return (
     <div className="dashboard-container">
-      {/* Header */}
       <header className="header">
         <div className="logo"></div>
         <h1 className="title">LYCEUM OF ALABANG</h1>
       </header>
 
       <div className="dashboard-content" style={{ marginTop: '80px' }}>
-        {/* Sidebar */}
         <Sidebar activeMenu={activeMenu} onMenuClick={setActiveMenu} />
 
-        {/* Main Content */}
         <div className="Dashboard-main-content">
-          <div className="content-header">
+          <div className="prediction-chart-section" style={{ marginBottom: '2rem', maxWidth: '1000px', marginLeft: '50px', marginRight: '10px' }}>
+            {loadingPrediction ? <LoadingSpinner /> : <PredictionChart data={predictionData} />}
           </div>
 
-          {/* First section: Prediction Chart */}
-          <div className="prediction-chart-section" style={{ marginBottom: '2rem' }}>
-            <PredictionChart data={predictionData} />
-          </div>
-
-          {/* Second section: two columns */}
-          <div className="two-column-container">
-            <div className="Scatter-Plot">
-              <ScatterPlot
-                maximized={true}
-                dataPoints={trendDataPoints}
-                correlation={trendCorrelation}
-                xLabel="Students Count"
-                yLabel="Workload Per Teacher"
-              />
+          <div className="two-column-container" style={{ display: 'flex', gap: '10px', width: '100%', marginLeft: '0', marginRight: '0', flexWrap: 'nowrap' }}>
+            <div className="Scatter-Plot" style={{ flex: '1 1 50%', minWidth: '300px', height: '400px' }}>
+              {loadingTrend ? (
+                <LoadingSpinner />
+              ) : (
+                <ScatterPlot
+                  maximized={true}
+                  dataPoints={trendDataPoints}
+                  correlation={trendCorrelation}
+                  xLabel="Students Count"
+                  yLabel="Workload Per Teacher"
+                  height={400}
+                />
+              )}
             </div>
-            <div className="risk-main-section risk-assessment-container" >
-              <div className="charts-column" style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div className="RiskAssessment-chart">
-                  <h2>Risk Heatmap</h2>
-                  <div className="view-mode-buttons" style={{ marginBottom: '10px' }}>
-                    <button
-                      onClick={() => setViewMode('strand')}
-                      className={viewMode === 'strand' ? 'active' : ''}
-                      style={{ marginRight: '10px' }}
-                    >
-                      Strand-wise View
-                    </button>
-                    <button
-                      onClick={() => setViewMode('teacher')}
-                      className={viewMode === 'teacher' ? 'active' : ''}
-                    >
-                      Teacher-wise View
-                    </button>
-                  </div>
-                  <RiskAssessmentChart teachers={teachers} viewMode={viewMode} riskProbabilities={riskProbabilities} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="workforce-monitoring">
-            <h2>WORKFORCE MONITORING</h2>
-            <div className="workforce">
-              <div className="workforce-card">
-                <p>Active Teachers</p>
-                <p className="workforce">45</p>
-                <p className="metric-change positive">+10.0%</p>
-              </div>
-              <div className="workforce-card">
-                <p>Teachers on leave</p>
-                <p className="workforce">3</p>
-                <p className="workforce">+3.0%</p>
-              </div>
-              <div className="workforce-card">
-                <p>Teacher Per Department</p>
-                <div className="metric-value">Coming Soon</div>
-              </div>
+            <div className="Risk-Heatmap" style={{ flex: '1 1 50%', minWidth: '300px', height: '400px', backgroundColor: '#1e1e1e', borderRadius: '8px', color: 'white', padding: '10px' }}>
+              <h3>Risk Heatmap</h3>
+              {loadingRiskHeatmap ? (
+                <LoadingSpinner />
+              ) : riskHeatmapData ? (
+                <>
+                  <RiskHeatmapChart weightedRiskResults={riskHeatmapData} height={400} />
+                  <></>
+                </>
+              ) : (
+                <p>No risk assessment data available.</p>
+              )}
             </div>
           </div>
         </div>

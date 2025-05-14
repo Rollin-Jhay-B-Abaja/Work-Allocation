@@ -1,0 +1,18 @@
+import json
+
+def main():
+    risk_scores = {
+        "1": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "2": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "3": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "4": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "5": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "6": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "7": {"High": 0.4, "Medium": 0.5, "Low": 0.1},
+        "8": {"High": 0.85, "Medium": 0.1, "Low": 0.05},
+        "9": {"High": 0.85, "Medium": 0.1, "Low": 0.05}
+    }
+    print(json.dumps(risk_scores, separators=(',', ':')))
+
+if __name__ == "__main__":
+    main()

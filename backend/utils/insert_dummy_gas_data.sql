@@ -1,0 +1,12 @@
+-- SQL script to insert dummy GAS strand data into teacher_retention_data table
+
+INSERT INTO teacher_retention_data (year, target_ratio, max_class_size, salary_ratio, professional_dev_hours, historical_resignations, historical_retentions, workload_per_teacher, strand_id, teachers_count, students_count) VALUES
+(2016, 25, 40, 1.02, 18, 4, 12, 33, 3, 8, 320),
+(2017, 25, 40, 1.03, 19, 3, 13, 34, 3, 9, 340),
+(2018, 25, 40, 1.04, 20, 2, 14, 35, 3, 10, 360),
+(2019, 25, 40, 1.05, 21, 3, 15, 36, 3, 11, 380),
+(2020, 25, 40, 1.06, 22, 4, 16, 37, 3, 12, 400),
+(2021, 25, 40, 1.07, 23, 3, 17, 38, 3, 13, 420),
+(2022, 25, 40, 1.08, 24, 2, 18, 39, 3, 14, 440),
+(2023, 25, 40, 1.09, 25, 3, 19, 40, 3, 15, 460),
+(2024, 25, 40, 1.10, 26, 4, 20, 41, 3, 16, 480);

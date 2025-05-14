@@ -10,6 +10,7 @@ from mysql.connector import Error
 from prediction.teacher_retention import predict_teacher_retention
 from recommendations import generate_enrollment_recommendations, generate_trend_recommendations
 #from recommendations_debug import generate_trend_recommendations_debug
+from combined_workload_skill_matching import combined_workload_skill_matching
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
@@ -130,58 +131,134 @@ def delete_all_enrollment_data():
         logger.error(f"Error deleting enrollment data: {e}")
         return jsonify({'error': 'Failed to delete enrollment data'}), 500
 
-import requests
-from flask import Response
-
-@app.route('/api/save_teacher_retention_data', methods=['POST', 'OPTIONS'])
-def proxy_save_teacher_retention_data():
-    if request.method == 'OPTIONS':
-        # Handle preflight CORS request
-        response = Response()
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-        return response
-
-    # Forward POST request to PHP API
-    php_api_url = 'http://localhost:8000/save_teacher_retention_data.php'  # Updated to match PHP built-in server URL and root directory
+# New endpoint for skill based matching
+@app.route('/api/skill_based_matching', methods=['GET'])
+def skill_based_matching_api():
     try:
-        resp = requests.post(
-            php_api_url,
-            headers={'Content-Type': 'application/json'},
-            data=request.data
-        )
-        response = Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        return response
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Error proxying request to PHP API: {e}")
-        return jsonify({'error': 'Failed to proxy request to PHP API'}), 500
+        connection = get_db_connection()
+        if connection is None:
+            logger.error("Database connection failed.")
+            return jsonify({'error': 'Database connection failed'}), 500
+        cursor = connection.cursor(dictionary=True)
 
-@app.route('/api/get_prediction_data', methods=['GET', 'OPTIONS'])
-def proxy_get_prediction_data():
-    if request.method == 'OPTIONS':
-        # Handle preflight CORS request
-        response = Response()
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-        return response
+        # Fetch teachers with expertise and certifications
+        cursor.execute("""
+            SELECT t.teacher_id AS id, t.name AS full_name, t.hire_date, t.employment_status, t.photo,
+                   w.teaching_hours,
+                   w.admin_hours,
+                   w.extracurricular_hours,
+                   w.max_allowed_hours AS max_hours_per_week,
+                   (SELECT GROUP_CONCAT(DISTINCT sa.subject)
+                    FROM teacher_subject_expertise tse
+                    JOIN subject_areas sa ON tse.subject_id = sa.subject_id
+                    WHERE tse.teacher_id = t.teacher_id) AS subjects_expertise,
+                   (SELECT GROUP_CONCAT(DISTINCT ct.certification)
+                    FROM teacher_certifications tc
+                    JOIN certification_types ct ON tc.cert_id = ct.cert_id
+                    WHERE tc.teacher_id = t.teacher_id) AS teaching_certifications
+            FROM teachers t
+            LEFT JOIN teacher_workload w ON t.teacher_id = w.teacher_id
+        """)
+        teachers_raw = cursor.fetchall()
 
-    # Forward GET request to PHP API
-    php_api_url = 'http://localhost:8000/get_prediction_data.php'  # PHP built-in server URL for get_prediction_data.php
-    try:
-        resp = requests.get(php_api_url)
-        if resp.status_code == 404 or not resp.content:
-            # Return JSON error message with 200 status to avoid empty response
-            response = Response('{"error": "No prediction data found"}', status=200, content_type='application/json')
-        else:
-            response = Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        return response
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Error proxying GET request to PHP API: {e}")
-        return jsonify({'error': 'Failed to proxy GET request to PHP API'}), 500
+        # Process teachers to convert comma-separated strings to lists
+        teachers = []
+        for t in teachers_raw:
+            t['subjects_expertise'] = t['subjects_expertise'].split(',') if t['subjects_expertise'] else []
+            t['teaching_certifications'] = t['teaching_certifications'].split(',') if t['teaching_certifications'] else []
+            teachers.append(t)
+
+        # Fix teacher dict keys to match skill_based_matching expectations
+        for t in teachers:
+            if 'name' not in t and 'full_name' in t:
+                t['name'] = t['full_name']
+
+        # Fetch classes data from subject_areas joined with strands
+        cursor.execute("""
+            SELECT sa.subject_id AS id, sa.subject, sa.strand_id, s.strand_name,
+                   1 AS hours_per_week,
+                   '' AS skill_certification_requirements,
+                   '' AS class_time, '' AS class_day,
+                   '' AS shift, '' AS class_end_time, 0 AS is_critical
+            FROM subject_areas sa
+            LEFT JOIN strands s ON sa.strand_id = s.strand_id
+        """)
+        classes_raw = cursor.fetchall()
+
+        # Process classes to set skill_certification_requirements based on subject or strand
+        classes = []
+        for c in classes_raw:
+            required_skills = []
+            subject = c.get('subject', '').lower()
+            strand_raw = c.get('strand_name', '')
+            strand = strand_raw.strip().upper() if strand_raw else ''
+
+            # Normalize strand and assign required skills
+            if strand == 'STEM':
+                required_skills = ['Mathematics', 'Science']
+            elif strand == 'ABM':
+                required_skills = ['Accounting', 'Business']
+            elif strand == 'GAS':
+                # More specific skills for GAS strand
+                required_skills = ['General Studies', 'Social Science']
+            elif strand == 'HUMMS':
+                required_skills = ['Humanities', 'Social Studies']
+            elif strand == 'ICT':
+                required_skills = ['Information Technology', 'Computer Science']
+            else:
+                # Handle unknown strands gracefully
+                required_skills = []
+                # Assign empty string instead of 'UNKNOWN' for unknown strands
+                strand = strand_raw.strip() if strand_raw else ''
+
+            # Add additional skills based on subject keywords
+            if 'math' in subject:
+                required_skills.append('Mathematics')
+            if 'science' in subject:
+                required_skills.append('Science')
+            if 'accounting' in subject:
+                required_skills.append('Accounting')
+            if 'business' in subject:
+                required_skills.append('Business')
+            if 'it' in subject or 'computer' in subject:
+                required_skills.append('Information Technology')
+
+            required_skills = list(set(required_skills))
+            c['skill_certification_requirements'] = required_skills
+            # Keep original subject name separate, assign strand to a new key
+            c['strand'] = strand
+            classes.append(c)
+
+        preferences = []
+
+        cursor.close()
+        connection.close()
+
+        teacher_name_col = 'name'
+        class_name_col = 'subject'
+
+        output = combined_workload_skill_matching(teachers, classes, preferences, teacher_name_col, class_name_col)
+
+        # Filter out teachers with no assigned strands
+        filtered_teacher_workload = [
+            teacher for teacher in output.get('teacher_workload_summary', [])
+            if teacher.get('assigned_strands') and len(teacher.get('assigned_strands')) > 0
+        ]
+
+        # Deduplicate teachers by name
+        unique_teachers = {}
+        for teacher in filtered_teacher_workload:
+            name = teacher.get('teacher')
+            if name not in unique_teachers:
+                unique_teachers[name] = teacher
+
+        output['teacher_workload_summary'] = list(unique_teachers.values())
+
+        return jsonify(output)
+
+    except Exception as e:
+        logger.error(f"Error in skill_based_matching_api: {str(e)}")
+        return jsonify({'error': f"Error in skill_based_matching_api: {str(e)}"}), 500
 
 
 import subprocess

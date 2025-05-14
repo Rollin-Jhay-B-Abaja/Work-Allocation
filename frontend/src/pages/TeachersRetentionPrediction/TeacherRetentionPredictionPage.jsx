@@ -38,15 +38,9 @@ const TeacherRetentionPredictionPage = () => {
         // Trigger prediction APIs after data fetch
         console.log('Calling callPredictionAPI...');
         await callPredictionAPI(groupedData);
-        console.log('Calling callPhpPredictionAPI...');
-        try {
-          await Promise.race([
-            callPhpPredictionAPI(),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('callPhpPredictionAPI timeout')), 5000))
-          ]);
-        } catch (error) {
-          console.error('callPhpPredictionAPI error or timeout:', error);
-        }
+        // Removed callPhpPredictionAPI to prevent timeout error
+        // console.log('Calling callPhpPredictionAPI...');
+        // await callPhpPredictionAPI();
         console.log('Calling fetchRecommendations...');
         await fetchRecommendations();
         console.log('Finished fetchRecommendations');
@@ -54,11 +48,9 @@ const TeacherRetentionPredictionPage = () => {
         console.error('Error fetching saved data on mount:', err);
         // Even if error, still call prediction APIs with empty data
         await callPredictionAPI([]);
-        await callPhpPredictionAPI();
+        // await callPhpPredictionAPI();
         await fetchRecommendations();
       } finally {
-        // Only set loading false here if predictionData is set or null
-        // To avoid hiding loading spinner prematurely
         console.log('Setting loading state to false.');
         setLoading(false);
       }
@@ -108,7 +100,6 @@ const TeacherRetentionPredictionPage = () => {
     fetchData();
   }, []);
 
-  // Modify callPredictionAPI to set loading false after data is set
   const callPredictionAPI = async (data) => {
     try {
       if (!Array.isArray(data)) {
@@ -170,7 +161,6 @@ const TeacherRetentionPredictionPage = () => {
             yearData.resignations_count[strand] = result['resignations_forecast'] ? (result['resignations_forecast'][strand][i] || 0) : 0;
             yearData.retentions_count[strand] = result['retentions_forecast'] ? (result['retentions_forecast'][strand][i] || 0) : 0;
             yearData.hires_needed[strand] = result['hires_needed'][strand][i] || 0;
-            // Use forecast rates directly from backend without dividing by teacher counts
             yearData.resignations_forecast[strand] = result['resignations_forecast'] ? (result['resignations_forecast'][strand][i] || 0) : 0;
             yearData.retentions_forecast[strand] = result['retentions_forecast'] ? (result['retentions_forecast'][strand][i] || 0) : 0;
           }
@@ -191,55 +181,18 @@ const TeacherRetentionPredictionPage = () => {
   };
 
   const fetchRecommendations = async () => {
-    try {
-      console.log('Fetching recommendations from API...');
-      const response = await fetch(`http://localhost:8000/api/teacher_retention_recommendations.php?t=${Date.now()}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch recommendations');
-      }
-      const data = await response.json();
-      console.log('Parsed recommendations API response:', data);
-      if (data && Array.isArray(data.recommendations)) {
-        console.log(`Setting recommendations with length: ${data.recommendations.length}`);
-        setRecommendations(data.recommendations);
-      } else {
-        console.log('No recommendations found in API response.');
-        setRecommendations([]);
-      }
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
-      setRecommendations([]);
-    }
+    // Removed fetching recommendations to disable recommendations display
+    setRecommendations([]);
   };
 
-  // Removed duplicate callPredictionAPI declaration to fix redeclaration error
-
-  const callPhpPredictionAPI = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/teacher_retention_prediction.php', { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('PHP Prediction API error');
-      }
-      const result = await response.json();
-      if (result.resignations_count && result.retentions_count && result.hires_needed) {
-        setPhpPredictionData(result);
-      } else {
-        setPhpPredictionData(null);
-      }
-    } catch (error) {
-      console.error('Error calling PHP prediction API:', error);
-      setPhpPredictionData(null);
-    }
-  };
+  // Removed callPhpPredictionAPI function and calls to prevent timeout and hanging
 
   const handleFormSubmit = async (formData) => {
-    // Check for duplicate year in savedData
     if (savedData.some(item => item.year === formData.year)) {
       setNotification(`Data for year ${formData.year} already exists. Duplicate years are not allowed.`);
       return;
     }
 
-    // Prepare data for submission
     const payload = {
       year: formData.year,
       teachers_STEM: Number(formData.teachers.STEM),
@@ -273,7 +226,6 @@ const TeacherRetentionPredictionPage = () => {
       const result = await response.json();
       if (result.message) {
         setNotification('Successfully added!');
-        // Refresh saved data
         const res = await fetch('http://localhost:8000/api/get_prediction_data.php');
         const json = await res.json();
         const data = json.data || [];
@@ -313,10 +265,10 @@ const TeacherRetentionPredictionPage = () => {
                 Upload Data
               </button>
             </div>
-            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
+            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', borderRadius: '8px' }}>
               <div style={{ flex: 1, marginRight: '10px', }}>
                 {predictionData ? (
-                  <div className="chart-container" style={{ maxWidth:'800px', maxHeight: '500px', overflowY: 'hidden',backgroundColor: '#1e1e1e' }}>
+                  <div className="chart-container" style={{ maxWidth:'800px', maxHeight: '500px', overflowY: 'hidden',backgroundColor: '#1e1e1e', borderRadius:'8px', padding:'10px' }}>
                     <PredictionChart data={predictionData} />
                   </div>
                 ) : (
@@ -324,25 +276,9 @@ const TeacherRetentionPredictionPage = () => {
                     <PredictionChart data={[]} />
                   </div>
                 )}
-                <div className="recommendations-prediction" style={{ height: '150px', width: '100%', maxWidth: '800px', overflowY: 'auto', marginTop: '1rem', color: 'white', backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '1rem' }}>
-                  {console.log(`Rendering recommendations, length: ${recommendations.length}`)}
-                  {recommendations.length > 0 ? (
-                    <>
-                      <h3>Recommendations</h3>
-                      <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
-                        {recommendations.map((rec, idx) => (
-                          <div key={idx} style={{ marginBottom: '0.75rem' }}>
-                            <strong>{rec.type}:</strong> {rec.message}
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <div>No recommendations available.</div>
-                  )}
-                </div>
               </div>
-              <div className="Right-column" style={{ flex: 1, marginLeft: '10px', maxWidth:'500px',maxHeight:'400px', display: 'flex', flexDirection: 'column' }}>
+
+              <div className="Right-column" style={{ flex: 1, marginLeft: '10px', maxWidth:'500px',maxHeight:'300px', display: 'flex', flexDirection: 'column' }}>
                 <div>
                   {predictionData ? (
                     <div className="prediction-summary">
@@ -361,24 +297,10 @@ const TeacherRetentionPredictionPage = () => {
                       </div>
                     );
                   })}
-
                     </div>
                   ) : (
                     <div>No prediction data available.</div>
                   )}
-                </div>
-                <div style={{ marginTop: '1rem' }}>
-                  {phpPredictionData ? (
-                    <div className="prediction-summary">
-                      <h3>Prediction Summary (Per Strand) - PHP Prediction</h3>
-                      {Object.keys(phpPredictionData.resignations_count || {}).map(strand => (
-                        <div key={strand} style={{ marginBottom: '0.25rem' }}>
-                          <em>{strand}</em> - Resigning: {(phpPredictionData.resignations_count[strand][0] || 0).toFixed(2)}, Retaining: {(phpPredictionData.retentions_count[strand][0] || 0).toFixed(2)}, To be Hired: {(phpPredictionData.hires_needed[strand][0] || 0).toFixed(2)}<br/>
-                          Mean Historical Resignations: {(phpPredictionData.mean_historical_resignations[strand] || 0).toFixed(2)}, Mean Historical Retentions: {(phpPredictionData.mean_historical_retentions[strand] || 0).toFixed(2)}
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </div>

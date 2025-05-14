@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TrendIdentification.css';
 import { useNavigate } from 'react-router-dom';
 import ScatterPlot from './ScatterPlot';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 // Function to calculate Pearson correlation coefficient between two arrays
 const calculateCorrelation = (x, y) => {
@@ -208,12 +209,16 @@ const TrendIdentification = () => {
                     <div className="Scatterplot-container">
                         <div className="scatterplot-row">
                             <h2>Scatter Plot: Students Count vs Workload Per Teacher</h2>
-                            <ScatterPlot
-                                dataPoints={studentsCountVsWorkload.dataPoints}
-                                correlation={studentsCountVsWorkload.correlation}
-                                xLabel="Students Count"
-                                yLabel="Workload Per Teacher"
-                            />
+                            {loading ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <ScatterPlot
+                                    dataPoints={studentsCountVsWorkload.dataPoints}
+                                    correlation={studentsCountVsWorkload.correlation}
+                                    xLabel="Students Count"
+                                    yLabel="Workload Per Teacher"
+                                />
+                            )}
                         </div>
                     </div>
                     <div className="Analysis-Recommendation-container">
@@ -239,8 +244,8 @@ const TrendIdentification = () => {
                     </div>
                 </div>
             </div>
-            <div className="table-section">
-                <div className="teachers-table table-scroll">
+            <div className="table-section" >
+                <div className="teachers-table table-scroll" style={{backgroundColor:'#1e1e1e'}}>
                     <table>
                         <thead>
                             <tr>
@@ -259,7 +264,7 @@ const TrendIdentification = () => {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan="11" style={{ textAlign: 'center' }}>Loading data...</td>
+                                    <td colSpan="11" style={{ textAlign: 'center' }}><LoadingSpinner /></td>
                                 </tr>
                             ) : tableData.length === 0 ? (
                                 <tr>
@@ -267,7 +272,7 @@ const TrendIdentification = () => {
                                 </tr>
                             ) : (
                                 tableData.map((row, index) => (
-                                    <tr key={index} className="table-row">
+                                    <tr key={index} className="table-row" style={{ backgroundColor: '#1e1e1e', color: 'white' }}>
                                         <td>{row.Year || ''}</td>
                                         <td>{row.Strand || ''}</td>
                                         <td>{row.TeachersCount !== undefined && row.TeachersCount !== null ? row.TeachersCount : ''}</td>

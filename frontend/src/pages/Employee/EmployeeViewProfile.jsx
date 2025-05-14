@@ -39,16 +39,14 @@ const EmployeeViewProfile = ({ onBack }) => {
   }, []);
 
   return (
-    <div className="employee-view-profile-container">
-      <h1>View Teachers Profile</h1>
+    <div className="employee-view-profile-container" style={{width:'1000px', height:'450px'}}>
       <button className="button back-button" onClick={onBack}>
         Back
       </button>
-      <div className="table-container">
+      <div className="table-container" style={{ height: '340px', overflowY: 'auto' }}>
         <table className="employee-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Photo</th>
               <th>Name</th>
               <th>Subject</th>
@@ -60,14 +58,13 @@ const EmployeeViewProfile = ({ onBack }) => {
           <tbody>
             {employees.length === 0 ? (
               <tr>
-                <td colSpan="7" className="no-data">
+                <td colSpan="6" className="no-data">
                   No employees found.
                 </td>
               </tr>
             ) : (
               employees.map((emp) => (
                 <tr key={emp.id}>
-                  <td>{emp.id}</td>
                   <td>
                     {emp.photo ? (
                       <img

@@ -113,16 +113,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 t.teacher_id AS id, 
                 t.name AS teacher_name, 
                 t.photo AS photo,
-                d.department AS strand_name, 
+                GROUP_CONCAT(DISTINCT sa.subject SEPARATOR ', ') AS strand_name, 
                 MAX(CASE WHEN ct.type_name = 'Email' THEN tc.contact_value ELSE NULL END) AS email,
                 MAX(CASE WHEN ct.type_name = 'Phone' THEN tc.contact_value ELSE NULL END) AS phone,
                 DATE_FORMAT(t.hire_date, '%Y-%m-%d') AS hire_date
             FROM teachers t
-            LEFT JOIN teacher_positions tp ON t.teacher_id = tp.teacher_id
-            LEFT JOIN departments d ON tp.department_id = d.department_id
             LEFT JOIN teacher_contacts tc ON t.teacher_id = tc.teacher_id
             LEFT JOIN contact_types ct ON tc.contact_type_id = ct.contact_type_id
-            GROUP BY t.teacher_id, t.name, t.photo, d.department, t.hire_date
+            LEFT JOIN teacher_subject_expertise tse ON t.teacher_id = tse.teacher_id
+            LEFT JOIN subject_areas sa ON tse.subject_id = sa.subject_id
+            GROUP BY t.teacher_id, t.name, t.photo, t.hire_date
             ORDER BY t.name ASC
         ");
         $stmt->execute();

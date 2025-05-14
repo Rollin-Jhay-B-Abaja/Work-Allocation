@@ -1,0 +1,440 @@
+{
+  "teacher_workload_summary": [
+    {
+      "teacher": "John ReyDo",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksik",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 8
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Pre-Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Biology 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Chemistry 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Physics 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Research in Daily Life (Intro to Research)",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Contemporary Philippine Arts",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Entrepreneurship",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Basic Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Biology 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Chemistry 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Physics 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Research/Capstone Project (STEM-focused)",
+          "hours_per_week": 4
+        }
+      ]
+    },
+    {
+      "teacher": "John ReyDo",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksik",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 8
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Pre-Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Biology 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Chemistry 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Physics 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Research in Daily Life (Intro to Research)",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Contemporary Philippine Arts",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Entrepreneurship",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Basic Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Biology 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Chemistry 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Physics 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Research/Capstone Project (STEM-focused)",
+          "hours_per_week": 4
+        }
+      ]
+    },
+    {
+      "teacher": "James Smith",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "James Smith",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Alice Johnson",
+      "assigned_strands": [
+        "ABM"
+      ],
+      "subjects": [
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksik",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 8
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Business Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Fundamentals of ABM 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Organization and Management",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Principles of Marketing",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Contemporary Philippine Arts",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Entrepreneurship",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Fundamentals of ABM 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Business Finance",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Applied Economics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Work Immersion/Research in Business",
+          "hours_per_week": 4
+        }
+      ]
+    },
+    {
+      "teacher": "Jane Doe",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Kevin White",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Laura Wilson",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Michael Scott",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Nina Patel",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Oscar Martinez",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Pam Beesly",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Quincy Adams",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Rachel Green",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Steve Rogers",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Bob Smith",
+      "assigned_strands": [
+        "ABM"
+      ],
+      "subjects": [
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksik",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 8
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Business Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Fundamentals of ABM 1",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Organization and Management",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Principles of Marketing",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Contemporary Philippine Arts",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Entrepreneurship",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Fundamentals of ABM 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Business Finance",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Applied Economics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Work Immersion/Research in Business",
+          "hours_per_week": 4
+        }
+      ]
+    },
+    {
+      "teacher": "Tina Turner",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Carol Williams",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "David Lee",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Eva Green",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Frank Miller",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Grace Hopper",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Hannah Brown",
+      "assigned_strands": [],
+      "subjects": []
+    },
+    {
+      "teacher": "Ian Clark",
+      "assigned_strands": [],
+      "subjects": []
+    }
+  ]
+}

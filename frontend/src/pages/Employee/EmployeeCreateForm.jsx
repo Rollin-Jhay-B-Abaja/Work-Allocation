@@ -5,11 +5,13 @@ import AvailabilityPreferences from './AvailabilityPreferences';
 import CurrentWorkload from './CurrentWorkload';
 import ComplianceSettings from './ComplianceSettings';
 
-const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPreview, onBack, onSubmit }) => {
+const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPreview, onBack }) => {
   const [step, setStep] = useState(0);
   const [csvError, setCsvError] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(null);
+  const [submitError, setSubmitError] = useState(null);
+  const [submitSuccess, setSubmitSuccess] = useState(null);
 
   useEffect(() => {
     // Reset form when component mounts
@@ -96,6 +98,29 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError(null);
+    setSubmitSuccess(null);
+    try {
+      const response = await fetch('http://localhost:8000/api/employee_handler.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setSubmitSuccess(result.message || 'Employee data saved successfully.');
+      } else {
+        setSubmitError(result.error || 'Failed to save employee data.');
+      }
+    } catch (error) {
+      setSubmitError('Error saving employee data: ' + error.message);
+    }
+  };
+
   const uploadCsvFile = async (file) => {
     setUploading(true);
     setUploadSuccess(null);
@@ -107,7 +132,15 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
         method: 'POST',
         body: formData,
       });
-      const result = await response.json();
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        setCsvError('Server returned invalid JSON: ' + text);
+        setUploading(false);
+        return;
+      }
       if (response.ok) {
         setUploadSuccess(result.message || 'CSV uploaded and processed successfully.');
       } else {
@@ -237,8 +270,7 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
   };
 
   return (
-    <form className="main-content" onSubmit={onSubmit}>
-      <h1>Employee Information</h1>
+    <form className="main-content employee-style-form" onSubmit={handleSubmit} style={{height:'450px', marginBottom: '30px',}}>
       <div className="step-indicator">
         {[0, 1, 2, 3, 4, 5].map((num) => (
           <div
@@ -250,6 +282,8 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
         ))}
       </div>
       {renderStep()}
+      {submitError && <p className="error-message">{submitError}</p>}
+      {submitSuccess && <p className="success-message">{submitSuccess}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
         <button type="button" className="button" onClick={onBack}>
           Back

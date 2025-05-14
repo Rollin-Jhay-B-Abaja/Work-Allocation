@@ -1,114 +1,176 @@
 <?php
 // workload_distribution.php
-// API endpoint to perform workload distribution by calling the Python module
-
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Log errors to a file
-ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error_log.txt');
+// This script fetches teacher, class, constraints, preferences, and availability data from the database,
+// writes them to temporary JSON files, and calls the Python workload distribution script.
+// It returns the workload assignments as JSON response.
 
 header('Content-Type: application/json');
 
-// Database connection parameters - updated with correct credentials
-$host = 'localhost';
-$dbname = 'workforce';
-$user = 'root';
-$pass = 'Omamam@010101';
+if (php_sapi_name() !== 'cli' && ($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
+
+// Check resource query parameter
+$resource = $_GET['resource'] ?? null;
+if ($resource !== 'teacher_workload') {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid or missing resource parameter']);
+    exit;
+}
+
+function fetchData($pdo, $query) {
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Database connection (update credentials as needed)
+    $dsn = "mysql:host=localhost;dbname=workforce;charset=utf8mb4";
+    $username = "root";
+    $password = "Omamam@010101";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+    $pdo = new PDO($dsn, $username, $password, $options);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $resource = $_GET['resource'] ?? '';
+    // Fetch teachers joined with workload data
+    $teachersQuery = "
+        SELECT t.teacher_id AS id, t.name AS full_name, t.hire_date, t.employment_status, t.photo,
+               COALESCE(w.teaching_hours, 0) AS teaching_hours,
+               COALESCE(w.admin_hours, 0) AS admin_hours,
+               COALESCE(w.extracurricular_hours, 0) AS extracurricular_hours,
+               COALESCE(w.max_allowed_hours, 40) AS max_hours_per_week
+        FROM teachers t
+        LEFT JOIN teacher_workload w ON t.teacher_id = w.teacher_id
+    ";
+    $teachers = fetchData($pdo, $teachersQuery);
 
-        if ($resource === 'teachers') {
-            $stmt = $pdo->query("SELECT teacher_id AS id, name, max_allowed_hours AS max_hours_per_week FROM teachers");
-            $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($teachers);
-            exit;
-        } elseif ($resource === 'classes') {
-            $stmt = $pdo->query("SELECT subject_id AS id, subject_name AS name, description FROM subject_areas");
-            $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($classes);
-            exit;
-        } else {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid resource']);
-            exit;
-        }
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Fetch teachers data
-        $stmt = $pdo->query("SELECT teacher_id AS id, name, max_allowed_hours AS max_hours_per_week FROM teachers");
-        $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Hardcoded mapping of subject to required skills/certifications
+    $subjectSkillRequirements = [
+        'General Mathematics' => ['Mathematics'],
+        'Calculus' => ['Mathematics'],
+        'Statistics' => ['Mathematics'],
+        'Biology' => ['Biology'],
+        'Chemistry' => ['Chemistry'],
+        'Physics' => ['Physics'],
+        'English' => ['English'],
+        'Filipino' => ['Filipino'],
+        'Economics' => ['Economics'],
+        'Philippine History' => ['History'],
+        'Geography' => ['Geography'],
+        'Information and Communications Technology' => ['ICT'],
+        'Accounting' => ['Accounting'],
+        'Business Management' => ['Business'],
+        'Marketing' => ['Marketing'],
+        'Psychology' => ['Psychology'],
+        'Sociology' => ['Sociology'],
+        'Communication Arts' => ['Communication'],
+        'Technical Drafting' => ['Technical Drafting'],
+        'Electrical Installation and Maintenance' => ['Electrical'],
+        'Automotive Servicing' => ['Automotive'],
+        'Food and Beverage Services' => ['Food Service'],
+        'Housekeeping' => ['Housekeeping'],
+    ];
 
-        // Fetch teacher certifications
-        $stmt = $pdo->query("SELECT teacher_id, certification FROM teacher_certifications tc JOIN certification_types ct ON tc.cert_id = ct.cert_id");
-        $certifications = [];
-        foreach ($stmt as $row) {
-            $certifications[$row['teacher_id']][] = $row['certification'];
-        }
+    // Fetch classes data from subject_areas joined with strands
+    $classesQuery = "
+        SELECT sa.subject_id AS id, sa.subject, sa.strand_id, s.strand_name,
+               10 AS hours_per_week,
+               '' AS class_time, '' AS class_day,
+               '' AS shift, '' AS class_end_time, 0 AS is_critical
+        FROM subject_areas sa
+        LEFT JOIN strands s ON sa.strand_id = s.strand_id
+    ";
+    $classesRaw = fetchData($pdo, $classesQuery);
 
-        // Fetch teacher subject expertise
-        $stmt = $pdo->query("SELECT teacher_id, subject, proficiency_level FROM teacher_subject_expertise tse JOIN subject_areas sa ON tse.subject_id = sa.subject_id");
-        $expertise = [];
-        foreach ($stmt as $row) {
-            $expertise[$row['teacher_id']][] = $row['subject'];
-        }
-
-        // Build teachers array with skills and certifications
-        foreach ($teachers as &$teacher) {
-            $id = $teacher['id'];
-            $teacher['teaching_certifications'] = $certifications[$id] ?? [];
-            $teacher['subjects_expertise'] = $expertise[$id] ?? [];
-            $teacher['additional_skills'] = [];
-            $teacher['availability'] = ['available' => true];
-            $teacher['preferences'] = [];
-        }
-        unset($teacher);
-
-        // Fetch classes data from subject_areas
-        $stmt = $pdo->query("SELECT subject_id AS id, subject_name AS name, description FROM subject_areas");
-        $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Constraints and preferences - placeholders
-        $constraints = [
-            'max_hours_per_week' => 40,
-            'min_rest_hours' => 8
+    // Transform classes data to match expected keys for Python script
+    $classes = [];
+    foreach ($classesRaw as $class) {
+        $className = $class['strand_name'] ?? $class['subject'];
+        $subject = $class['subject'];
+        $skillReqs = $subjectSkillRequirements[$subject] ?? [];
+        $classes[] = [
+            'id' => $class['id'],
+            'subject' => $subject,
+            'strand_id' => $class['strand_id'],
+            'name' => $className, // Use strand name if available, else subject name
+            'hours_per_week' => (int)$class['hours_per_week'],
+            'skill_certification_requirements' => $skillReqs,
+            'class_time' => $class['class_time'],
+            'class_day' => $class['class_day'],
+            'shift' => $class['shift'],
+            'class_end_time' => $class['class_end_time'],
+            'is_critical' => (int)$class['is_critical'],
         ];
-        $preferences = [];
+    }
 
-        // Save input data to temporary JSON files
-        file_put_contents('/tmp/teachers_input.json', json_encode($teachers));
-        file_put_contents('/tmp/classes_input.json', json_encode($classes));
-        file_put_contents('/tmp/constraints_input.json', json_encode($constraints));
-        file_put_contents('/tmp/preferences_input.json', json_encode($preferences));
+    // Prepare empty constraints and preferences arrays (no tables)
+    $constraints = [];
+    $preferences = [];
 
-        // Execute the Python workload_distribution module
-        $command = 'python backend/ml_models/workload_distribution.py /tmp/teachers_input.json /tmp/classes_input.json /tmp/constraints_input.json /tmp/preferences_input.json';
-        exec($command, $output, $return_var);
+    // Prepare temp directory for input JSON files
+    $tempDir = __DIR__ . '/temp';
+    if (!is_dir($tempDir)) {
+        mkdir($tempDir, 0777, true);
+    }
 
-        if ($return_var !== 0) {
-            error_log("Workload distribution script failed with return code $return_var");
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to execute workload distribution']);
-            exit;
-        }
+    // Write input JSON files for Python script
+    file_put_contents($tempDir . '/teachers_input.json', json_encode($teachers));
+    file_put_contents($tempDir . '/classes_input.json', json_encode($classes));
+    file_put_contents($tempDir . '/constraints_input.json', json_encode($constraints));
+    file_put_contents($tempDir . '/preferences_input.json', json_encode($preferences));
 
-        echo implode("\n", $output);
-    } else {
-        http_response_code(405);
-        echo json_encode(['error' => 'Method not allowed']);
+    // Call the Python script and capture only stdout, suppress stderr to avoid mixing debug output
+    $tempOutputFile = $tempDir . '/output.json';
+    $command = "python ../ml_models/combined_workload_skill_matching.py > " . escapeshellarg($tempOutputFile) . " 2>nul";
+    shell_exec($command);
+
+    if (!file_exists($tempOutputFile)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to execute workload distribution']);
         exit;
     }
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
+
+    $output = file_get_contents($tempOutputFile);
+    if ($output === false) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to read output file']);
+        exit;
+    }
+
+    // Try to decode output to check if valid JSON
+    $json = json_decode($output, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        // Return error with raw output for debugging
+        http_response_code(500);
+        echo json_encode(['error' => 'Invalid JSON output from Python script', 'output' => $output]);
+        exit;
+    }
+
+    // Transform output JSON to match frontend expected format
+    $data = json_decode($output, true);
+    if (isset($data['teacher_workload_summary'])) {
+        $transformed = [];
+        foreach ($data['teacher_workload_summary'] as $info) {
+            $transformed[] = [
+                'name' => $info['teacher'] ?? '',
+                'strands' => $info['assigned_strands'] ?? [],
+                'subjects' => $info['subjects'] ?? [],
+                'total_hours' => 0, // total_hours not provided by Python script
+            ];
+        }
+        echo json_encode($transformed);
+    } else {
+        // fallback to original output
+        echo $output;
+    }
+
+} catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    exit;
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

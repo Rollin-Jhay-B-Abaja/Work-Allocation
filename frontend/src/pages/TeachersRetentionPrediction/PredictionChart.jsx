@@ -133,7 +133,7 @@ const PredictionChart = ({ data }) => {
                 position="top" 
                 fill="white" 
                 fontSize={10} 
-                formatter={(value) => `${value.toFixed(2)}%`} 
+                formatter={(value) => value} 
               />
             </Bar>
           ))}
@@ -152,7 +152,7 @@ const PredictionChart = ({ data }) => {
                 position="top" 
                 fill="white" 
                 fontSize={10} 
-                formatter={(value) => `${value.toFixed(2)}%`} 
+                formatter={(value) => value} 
               />
             </Bar>
           ))}

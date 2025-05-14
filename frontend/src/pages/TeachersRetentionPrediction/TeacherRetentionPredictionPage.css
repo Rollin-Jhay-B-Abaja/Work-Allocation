@@ -68,13 +68,14 @@
 }
 
 .prediction-summary {
-  height: 565px;
+  height: 400px;
   width: 100%;
   background-color: #1e1e1e;
   overflow-y: auto;
   margin-top: 10px;
   color: white;
   padding: 20px;
+  border-radius: 8px;
 }
 
 .step-2,

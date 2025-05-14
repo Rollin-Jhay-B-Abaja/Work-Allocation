@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SkillBasedMatching from './SkillBasedMatching/SkillBasedMatching';
+import WorkloadDistribution from './WorkloadDistribution/WorkloadDistribution';
 import Sidebar from '../../components/Sidebar';
 import '../../styles/sidebar.css';
 
@@ -11,22 +12,7 @@ function UnifiedWorkforceAllocation() {
       case 'skill':
         return <SkillBasedMatching />;
       case 'workload':
-        return (
-          <div>
-            <h2>Dynamic Workload Distribution</h2>
-            <p>
-              This tool ensures a fair and efficient allocation of teaching hours, administrative duties, and extracurricular activities among teachers.
-            </p>
-            <h3>Parameters and Data Needed:</h3>
-            <ul>
-              <li><strong>Teacher Workload:</strong> Current Teaching Hours (weekly schedule), Administrative Duties (e.g., managing events, parent meetings), Extracurricular Activities (e.g., sports coaching, club mentoring), Performance Metrics (e.g., feedback scores, past workload handling)</li>
-              <li><strong>Classes/Activities:</strong> Subject and Grade Distribution (e.g., 3 sections of Grade 11 Physics), Number of Classes/Hours per teacher for each subject, Extracurricular Time Requirements (e.g., 2 hours/week for debate club)</li>
-              <li><strong>Constraints:</strong> Legal or policy requirements (e.g., no more than 30 teaching hours per week), Teacher preferences (e.g., morning-only classes), Real-time adjustments for absences (e.g., substitute teachers)</li>
-              <li><strong>Constraints:</strong> Distribute teaching hours fairly across the staff, Prioritize critical tasks (e.g., board exam classes) for experienced teachers, Avoid overloading teachers with too many extracurricular responsibilities</li>
-            </ul>
-            <p><strong>Optimization Algorithms:</strong> Minimize or balance workloads across staff members while adhering to constraints.</p>
-          </div>
-        );
+        return <WorkloadDistribution />;
       case 'scheduling':
         return (
           <div>

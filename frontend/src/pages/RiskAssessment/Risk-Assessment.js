@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse"; // For CSV parsing
-import RiskAssessmentChart from "./RiskAssessmentChart";
+import { RiskHeatmapChart, RiskAnalysis, StrandRiskAnalysis } from "./RiskAssessmentChart";
 import "./Risk-Assessment.css";
 import RecommendationList from "./RecommendationList";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const RiskAssessment = () => {
   const [teachers, setTeachers] = useState([]);
@@ -16,6 +17,8 @@ const RiskAssessment = () => {
   const [loading, setLoading] = useState(false);
   const [riskHeatmap, setRiskHeatmap] = useState([]);
   const [riskHeatmapImageUrl, setRiskHeatmapImageUrl] = useState("");
+  const [strandSpecificRisks, setStrandSpecificRisks] = useState({});
+  const [weightedRiskResults, setWeightedRiskResults] = useState({});
   const navigate = useNavigate();
 
   const sendRequest = useCallback(async (url, options = {}) => {
@@ -83,6 +86,19 @@ const RiskAssessment = () => {
         setRiskHeatmapImageUrl(riskData.riskHeatmapImageUrl);
       } else {
         setRiskHeatmapImageUrl("");
+      }
+      if (riskData.weightedRiskResults) {
+        setWeightedRiskResults(riskData.weightedRiskResults);
+      } else {
+        // If weightedRiskResults property missing, treat entire riskData as weightedRiskResults
+        setWeightedRiskResults(riskData);
+      }
+      console.log("Weighted Risk Results state:", riskData.weightedRiskResults || riskData);
+
+      if (riskData.strandSpecificRisks) {
+        setStrandSpecificRisks(riskData.strandSpecificRisks);
+      } else {
+        setStrandSpecificRisks({});
       }
 
       if (riskData.recommendations) {
@@ -208,7 +224,8 @@ const RiskAssessment = () => {
       <div className="risk-content" style={{ marginTop: "5px", overflowx: "auto", height: "100vh" }}>
         {/* First Section */}
         <div className="first-section">
-          <div className="view-mode-buttons centered-buttons">
+          {/* Removed tab buttons as per user request */}
+          {/* <div className="view-mode-buttons centered-buttons">
             <button onClick={() => setViewMode("strand")} className={viewMode === "strand" ? "active" : ""}>
               Strand-wise View
             </button>
@@ -218,85 +235,29 @@ const RiskAssessment = () => {
             <button onClick={fetchData} style={{ marginLeft: "10px", padding: "0.5rem 1rem", cursor: "pointer" }}>
               Refresh Data
             </button>
-          </div>
-          <div className="two-columns">
-            <div className="right-column">
+          </div> */}
+          <div className="two-columns" style={{ display: "flex", gap: "20px", height: "600px" }}>
+            <div className="left-column" style={{ flex: 1, overflowY: "auto" }}>
               <h2>Risk Heatmap {latestYear ? `- Year: ${latestYear}` : ""}</h2>
-              <RiskAssessmentChart
-                teachers={filteredTeachers}
-                teacherEvaluations={teacherEvaluations}
-                viewMode={viewMode}
+          <RiskHeatmapChart
+            teachers={filteredTeachers}
+            teacherEvaluations={teacherEvaluations}
+            viewMode={viewMode}
+            strandSpecificRisks={strandSpecificRisks}
+            weightedRiskResults={weightedRiskResults}
+          />
+            </div>
+            <div className="right-column" style={{ flex: 1, overflowY: "auto" }}>
+              <h2>Analysis of the Risk Assessment</h2>
+              <StrandRiskAnalysis
+                weightedRiskResults={weightedRiskResults}
+                strandSpecificRisks={strandSpecificRisks}
+              />
+              <RiskAnalysis
                 burnoutAnalysis={burnoutAnalysis}
-                riskHeatmap={riskHeatmap}
-                riskHeatmapImageUrl={riskHeatmapImageUrl}
+                recommendations={recommendations}
               />
             </div>
-          </div>
-        </div>
-
-        {/* Second Section */}
-        <div className="second-section">
-          <div className="teachers-table table-scroll">
-            {loading ? (
-              <div style={{ color: "white", textAlign: "center", padding: "20px" }}>Loading data...</div>
-            ) : (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Teacher Retention ID</th>
-                    <th>Year</th>
-                    <th>Strand</th>
-                    <th>Performance</th>
-                    <th>Hours per week</th>
-                {/* Removed Class size column as it is dropped from backend */}
-                {/* <th>Class size</th> */}
-                    <th>Teacher satisfaction</th>
-                    <th>Student satisfaction</th>
-                    <th>Teachers Count</th>
-                    <th>Students Count</th>
-                    <th>Max Class Size</th>
-                    <th>Salary Ratio</th>
-                    <th>Professional Dev Hours</th>
-                    <th>Historical Resignations</th>
-                    <th>Historical Retentions</th>
-                    <th>Workload per Teacher</th>
-                    <th>Risk Level</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTeachers.length === 0 ? (
-                    <tr>
-                      <td colSpan="16" style={{ textAlign: "center" }}>
-                        No data available
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredTeachers.map((teacher, index) => (
-                      <tr key={`${teacher["Teacher Retention ID"]}-${index}`}>
-                        <td>{teacher["teacher_retention_id"]}</td>
-                        <td>{teacher["year"]}</td>
-                        <td>{teacher["strand"]}</td>
-                        <td>{teacher["performance"]}</td>
-                        <td>{teacher["hours_per_week"]}</td>
-                        {/* Removed class_size column display as it is dropped */}
-                        {/* <td>{teacher["class_size"]}</td> */}
-                        <td>{typeof teacher["teacher_satisfaction"] === "number" ? teacher["teacher_satisfaction"].toFixed(1) + "%" : teacher["teacher_satisfaction"]}</td>
-                        <td>{typeof teacher["student_satisfaction"] === "number" ? teacher["student_satisfaction"].toFixed(1) + "%" : teacher["student_satisfaction"]}</td>
-                        <td>{teacher["teachers_count"]}</td>
-                        <td>{teacher["students_count"]}</td>
-                        <td>{teacher["max_class_size"]}</td>
-                        <td>{teacher["salary_ratio"]}</td>
-                        <td>{teacher["professional_dev_hours"]}</td>
-                        <td>{teacher["historical_resignations"]}</td>
-                        <td>{teacher["historical_retentions"]}</td>
-                        <td>{teacher["workload_per_teacher"]}</td>
-                        <td style={{ color: riskColor(teacher.riskLevel) }}>{teacher.riskLevel}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            )}
           </div>
         </div>
       </div>

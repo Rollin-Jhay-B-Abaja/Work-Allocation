@@ -85,10 +85,30 @@ try {
         fwrite($pipes[0], $inputJson);
         fclose($pipes[0]);
 
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[1]);
+        // Set stream blocking to false to prevent hanging
+        stream_set_blocking($pipes[1], false);
+        stream_set_blocking($pipes[2], false);
 
-        $errorOutput = stream_get_contents($pipes[2]);
+        $output = '';
+        $errorOutput = '';
+
+        // Read output and error streams with timeout
+        $start = time();
+        $timeout = 10; // seconds
+        while (true) {
+            $output .= stream_get_contents($pipes[1]);
+            $errorOutput .= stream_get_contents($pipes[2]);
+            if (feof($pipes[1]) && feof($pipes[2])) {
+                break;
+            }
+            if ((time() - $start) > $timeout) {
+                proc_terminate($process);
+                send_response(['error' => 'Python script timeout'], 500);
+            }
+            usleep(100000); // 0.1 second
+        }
+
+        fclose($pipes[1]);
         fclose($pipes[2]);
 
         // Log output and error to file for debugging

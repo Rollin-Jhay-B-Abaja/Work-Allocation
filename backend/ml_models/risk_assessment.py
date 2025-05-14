@@ -4,20 +4,22 @@ from pomegranate import BayesianNetwork as PomegranateBayesianNetwork, DiscreteD
 class RiskAssessmentBayesianNetwork:
     def __init__(self):
         # Define distributions for variables
-        # Example variables: STEM enrollment increase, teacher availability, workload, satisfaction, risk level
+        # Example variables: Student Count, teacher availability, workload, satisfaction, risk level
 
-        # STEM enrollment increase: Yes or No
-        self.stem_enrollment = DiscreteDistribution({'Yes': 0.3, 'No': 0.7})
+        # Student Count: Low, Medium, High
+        self.student_count = DiscreteDistribution({'Low': 0.3, 'Medium': 0.4, 'High': 0.3})
 
-        # Teacher availability depends on STEM enrollment
+        # Teacher availability depends on Student Count
         self.teacher_availability = ConditionalProbabilityTable(
             [
-                ['Yes', 'High', 0.4],
-                ['Yes', 'Low', 0.6],
-                ['No', 'High', 0.8],
-                ['No', 'Low', 0.2],
+                ['Low', 'High', 0.4],
+                ['Low', 'Low', 0.6],
+                ['Medium', 'High', 0.8],
+                ['Medium', 'Low', 0.2],
+                ['High', 'High', 0.8],
+                ['High', 'Low', 0.2],
             ],
-            [self.stem_enrollment]
+            [self.student_count]
         )
 
         # Workload depends on teacher availability
@@ -84,7 +86,7 @@ class RiskAssessmentBayesianNetwork:
         )
 
         # Create states
-        s_stem_enrollment = State(self.stem_enrollment, name="STEM Enrollment Increase")
+        s_student_count = State(self.student_count, name="Student Count")
         s_teacher_availability = State(self.teacher_availability, name="Teacher Availability")
         s_workload = State(self.workload, name="Workload")
         s_satisfaction = State(self.satisfaction, name="Satisfaction")
@@ -92,10 +94,10 @@ class RiskAssessmentBayesianNetwork:
 
         # Build Bayesian Network
         self.model = PomegranateBayesianNetwork("Risk Assessment Network")
-        self.model.add_states(s_stem_enrollment, s_teacher_availability, s_workload, s_satisfaction, s_risk_level)
+        self.model.add_states(s_student_count, s_teacher_availability, s_workload, s_satisfaction, s_risk_level)
 
         # Add edges
-        self.model.add_edge(s_stem_enrollment, s_teacher_availability)
+        self.model.add_edge(s_student_count, s_teacher_availability)
         self.model.add_edge(s_teacher_availability, s_workload)
         self.model.add_edge(s_workload, s_satisfaction)
         self.model.add_edge(s_workload, s_risk_level)
@@ -106,7 +108,7 @@ class RiskAssessmentBayesianNetwork:
     def predict_risk(self, evidence):
         """
         Predict risk level given evidence.
-        Evidence is a dict with keys: 'STEM Enrollment Increase', 'Teacher Availability', 'Workload', 'Satisfaction'
+        Evidence is a dict with keys: 'Student Count', 'Teacher Availability', 'Workload', 'Satisfaction'
         Values should be states like 'Yes'/'No', 'High'/'Low', etc.
         """
         beliefs = self.model.predict_proba(evidence)
@@ -120,7 +122,7 @@ if __name__ == "__main__":
     # Example usage
     network = RiskAssessmentBayesianNetwork()
     evidence = {
-        "STEM Enrollment Increase": "Yes",
+        "Student Count": "High",
         "Teacher Availability": "Low",
         "Workload": "High",
         "Satisfaction": "Low",

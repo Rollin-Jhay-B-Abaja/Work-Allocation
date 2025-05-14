@@ -82,10 +82,19 @@ def data_forecasting():
             resignations_count[strand] = [round(current_teachers[strand] * rate) for rate in resignation_preds_list[strand]]
             retentions_count[strand] = [round(current_teachers[strand] * rate) for rate in retention_preds_list[strand]]
 
+        # Convert hires_needed to lists if numpy arrays
+        hires_needed_serializable = {}
+        for strand in strands:
+            val = hires_needed.get(strand, [])
+            if hasattr(val, 'tolist'):
+                hires_needed_serializable[strand] = val.tolist()
+            else:
+                hires_needed_serializable[strand] = val
+
         response = {
             'resignations_count': resignations_count,
             'retentions_count': retentions_count,
-            'hires_needed': hires_needed,
+            'hires_needed': hires_needed_serializable,
             'student_forecasts': student_forecasts_list,
             'last_year': int(last_year)
         }

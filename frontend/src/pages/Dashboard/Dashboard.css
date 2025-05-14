@@ -12,6 +12,7 @@ scrollbar-width: none;
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-top: 20px;
 }
 
 .dashboard-container::-webkit-scrollbar {

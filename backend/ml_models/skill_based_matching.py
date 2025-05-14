@@ -27,8 +27,9 @@ def skill_based_matching(teachers, classes, constraints, preferences):
     # Build a quick lookup for teacher skills and certifications
     teacher_skill_map = {}
     for t in teachers:
-        skills = set(t.get('subjects_expertise', [])) | set(t.get('additional_skills', []))
-        certs = set(t.get('teaching_certifications', []))
+        # Normalize skills and certs to lowercase for case-insensitive matching
+        skills = set(s.lower().strip() for s in t.get('subjects_expertise', [])) | set(s.lower().strip() for s in t.get('additional_skills', []))
+        certs = set(c.lower().strip() for c in t.get('teaching_certifications', []))
         teacher_skill_map[t['id']] = {
             'skills': skills,
             'certifications': certs,
@@ -50,7 +51,11 @@ def skill_based_matching(teachers, classes, constraints, preferences):
 
     for cclass in classes:
         strand = cclass.get('name')
-        required_skills = set(cclass.get('skill_certification_requirements', []))
+        if strand is None:
+            # Try to get strand from 'strand' key or 'strand_name'
+            strand = cclass.get('strand') or cclass.get('strand_name')
+        # Normalize required skills to lowercase for matching
+        required_skills = set(s.lower().strip() for s in cclass.get('skill_certification_requirements', []))
         hours_needed = cclass.get('hours_per_week', 0)
         needed_teachers = teachers_needed_per_strand.get(strand, 1)
 
@@ -97,14 +102,11 @@ def skill_based_matching(teachers, classes, constraints, preferences):
         scored_candidates = [(t, calculate_score(t)) for t in candidate_teachers]
         scored_candidates.sort(key=lambda x: x[1], reverse=True)
 
-        assigned_count = 0
+        # Assign all qualified teachers to the strand (allow multiple strands per teacher)
         for t, score in scored_candidates:
-            if assigned_count >= needed_teachers:
-                break
             if teacher_hours[t['id']] + hours_needed <= teacher_skill_map[t['id']]['max_hours']:
                 assignments[strand].append(t['name'])
                 teacher_hours[t['id']] += hours_needed
-                assigned_count += 1
 
         detailed_scores[strand] = [{'teacher': t['name'], 'score': score} for t, score in scored_candidates]
 
@@ -113,13 +115,49 @@ def skill_based_matching(teachers, classes, constraints, preferences):
 
         print(f"Assigned teachers for class {strand}: {assignments[strand]}", file=sys.stderr)
 
+    # Assign unassigned teachers to "Unassigned" strand
+    assigned_teacher_ids = set()
+    for teacher_list in assignments.values():
+        for teacher_name in teacher_list:
+            assigned_teacher_ids.add(teacher_name)
+
+    for t in teachers:
+        if t['name'] not in assigned_teacher_ids:
+            assignments["Unassigned"].append(t['name'])
+
+
     # Convert list of assigned teachers to a string with proper spacing
-    for strand in assignments:
-        assignments[strand] = ' '.join(assignments[strand])
+    # for strand in assignments:
+    #     assignments[strand] = ' '.join(assignments[strand])
+
+    # Invert assignments to get teacher to strands mapping
+    teacher_strands = defaultdict(list)
+    for strand, teacher_names_list in assignments.items():
+        # teacher_names = teacher_names_str.split()
+        for teacher_name in teacher_names_list:
+            teacher_strands[teacher_name].append(strand)
+
+    # Fix teacher names by reconstructing full names from teachers list
+    name_map = {}
+    for t in teachers:
+        full_name = t['name']
+        name_map[full_name] = full_name
+
+    fixed_teacher_strands = defaultdict(list)
+    for teacher_name, strands in teacher_strands.items():
+        if teacher_name in name_map:
+            fixed_teacher_strands[teacher_name].extend(strands)
+        else:
+            fixed_teacher_strands[teacher_name].extend(strands)
+
+    # Remove duplicates
+    for full_name in fixed_teacher_strands:
+        fixed_teacher_strands[full_name] = list(set(fixed_teacher_strands[full_name]))
 
     return {
         'assignments': assignments,
-        'detailed_scores': detailed_scores
+        'detailed_scores': detailed_scores,
+        'teacher_strands': dict(fixed_teacher_strands)
     }
 
 if __name__ == "__main__":

@@ -4,12 +4,14 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from collections import defaultdict
 
 def aggregate_risk_heatmap(risk_data):
     """
-    Aggregates risk levels by strand for the latest year.
-    risk_data: list of dicts with keys including 'Year', 'Strand', 'Risk Level'
-    Returns dict mapping strand to highest risk level for latest year.
+    Aggregates detailed risk metrics by strand for the latest year.
+    risk_data: list of dicts with keys including 'Year', 'Strand', 'Risk Level',
+               'hours_per_week', 'performance', 'teacher_satisfaction', 'student_satisfaction'
+    Returns dict with aggregated metrics and heatmap image URLs.
     """
     if not risk_data:
         return {}
@@ -36,7 +38,7 @@ def aggregate_risk_heatmap(risk_data):
     # Filter data for latest year
     latest_year_data = [item for item in filtered_data if int(item.get('Year', 0)) == latest_year]
 
-    # Define risk priority and colors
+    # Define risk priority and colors for overall risk level
     risk_priority = {
         'Extreme': 4,
         'High': 3,
@@ -52,52 +54,103 @@ def aggregate_risk_heatmap(risk_data):
         'Unknown': '#B0BEC5'   # Grey
     }
 
-    # Aggregate highest risk per strand
-    strand_risk = {}
+    # Initialize aggregation containers
+    strand_metrics = defaultdict(lambda: {
+        'count': 0,
+        'high_burnout_count': 0,
+        'performance_sum': 0.0,
+        'teacher_satisfaction_sum': 0.0,
+        'student_satisfaction_sum': 0.0,
+        'workload_sum': 0.0,
+        'retention_risk_count': 0,
+        'max_risk_priority': 0,
+        'max_risk_level': 'Unknown'
+    })
+
+    # Thresholds for burnout and retention risk
+    burnout_hours_threshold = 40
+    low_satisfaction_threshold = 70
+    low_performance_threshold = 75
+
     for item in latest_year_data:
         strand = item.get('Strand', '').strip()
         risk_level = item.get('Risk Level', 'Unknown').strip()
-        if strand not in strand_risk:
-            strand_risk[strand] = risk_level
-        else:
-            current_priority = risk_priority.get(strand_risk[strand], 0)
-            new_priority = risk_priority.get(risk_level, 0)
-            if new_priority > current_priority:
-                strand_risk[strand] = risk_level
+        hours = float(item.get('hours_per_week', 0))
+        performance = float(item.get('performance', 0))
+        teacher_sat = float(item.get('teacher_satisfaction', 0))
+        student_sat = float(item.get('student_satisfaction', 0))
 
-    # Generate heatmap image
-    strands = list(strand_risk.keys())
-    risks = [risk_priority.get(strand_risk[s], 0) for s in strands]
-    colors = [risk_colors.get(strand_risk[s], '#B0BEC5') for s in strands]
+        metrics = strand_metrics[strand]
+        metrics['count'] += 1
+        metrics['performance_sum'] += performance
+        metrics['teacher_satisfaction_sum'] += teacher_sat
+        metrics['student_satisfaction_sum'] += student_sat
+        metrics['workload_sum'] += hours
 
-    # Create a heatmap matrix (1 row, n columns)
-    data = np.array([risks])
+        # Burnout risk: high workload and low teacher satisfaction
+        if hours >= burnout_hours_threshold and teacher_sat < low_satisfaction_threshold:
+            metrics['high_burnout_count'] += 1
+
+        # Retention risk: low performance and low teacher satisfaction
+        if performance < low_performance_threshold and teacher_sat < low_satisfaction_threshold:
+            metrics['retention_risk_count'] += 1
+
+        # Track max risk level priority for overall strand risk
+        current_priority = metrics['max_risk_priority']
+        new_priority = risk_priority.get(risk_level, 0)
+        if new_priority > current_priority:
+            metrics['max_risk_priority'] = new_priority
+            metrics['max_risk_level'] = risk_level
+
+    # Prepare data for heatmap visualization
+    strands = list(strand_metrics.keys())
+    overall_risks = [metrics['max_risk_priority'] for metrics in strand_metrics.values()]
+    overall_risk_levels = [metrics['max_risk_level'] for metrics in strand_metrics.values()]
+    overall_colors = [risk_colors.get(level, '#B0BEC5') for level in overall_risk_levels]
+
+    # Create heatmap matrix for overall risk
+    overall_data = np.array([overall_risks])
 
     plt.figure(figsize=(len(strands), 1.5))
-    ax = sns.heatmap(data, annot=[strand_risk[s] for s in strands], fmt='', cmap=sns.color_palette(colors), cbar=False, linewidths=0.5, linecolor='black')
-
-    # Set x-axis labels as strands
+    ax = sns.heatmap(overall_data, annot=overall_risk_levels, fmt='', cmap=sns.color_palette(overall_colors), cbar=False, linewidths=0.5, linecolor='black')
     ax.set_xticklabels(strands, rotation=45, ha='right', fontsize=12)
-    ax.set_yticklabels([])  # Hide y-axis labels
-
-    plt.title(f'Risk Heatmap for Year {latest_year}', fontsize=14)
+    ax.set_yticklabels([])
+    plt.title(f'Overall Risk Heatmap for Year {latest_year}', fontsize=14)
     plt.tight_layout()
 
-    # Save heatmap image to a public directory
     output_dir = os.path.join(os.path.dirname(__file__), '../api/uploads')
     os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, 'risk_heatmap.png')
-    plt.savefig(output_path)
+    overall_output_path = os.path.join(output_dir, 'risk_heatmap_overall.png')
+    plt.savefig(overall_output_path)
     plt.close()
+
+    # Additional heatmaps for detailed risk categories can be generated similarly
+    # For brevity, here we return aggregated metrics for each strand
+
+    # Calculate averages and proportions
+    detailed_metrics = {}
+    for strand, metrics in strand_metrics.items():
+        count = metrics['count']
+        if count == 0:
+            continue
+        detailed_metrics[strand] = {
+            'average_performance': metrics['performance_sum'] / count,
+            'average_teacher_satisfaction': metrics['teacher_satisfaction_sum'] / count,
+            'average_student_satisfaction': metrics['student_satisfaction_sum'] / count,
+            'average_workload': metrics['workload_sum'] / count,
+            'high_burnout_proportion': metrics['high_burnout_count'] / count,
+            'retention_risk_proportion': metrics['retention_risk_count'] / count,
+            'overall_risk_level': metrics['max_risk_level']
+        }
 
     return {
         'year': latest_year,
-        'strand_risk': strand_risk,
-        'heatmap_image_url': '/api/uploads/risk_heatmap.png'
+        'overall_strand_risk': dict(zip(strands, overall_risk_levels)),
+        'heatmap_image_url': '/api/uploads/risk_heatmap_overall.png',
+        'detailed_metrics': detailed_metrics
     }
 
 def main():
-    # Read JSON input from stdin
     input_json = sys.stdin.read()
     try:
         risk_data = json.loads(input_json)

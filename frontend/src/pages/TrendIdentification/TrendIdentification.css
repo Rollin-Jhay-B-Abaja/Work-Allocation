@@ -63,7 +63,7 @@
   max-height: 400px;
   max-width: 100%; /* Changed to full width */
   overflow-y: auto;
-  background-color: #4a5568;
+  background-color: #1e1e1e;
   border-radius: 6px;
 }
 
@@ -111,7 +111,7 @@
   max-height: 400px;
   max-width: 100%; /* Changed to full width */
   overflow-y: auto;
-  background-color: #4a5568;
+  background-color: #1e1e1e !important;
   border-radius: 6px;
 }
 
@@ -161,8 +161,8 @@
   background-color: #222;
 }
 
-.table-container tr:nth-child(even) {
-  background-color: #2d3748;
+.table-container tr {
+  background-color: #1e1e1e !important; 
 }
 
 /* Scatter Container */
