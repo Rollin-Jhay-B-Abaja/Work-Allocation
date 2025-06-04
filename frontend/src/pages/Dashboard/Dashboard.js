@@ -47,7 +47,9 @@ function Dashboard() {
       }
       const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => ({
         x: Number(row['StudentsCount'] || 0),
-        y: Number(row['WorkloadPerTeacher'] || 0)
+        y: Number(row['WorkloadPerTeacher'] || 0),
+        strand: row['Strand'] || row['strand_name'] || 'Unknown',
+        year: row['Year'] || row['year'] || 'Unknown'
       })).filter(point => !isNaN(point.x) && !isNaN(point.y));
       setTrendDataPoints(dataPoints);
 
@@ -211,7 +213,7 @@ function Dashboard() {
           </div>
 
           <div className="two-column-container" style={{ display: 'flex', gap: '10px', width: '100%', marginLeft: '0', marginRight: '0', flexWrap: 'nowrap' }}>
-            <div className="Scatter-Plot" style={{ flex: '1 1 50%', minWidth: '400px', height: '500px' }}>
+            <div className="Scatter-Plot" style={{ flex: '1 1 50%', minWidth: '500px', height: '500px' }}>
               {loadingTrend ? (
                 <LoadingSpinner />
               ) : (

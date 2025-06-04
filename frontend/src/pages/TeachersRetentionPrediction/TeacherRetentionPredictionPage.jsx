@@ -102,7 +102,22 @@ const TeacherRetentionPredictionPage = () => {
     };
 
     fetchData();
+
+    // Add effect cleanup to call backend restart on unmount
+    return () => {
+      console.log('TeacherRetentionPredictionPage unmounting, triggering backend restart...');
+      fetch('http://localhost:8000/api/auto_restart_backend.php', {
+        method: 'POST',
+      }).then(response => response.json())
+        .then(data => {
+          console.log('Backend restart response:', data);
+        })
+        .catch(error => {
+          console.error('Error triggering backend restart:', error);
+        });
+    };
   }, []);
+
 
   const callPredictionAPI = async (data) => {
     try {

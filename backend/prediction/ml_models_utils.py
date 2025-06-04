@@ -5,6 +5,8 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 from sklearn.metrics import precision_score, recall_score, roc_auc_score, mean_squared_error
 import logging
+import joblib
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -117,3 +119,23 @@ def predict_with_models(models, df, feature_cols, model_type='logistic'):
             raise ValueError(f"Unsupported model_type: {model_type}")
         predictions[strand] = preds
     return predictions
+
+def save_model(model, filepath):
+    """
+    Save a trained model to disk using joblib.
+    """
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    joblib.dump(model, filepath)
+    logger.info(f"Model saved to {filepath}")
+
+def load_model(filepath):
+    """
+    Load a trained model from disk using joblib.
+    """
+    if os.path.exists(filepath):
+        model = joblib.load(filepath)
+        logger.info(f"Model loaded from {filepath}")
+        return model
+    else:
+        logger.warning(f"Model file {filepath} does not exist.")
+        return None

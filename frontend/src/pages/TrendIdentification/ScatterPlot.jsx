@@ -102,7 +102,10 @@ const ScatterPlot = ({ dataPoints, correlation, maximized, xLabel, yLabel }) => 
                         label: function(context) {
                             const xVal = context.parsed.x;
                             const yVal = context.parsed.y;
-                            return `${xLabel}: ${xVal}\n${yLabel}: ${yVal}\n(Note: Each point represents a strand/year data)`;
+                            const dataPoint = context.raw;
+                            const strand = dataPoint.strand || 'Unknown Strand';
+                            const year = dataPoint.year || 'Unknown Year';
+                            return `${xLabel}: ${xVal}\n${yLabel}: ${yVal}\nStrand: ${strand}\nYear: ${year}`;
                         }
                     }
                 }
@@ -113,13 +116,13 @@ const ScatterPlot = ({ dataPoints, correlation, maximized, xLabel, yLabel }) => 
                     position: 'bottom',
                     title: {
                         display: true,
-                        text: xLabel
+                        text: 'Number of Students'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: yLabel
+                        text: 'Teacher Workload'
                     }
                 }
             }

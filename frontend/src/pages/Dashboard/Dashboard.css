@@ -60,7 +60,7 @@ overflow: visible;
 .prediction-chart-section{
 display: flex;
 max-width: 800px;
-height: 500px;
+height: 350px;
 width: 100%;
 background-color: #1e1e1e;
 border-radius: 8px;

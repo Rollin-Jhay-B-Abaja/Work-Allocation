@@ -32,32 +32,32 @@ const PredictedEnrolleesChart = () => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   // Hardcoded predicted students_count data for 2025-2027 based on ARIMA forecast outputs
-  const hardcodedPredictionData = [
-    {
-      year: '2025',
-      students_STEM: 680,
-      students_ABM: 640,
-      students_GAS: 500,
-      students_HUMSS: 560,
-      students_ICT: 520,
-    },
-    {
-      year: '2026',
-      students_STEM: 720,
-      students_ABM: 680,
-      students_GAS: 520,
-      students_HUMSS: 600,
-      students_ICT: 560,
-    },
-    {
-      year: '2027',
-      students_STEM: 760,
-      students_ABM: 720,
-      students_GAS: 540,
-      students_HUMSS: 640,
-      students_ICT: 600,
-    },
-  ];
+const hardcodedPredictionData = [
+  {
+    year: '2025',
+    students_STEM: 437,
+    students_ABM: 424,
+    students_GAS: 488,
+    students_HUMSS: 487,
+    students_ICT: 523,
+  },
+  {
+    year: '2026',
+    students_STEM: 460,
+    students_ABM: 440,
+    students_GAS: 520,
+    students_HUMSS: 515,
+    students_ICT: 540,
+  },
+  {
+    year: '2027',
+    students_STEM: 494,
+    students_ABM: 444,
+    students_GAS: 533,
+    students_HUMSS: 512,
+    students_ICT: 560,
+  },
+];
 
   const [chartData, setChartData] = useState([]);
 

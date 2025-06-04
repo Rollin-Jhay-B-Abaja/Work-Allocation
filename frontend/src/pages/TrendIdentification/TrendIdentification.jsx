@@ -139,10 +139,17 @@ const TrendIdentification = () => {
             setTableData(Array.isArray(data.data) ? data.data : []);
             setCorrelationMatrix(data.correlation_matrix || null);
 
-            const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => ({
-                x: Number(row['StudentsCount'] || 0),
-                y: Number(row['WorkloadPerTeacher'] || 0)
-            })).filter(point => !isNaN(point.x) && !isNaN(point.y));
+const dataPoints = (Array.isArray(data.data) ? data.data : []).map(row => {
+                const studentsCount = Number(row['StudentsCount'] || 0);
+                const teachersCount = Number(row['TeachersCount'] || 1); // avoid division by zero
+                const workloadPerTeacher = teachersCount > 0 ? studentsCount / teachersCount : 0;
+                return {
+                    x: studentsCount,
+                    y: workloadPerTeacher,
+                    strand: row['Strand'] || 'Unknown Strand',
+                    year: row['Year'] || 'Unknown Year'
+                };
+            }).filter(point => !isNaN(point.x) && !isNaN(point.y));
             const xVals = dataPoints.map(p => p.x);
             const yVals = dataPoints.map(p => p.y);
             const correlation = (xVals.length === yVals.length && xVals.length > 0) ? calculateCorrelation(xVals, yVals) : null;
