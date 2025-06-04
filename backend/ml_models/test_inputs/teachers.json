@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "name": "Alice Johnson",
+    "preferences": {
+      "preferred_hours": "morning",
+      "preferred_days_off": ["Sunday"]
+    }
+  },
+  {
+    "id": "2",
+    "name": "Bob Smith",
+    "preferences": {
+      "preferred_hours": "afternoon",
+      "preferred_days_off": ["Sunday"]
+    }
+  }
+]

@@ -26,7 +26,7 @@
   flex-grow: 1;
   max-width: 800px; /* Increased max width */
   margin-left: 0; /* Remove negative left margin */
-  height: 500px;
+  height: 550px;
   background-color: #1e1e1e;
   border-radius: 8px;
   padding: 20px;
@@ -172,6 +172,10 @@
   margin: 20px 0 0 0; /* Reduced top margin to move chart up */
 }
 
+
+.scatterplot-row {
+  position: relative;
+}
 
 .scatterplot-row h2 {
   margin-top: 15px;

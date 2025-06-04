@@ -211,7 +211,7 @@ function Dashboard() {
           </div>
 
           <div className="two-column-container" style={{ display: 'flex', gap: '10px', width: '100%', marginLeft: '0', marginRight: '0', flexWrap: 'nowrap' }}>
-            <div className="Scatter-Plot" style={{ flex: '1 1 50%', minWidth: '300px', height: '400px' }}>
+            <div className="Scatter-Plot" style={{ flex: '1 1 50%', minWidth: '400px', height: '500px' }}>
               {loadingTrend ? (
                 <LoadingSpinner />
               ) : (
@@ -225,13 +225,13 @@ function Dashboard() {
                 />
               )}
             </div>
-            <div className="Risk-Heatmap" style={{ flex: '1 1 50%', minWidth: '300px', height: '400px', backgroundColor: '#1e1e1e', borderRadius: '8px', color: 'white', padding: '10px' }}>
+            <div className="Risk-Heatmap" style={{ flex: '1 1 50%', minWidth: '300px', height: '500px', backgroundColor: '#1e1e1e', borderRadius: '8px', color: 'white', padding: '10px' }}>
               <h3>Risk Heatmap</h3>
               {loadingRiskHeatmap ? (
                 <LoadingSpinner />
               ) : riskHeatmapData ? (
                 <>
-                  <RiskHeatmapChart weightedRiskResults={riskHeatmapData} height={400} />
+                  <RiskHeatmapChart weightedRiskResults={riskHeatmapData} height={300} />
                   <></>
                 </>
               ) : (

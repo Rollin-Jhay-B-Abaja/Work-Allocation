@@ -84,25 +84,34 @@ const RiskHeatmapChart = (props) => {
     const strands = riskAggregation[hoveredCell] || [];
     if (strands.length === 0) return "No strands in this cluster.";
 
-    // Show list of strands in the cluster
+    // Show list of strands in the cluster with layman-friendly explanation
     return (
       <div style={{ color: "#ccc", fontSize: "0.85rem", maxHeight: "300px", overflowY: "auto" }}>
-        <strong>Strands in this cluster:</strong>
+        <strong>Strands in this risk category:</strong>
         <ul>
           {strands.map((strand) => (
             <li key={strand}>{strand}</li>
           ))}
         </ul>
+        <p style={{marginTop: "8px"}}>
+          This category groups strands with similar risk levels based on teacher workload, performance, and satisfaction.
+        </p>
       </div>
     );
   })() : null;
 
   return (
-    <div style={{ color: "#ccc", fontSize: "0.9rem", position: "relative" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "80px repeat(3, 1fr)", gridTemplateRows: "40px repeat(3, 80px)", gap: "5px", alignItems: "center", backgroundColor: "#1e1e1e", padding: "20px", borderRadius: "8px" }}>
+      <div style={{ color: "#ccc", fontSize: "0.9rem", position: "relative" }}>
+      <h3 style={{marginBottom: "10px", color: "#eee"}}>Risk Heatmap Overview</h3>
+      <p style={{maxWidth: "600px", marginBottom: "20px", color: "#bbb"}}>
+        This heatmap shows the risk levels of different strands based on their impact and likelihood. 
+        The colors indicate the severity of risk: green for low, yellow for medium, and red for high. 
+        Hover over each cell to see which strands fall into that risk category.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "80px repeat(3, 1fr)", gridTemplateRows: "20px repeat(3, 1fr)", gap: "2px", alignItems: "stretch", width: "600px", height: "140px", backgroundColor: "#1e1e1e", padding: "20px", borderRadius: "1px" }}>
         <div></div>
         {likelihoodLevels.map(level => (
-          <div key={level} style={{ textAlign: "center", fontWeight: "bold" }}>{level}</div>
+          <div key={level} style={{ textAlign: "center", fontWeight: "bold" }}>{level} Likelihood</div>
         ))}
 
         {impactLevels.map((impact) => (
@@ -133,6 +142,10 @@ const RiskHeatmapChart = (props) => {
                     minHeight: "70px",
                     position: "relative",
                     cursor: count > 0 ? "pointer" : "default",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                   onMouseEnter={() => setHoveredCell(key)}
                   onMouseLeave={() => setHoveredCell(null)}
@@ -189,32 +202,32 @@ const StrandRiskAnalysis = ({ weightedRiskResults, strandSpecificRisks }) => {
     return <p>No risk assessment data available for analysis.</p>;
   }
 
-  // Default detailed risk descriptions per strand and risk level
-  const defaultRiskDescriptions = {
+  // Improved detailed risk descriptions per strand and risk level with layman-friendly language
+  const improvedRiskDescriptions = {
     STEM: {
-      Low: "STEM strand shows low risk with stable performance and satisfaction levels.",
-      Medium: "STEM strand has moderate risk due to some workload and performance concerns.",
-      High: "STEM strand is at high risk with significant workload and retention challenges."
+      Low: "The STEM strand is doing well with stable performance and happy teachers.",
+      Medium: "The STEM strand has some concerns like moderate workload and teacher stress.",
+      High: "The STEM strand is facing serious challenges with high workload and teacher burnout risk."
     },
     ABM: {
-      Low: "ABM strand is performing well with low risk indicators.",
-      Medium: "ABM strand shows medium risk, possibly due to moderate teacher workload.",
-      High: "ABM strand faces high risk with potential issues in teacher satisfaction and retention."
+      Low: "The ABM strand is performing well with satisfied teachers and manageable workload.",
+      Medium: "The ABM strand has moderate risk due to some workload and satisfaction issues.",
+      High: "The ABM strand is at high risk with significant teacher dissatisfaction and retention problems."
     },
     ICT: {
-      Low: "ICT strand is currently low risk but should monitor workload and performance.",
-      Medium: "ICT strand has medium risk with some concerns in student satisfaction.",
-      High: "ICT strand is high risk with critical challenges in workload and teacher retention."
+      Low: "The ICT strand is currently low risk with good performance and teacher satisfaction.",
+      Medium: "The ICT strand has some concerns about workload and student satisfaction.",
+      High: "The ICT strand is high risk with critical challenges in workload and teacher retention."
     },
     HUMMS: {
-      Low: "HUMMS strand maintains low risk with good performance metrics.",
-      Medium: "HUMMS strand shows medium risk, possibly due to teacher satisfaction issues.",
-      High: "HUMMS strand is high risk with significant challenges in performance and retention."
+      Low: "The HUMMS strand is stable with good performance and low risk.",
+      Medium: "The HUMMS strand has moderate risk due to teacher satisfaction concerns.",
+      High: "The HUMMS strand is facing high risk with significant performance and retention challenges."
     },
     GAS: {
-      Low: "GAS strand is low risk with stable teaching and student satisfaction.",
-      Medium: "GAS strand has medium risk due to workload and performance fluctuations.",
-      High: "GAS strand is high risk with critical issues in teacher workload and resignations."
+      Low: "The GAS strand is low risk with stable teaching and satisfied teachers.",
+      Medium: "The GAS strand has some workload and performance fluctuations causing moderate risk.",
+      High: "The GAS strand is high risk with serious issues in teacher workload and resignations."
     }
   };
 
@@ -236,7 +249,7 @@ const StrandRiskAnalysis = ({ weightedRiskResults, strandSpecificRisks }) => {
       {Object.entries(weightedRiskResults).map(([strand, data]) => {
         const riskLevel = data.risk_level || "Low";
         const riskData = strandSpecificRisks[strand] || {};
-        const description = riskData.Description || (defaultRiskDescriptions[strand] ? defaultRiskDescriptions[strand][riskLevel] : "No detailed risk description available.");
+        const description = riskData.Description || (improvedRiskDescriptions[strand] ? improvedRiskDescriptions[strand][riskLevel] : "No detailed risk description available.");
         return (
           <div key={strand} style={{ marginBottom: "1rem" }}>
             <strong>{strand} Strand</strong> - Risk Level: <em>{riskLevel}</em>

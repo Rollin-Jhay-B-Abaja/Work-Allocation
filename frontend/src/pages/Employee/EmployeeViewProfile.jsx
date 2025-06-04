@@ -39,11 +39,11 @@ const EmployeeViewProfile = ({ onBack }) => {
   }, []);
 
   return (
-    <div className="employee-view-profile-container" style={{width:'1000px', height:'450px'}}>
+    <div className="employee-view-profile-container" style={{width:'1000px', height:'480px'}}>
       <button className="button back-button" onClick={onBack}>
         Back
       </button>
-      <div className="table-container" style={{ height: '340px', overflowY: 'auto' }}>
+      <div className="table-container" style={{ height: '520px', overflowY: 'auto' }}>
         <table className="employee-table">
           <thead>
             <tr>

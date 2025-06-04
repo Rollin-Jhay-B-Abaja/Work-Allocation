@@ -1,0 +1,317 @@
+{
+  "teachers": [
+    {
+      "id": "1",
+      "name": "Alice Johnson",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Expert", "Humanities 2": "Beginner"}
+    },
+    {
+      "id": "10",
+      "name": "Jane Doe",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Expert", "Humanities 2": "Advanced"}
+    },
+    {
+      "id": "11",
+      "name": "Kevin White",
+      "max_hours_per_week": null,
+      "years_experience": 5,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Intermediate", "Humanities 2": "Expert"}
+    },
+    {
+      "id": "12",
+      "name": "Laura Wilson",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Business Mathematics", "Fundamentals of ABM 1"],
+      "proficiency_levels": {"Business Mathematics": "Advanced", "Fundamentals of ABM 1": "Advanced"}
+    },
+    {
+      "id": "13",
+      "name": "Michael Scott",
+      "max_hours_per_week": null,
+      "years_experience": 8,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Intermediate", "Disciplines and Ideas in Social Sciences": "Beginner"}
+    },
+    {
+      "id": "14",
+      "name": "Nina Patel",
+      "max_hours_per_week": null,
+      "years_experience": 4,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Beginner", "Humanities 2": "Intermediate"}
+    },
+    {
+      "id": "15",
+      "name": "Oscar Martinez",
+      "max_hours_per_week": null,
+      "years_experience": 2,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Beginner", "Humanities 2": "Expert"}
+    },
+    {
+      "id": "16",
+      "name": "Pam Beesly",
+      "max_hours_per_week": null,
+      "years_experience": 7,
+      "skills": ["General Physics 1", "General Physics 2"],
+      "proficiency_levels": {"General Physics 1": "Intermediate", "General Physics 2": "Beginner"}
+    },
+    {
+      "id": "17",
+      "name": "Quincy Adams",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Business Mathematics", "Fundamentals of ABM 1"],
+      "proficiency_levels": {"Business Mathematics": "Advanced", "Fundamentals of ABM 1": "Expert"}
+    },
+    {
+      "id": "18",
+      "name": "Rachel Green",
+      "max_hours_per_week": null,
+      "years_experience": 7,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Expert", "Disciplines and Ideas in Social Sciences": "Advanced"}
+    },
+    {
+      "id": "19",
+      "name": "Steve Rogers",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Computer Systems Servicing (NC II)", "Programming (Java, Python, etc.)"],
+      "proficiency_levels": {"Programming (Java, Python, etc.)": "Expert", "Computer Systems Servicing (NC II)": "Expert"}
+    },
+    {
+      "id": "2",
+      "name": "Bob Smith",
+      "max_hours_per_week": null,
+      "years_experience": 7,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Expert", "Disciplines and Ideas in Social Sciences": "Intermediate"}
+    },
+    {
+      "id": "20",
+      "name": "Tina Turner",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Expert", "Humanities 2": "Expert"}
+    },
+    {
+      "id": "21",
+      "name": "John ReyDo",
+      "max_hours_per_week": null,
+      "years_experience": 20,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences", "Philippine Politics and Governance", "Community Engagement", "Trends in Social Sciences", "Research in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Advanced", "Community Engagement": "Advanced", "Trends in Social Sciences": "Advanced", "Research in Social Sciences": "Advanced", "Philippine Politics and Governance": "Advanced", "Disciplines and Ideas in Social Sciences": "Advanced"}
+    },
+    {
+      "id": "22",
+      "name": "James Smith",
+      "max_hours_per_week": null,
+      "years_experience": 20,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences", "Philippine Politics and Governance", "Community Engagement", "Trends in Social Sciences", "Research in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Advanced", "Community Engagement": "Advanced", "Trends in Social Sciences": "Advanced", "Research in Social Sciences": "Expert", "Philippine Politics and Governance": "Advanced", "Disciplines and Ideas in Social Sciences": "Advanced"}
+    },
+    {
+      "id": "23",
+      "name": "Rollin",
+      "max_hours_per_week": null,
+      "years_experience": 21,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences", "Philippine Politics and Governance", "Community Engagement", "Trends in Social Sciences", "Research in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Expert", "Community Engagement": "Expert", "Trends in Social Sciences": "Expert", "Research in Social Sciences": "Expert", "Philippine Politics and Governance": "Expert", "Disciplines and Ideas in Social Sciences": "Expert"}
+    },
+    {
+      "id": "24",
+      "name": "Rollin",
+      "max_hours_per_week": null,
+      "years_experience": 14,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences", "Philippine Politics and Governance", "Community Engagement", "Trends in Social Sciences", "Research in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Expert", "Community Engagement": "Expert", "Trends in Social Sciences": "Expert", "Research in Social Sciences": "Expert", "Philippine Politics and Governance": "Expert", "Disciplines and Ideas in Social Sciences": "Expert"}
+    },
+    {
+      "id": "3",
+      "name": "Carol Williams",
+      "max_hours_per_week": null,
+      "years_experience": 8,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Advanced", "Disciplines and Ideas in Social Sciences": "Intermediate"}
+    },
+    {
+      "id": "4",
+      "name": "David Lee",
+      "max_hours_per_week": null,
+      "years_experience": 6,
+      "skills": ["Computer Systems Servicing (NC II)", "Programming (Java, Python, etc.)"],
+      "proficiency_levels": {"Programming (Java, Python, etc.)": "Expert", "Computer Systems Servicing (NC II)": "Intermediate"}
+    },
+    {
+      "id": "5",
+      "name": "Eva Green",
+      "max_hours_per_week": null,
+      "years_experience": 10,
+      "skills": ["Humanities 1", "Humanities 2"],
+      "proficiency_levels": {"Humanities 1": "Beginner", "Humanities 2": "Beginner"}
+    },
+    {
+      "id": "6",
+      "name": "Frank Miller",
+      "max_hours_per_week": null,
+      "years_experience": 8,
+      "skills": ["General Physics 1", "General Physics 2"],
+      "proficiency_levels": {"General Physics 1": "Advanced", "General Physics 2": "Beginner"}
+    },
+    {
+      "id": "7",
+      "name": "Grace Hopper",
+      "max_hours_per_week": null,
+      "years_experience": 9,
+      "skills": ["Business Mathematics", "Fundamentals of ABM 1"],
+      "proficiency_levels": {"Business Mathematics": "Advanced", "Fundamentals of ABM 1": "Intermediate"}
+    },
+    {
+      "id": "8",
+      "name": "Hannah Brown",
+      "max_hours_per_week": null,
+      "years_experience": 5,
+      "skills": ["Creative Writing", "Disciplines and Ideas in Social Sciences"],
+      "proficiency_levels": {"Creative Writing": "Advanced", "Disciplines and Ideas in Social Sciences": "Beginner"}
+    },
+    {
+      "id": "9",
+      "name": "Ian Clark",
+      "max_hours_per_week": null,
+      "years_experience": 5,
+      "skills": ["Computer Systems Servicing (NC II)", "Programming (Java, Python, etc.)"],
+      "proficiency_levels": {"Programming (Java, Python, etc.)": "Expert", "Computer Systems Servicing (NC II)": "Expert"}
+    }
+  ],
+  "classes": [
+    {
+      "id": 1,
+      "name": "STEM",
+      "core_subjects": [
+        "Oral Communication",
+        "Komunikasyon at Pananaliksap",
+        "General Mathematics",
+        "Earth and Life Science",
+        "PE and Health",
+        "Personal Development",
+        "Understanding Culture, Society, and Politics"
+      ],
+      "specialized_subjects": [
+        "Pre-Calculus",
+        "Basic Calculus",
+        "General Biology 1",
+        "General Biology 2",
+        "General Chemistry 1",
+        "General Chemistry 2",
+        "General Physics 1",
+        "General Physics 2",
+        "Research/Capstone Project"
+      ],
+      "hours_per_week": 10,
+      "subject": "STEM",
+      "grade": "Senior High"
+    },
+    {
+      "id": 2,
+      "name": "ABM",
+      "core_subjects": [
+        "Oral Communication",
+        "Komunikasyon at Pananaliksap",
+        "General Mathematics",
+        "Earth and Life Science",
+        "PE and Health",
+        "Personal Development",
+        "Understanding Culture, Society, and Politics"
+      ],
+      "specialized_subjects": [
+        "Business Mathematics",
+        "Fundamentals of ABM 1",
+        "Fundamentals of ABM 2",
+        "Business Finance",
+        "Organization and Management",
+        "Principles of Marketing",
+        "Work Immersion/Research"
+      ],
+      "hours_per_week": 10,
+      "subject": "ABM",
+      "grade": "Senior High"
+    },
+    {
+      "id": 3,
+      "name": "HUMMS",
+      "core_subjects": [
+        "Creative Writing",
+        "Disciplines and Ideas in Social Sciences",
+        "Philippine Politics and Governance",
+        "Community Engagement",
+        "Trends in Social Sciences",
+        "Research in Social Sciences"
+      ],
+      "specialized_subjects": [],
+      "hours_per_week": 10,
+      "subject": "HUMMS",
+      "grade": "Senior High"
+    },
+    {
+      "id": 4,
+      "name": "ICT",
+      "core_subjects": [
+        "Oral Communication",
+        "Komunikasyon at Pananaliksap",
+        "General Mathematics",
+        "Earth and Life Science",
+        "PE and Health",
+        "Personal Development",
+        "Understanding Culture, Society, and Politics"
+      ],
+      "specialized_subjects": [
+        "Computer Systems Servicing (NC II)",
+        "Programming (Java, Python, etc.)",
+        "Web Development",
+        "Animation",
+        "Work Immersion (ICT Industry)"
+      ],
+      "hours_per_week": 10,
+      "subject": "ICT",
+      "grade": "Senior High"
+    },
+    {
+      "id": 5,
+      "name": "GAS",
+      "core_subjects": [
+        "Oral Communication",
+        "Komunikasyon at Pananaliksap",
+        "General Mathematics",
+        "Earth and Life Science",
+        "PE and Health",
+        "Personal Development",
+        "Understanding Culture, Society, and Politics"
+      ],
+      "specialized_subjects": [
+        "Humanities 1",
+        "Humanities 2",
+        "Social Science 1",
+        "Social Science 2",
+        "Applied Economics",
+        "Research in Daily Life",
+        "Media and Information Literacy",
+        "Work Immersion"
+      ],
+      "hours_per_week": 10,
+      "subject": "GAS",
+      "grade": "Senior High"
+    }
+  ],
+  "constraints": {},
+  "preferences": {}
+}

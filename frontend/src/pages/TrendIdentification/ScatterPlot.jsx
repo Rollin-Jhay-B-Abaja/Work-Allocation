@@ -100,7 +100,9 @@ const ScatterPlot = ({ dataPoints, correlation, maximized, xLabel, yLabel }) => 
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return xLabel + ': ' + context.parsed.x + ', ' + yLabel + ': ' + context.parsed.y;
+                            const xVal = context.parsed.x;
+                            const yVal = context.parsed.y;
+                            return `${xLabel}: ${xVal}\n${yLabel}: ${yVal}\n(Note: Each point represents a strand/year data)`;
                         }
                     }
                 }
@@ -129,7 +131,7 @@ const ScatterPlot = ({ dataPoints, correlation, maximized, xLabel, yLabel }) => 
     }
 
     return (
-        <div className="scatter-container" style={{ height: maximized ? '90%' : '600px', width: '100%' }}>
+        <div className="scatter-container" style={{ height: maximized ? '90%' : '500px', width: '100%' }}>
             <Scatter data={scatterData} options={scatterOptions} />
         </div>
     );

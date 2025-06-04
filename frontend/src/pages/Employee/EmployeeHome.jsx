@@ -97,7 +97,7 @@ const EmployeeHome = () => {
   };
 
   return (
-    <div className="employee-home-container" style={{ padding: '20px', marginTop:'-20px' }}>
+    <div className="employee-home-container" style={{ padding: '30px', marginTop:'-60px', marginLeft:'1rem'}}>
       <h1>Employee Management</h1>
       <div className="tab-buttons" style={{ marginBottom: '10px', marginTop:'-10px', }}>
         <button

@@ -1,0 +1,212 @@
+{
+  "assignments": {
+    "STEM": [
+      "Frank Miller",
+      "Pam Beesly"
+    ],
+    "ABM": [
+      "Quincy Adams",
+      "Laura Wilson",
+      "Grace Hopper"
+    ],
+    "HUMMS": [
+      "Rollin",
+      "James Smith",
+      "John ReyDo",
+      "Rachel Green",
+      "Bob Smith",
+      "Carol Williams",
+      "Hannah Brown",
+      "Michael Scott"
+    ],
+    "ICT": [
+      "Ian Clark",
+      "Steve Rogers",
+      "David Lee"
+    ],
+    "GAS": [
+      "Tina Turner",
+      "Jane Doe",
+      "Kevin White",
+      "Alice Johnson",
+      "Oscar Martinez",
+      "Nina Patel",
+      "Eva Green"
+    ]
+  },
+  "detailed_scores": {
+    "STEM": [
+      {
+        "teacher": "Frank Miller",
+        "score": 10.6
+      },
+      {
+        "teacher": "Pam Beesly",
+        "score": 10.1
+      }
+    ],
+    "ABM": [
+      {
+        "teacher": "Quincy Adams",
+        "score": 16.6
+      },
+      {
+        "teacher": "Laura Wilson",
+        "score": 16.1
+      },
+      {
+        "teacher": "Grace Hopper",
+        "score": 14.7
+      }
+    ],
+    "HUMMS": [
+      {
+        "teacher": "Rollin",
+        "score": 58.2
+      },
+      {
+        "teacher": "James Smith",
+        "score": 50.0
+      },
+      {
+        "teacher": "John ReyDo",
+        "score": 48.0
+      },
+      {
+        "teacher": "Rachel Green",
+        "score": 18.1
+      },
+      {
+        "teacher": "Bob Smith",
+        "score": 15.8
+      },
+      {
+        "teacher": "Carol Williams",
+        "score": 14.4
+      },
+      {
+        "teacher": "Hannah Brown",
+        "score": 11.5
+      },
+      {
+        "teacher": "Michael Scott",
+        "score": 10.4
+      }
+    ],
+    "ICT": [
+      {
+        "teacher": "Ian Clark",
+        "score": 19.5
+      },
+      {
+        "teacher": "Steve Rogers",
+        "score": 18.3
+      },
+      {
+        "teacher": "David Lee",
+        "score": 15.2
+      }
+    ],
+    "GAS": [
+      {
+        "teacher": "Tina Turner",
+        "score": 18.6
+      },
+      {
+        "teacher": "Jane Doe",
+        "score": 18.1
+      },
+      {
+        "teacher": "Kevin White",
+        "score": 15.5
+      },
+      {
+        "teacher": "Alice Johnson",
+        "score": 14.1
+      },
+      {
+        "teacher": "Oscar Martinez",
+        "score": 12.3
+      },
+      {
+        "teacher": "Nina Patel",
+        "score": 9.2
+      },
+      {
+        "teacher": "Eva Green",
+        "score": 9.0
+      }
+    ]
+  },
+  "teacher_strands": {
+    "Frank Miller": [
+      "STEM"
+    ],
+    "Pam Beesly": [
+      "STEM"
+    ],
+    "Quincy Adams": [
+      "ABM"
+    ],
+    "Laura Wilson": [
+      "ABM"
+    ],
+    "Grace Hopper": [
+      "ABM"
+    ],
+    "Rollin": [
+      "HUMMS"
+    ],
+    "James Smith": [
+      "HUMMS"
+    ],
+    "John ReyDo": [
+      "HUMMS"
+    ],
+    "Rachel Green": [
+      "HUMMS"
+    ],
+    "Bob Smith": [
+      "HUMMS"
+    ],
+    "Carol Williams": [
+      "HUMMS"
+    ],
+    "Hannah Brown": [
+      "HUMMS"
+    ],
+    "Michael Scott": [
+      "HUMMS"
+    ],
+    "Ian Clark": [
+      "ICT"
+    ],
+    "Steve Rogers": [
+      "ICT"
+    ],
+    "David Lee": [
+      "ICT"
+    ],
+    "Tina Turner": [
+      "GAS"
+    ],
+    "Jane Doe": [
+      "GAS"
+    ],
+    "Kevin White": [
+      "GAS"
+    ],
+    "Alice Johnson": [
+      "GAS"
+    ],
+    "Oscar Martinez": [
+      "GAS"
+    ],
+    "Nina Patel": [
+      "GAS"
+    ],
+    "Eva Green": [
+      "GAS"
+    ]
+  }
+}

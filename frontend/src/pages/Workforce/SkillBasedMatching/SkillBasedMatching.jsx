@@ -1,24 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const STRANDS = [
-  { id: 'STEM', name: 'STEM' },
-  { id: 'ABM', name: 'ABM' },
-  { id: 'GAS', name: 'GAS' },
-  { id: 'HUMMS', name: 'HUMMS' },
-  { id: 'ICT', name: 'ICT' },
-];
-
-// Updated skill and certification requirements per strand to match database values
-const STRAND_REQUIREMENTS = {
-  STEM: ['Physics', 'Chemistry', 'Biology'],
-  ABM: ['Accounting', 'Business Management', 'Economics', 'Marketing'],
-  GAS: ['English', 'Philippine History', 'Philosophy', 'Social Studies'],
-  HUMMS: ['Psychology', 'Sociology', 'Communication Arts'],
-  ICT: ['Information and Communications Technology', 'Computer Science'],
-};
-
 function SkillBasedMatching() {
   const [teachers, setTeachers] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [matchedData, setMatchedData] = useState({ assignments: {}, detailed_scores: {} });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,15 +12,24 @@ function SkillBasedMatching() {
     fetch('http://localhost:8000/api/skill_based_matching.php?resource=teachers')
       .then(res => res.json())
       .then(data => {
-        console.log('Fetched teachers:', data);
         setTeachers(data);
       })
       .catch(() => setError('Failed to load teachers'));
   }, []);
 
-  // Automatically run matching when teachers data is loaded
+  // Fetch classes on mount
   useEffect(() => {
-    if (teachers.length === 0) return;
+    fetch('http://localhost:8000/api/skill_based_matching.php?resource=classes')
+      .then(res => res.json())
+      .then(data => {
+        setClasses(data);
+      })
+      .catch(() => setError('Failed to load classes'));
+  }, []);
+
+  // Automatically run matching when teachers and classes data are loaded
+  useEffect(() => {
+    if (teachers.length === 0 || classes.length === 0) return;
 
     const runMatching = async () => {
       setError(null);
@@ -44,15 +37,6 @@ function SkillBasedMatching() {
       setMatchedData({ assignments: {}, detailed_scores: {} });
 
       try {
-        const classes = STRANDS.map(strand => ({
-          id: strand.id,
-          name: strand.name,
-          skill_certification_requirements: STRAND_REQUIREMENTS[strand.id] || [],
-          hours_per_week: 10, // Example fixed hours, can be dynamic
-          subject: strand.id, // Using strand id as subject for filtering
-          grade: 'Senior High' // Example grade
-        }));
-
         const response = await fetch('http://localhost:8000/api/skill_based_matching.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -89,7 +73,32 @@ function SkillBasedMatching() {
     };
 
     runMatching();
-  }, [teachers]);
+  }, [teachers, classes]);
+
+  // Utility function to convert score to layman's terms
+  const scoreToLaymanTerm = (score) => {
+    if (score >= 15) return 'Expert';
+    if (score >= 10) return 'Advanced';
+    if (score >= 5) return 'Intermediate';
+    if (score > 0) return 'Beginner';
+    return 'No skill';
+  };
+
+  // Utility function to render pointing system for STEM strand
+  const renderPointingSystem = (score) => {
+    const maxPoints = 4;
+    // Normalize score to maxPoints scale (assuming max score ~ 20)
+    const points = Math.min(Math.round((score / 20) * maxPoints), maxPoints);
+    const stars = [];
+    for (let i = 0; i < maxPoints; i++) {
+      if (i < points) {
+        stars.push(<span key={i} style={{color: '#FFD700'}}>★</span>);
+      } else {
+        stars.push(<span key={i} style={{color: '#ccc'}}>☆</span>);
+      }
+    }
+    return <span>{stars}</span>;
+  };
 
   const tableStyle = {
     borderCollapse: 'collapse',
@@ -116,8 +125,6 @@ function SkillBasedMatching() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {loading && <p>Matching...</p>}
 
-      {/* Removed debug display of fetched teachers data */}
-
       {matchedData && (
         <>
           <h3>Best Teacher Assignments per Strand</h3>
@@ -132,11 +139,21 @@ function SkillBasedMatching() {
               {Object.entries(matchedData.assignments).map(([strand, teacher]) => (
                 <tr key={strand}>
                   <td style={tdStyle}>{strand}</td>
-                  <td style={tdStyle}>{teacher}</td>
+                  <td style={tdStyle}>{Array.isArray(teacher) ? teacher.join(', ') : teacher}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          <h3>How the Pointing System Works</h3>
+          <p>
+            The points are based on the teacher's skills matching the required subjects, proficiency levels, and experience:
+          </p>
+          <ul>
+            <li>Each matching skill adds 1 point.</li>
+            <li>Proficiency level in each skill adds 2 points per level (1 = Beginner, 5 = Expert).</li>
+            <li>Experience adds 0.3 points per year.</li>
+          </ul>
 
           <h3>Detailed Matching Scores</h3>
           {Object.entries(matchedData.detailed_scores).map(([strand, scores]) => (
@@ -150,13 +167,19 @@ function SkillBasedMatching() {
                     <tr>
                       <th style={thStyle}>Teacher</th>
                       <th style={thStyle}>Score</th>
+                      <th style={thStyle}>Skill Level</th>
                     </tr>
                   </thead>
                   <tbody>
                     {scores.map(({ teacher, score }) => (
                       <tr key={teacher}>
                         <td style={tdStyle}>{teacher}</td>
-                        <td style={tdStyle}>{score.toFixed(2)}</td>
+                        <td style={tdStyle}>
+                          {renderPointingSystem(score)}
+                        </td>
+                        <td style={tdStyle}>
+                          {scoreToLaymanTerm(score)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

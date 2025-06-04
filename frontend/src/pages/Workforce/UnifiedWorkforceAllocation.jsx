@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SkillBasedMatching from './SkillBasedMatching/SkillBasedMatching';
 import WorkloadDistribution from './WorkloadDistribution/WorkloadDistribution';
+import FlexibleScheduling from './FlexibleScheduling/FlexibleScheduling';
 import Sidebar from '../../components/Sidebar';
 import '../../styles/sidebar.css';
 
@@ -13,31 +14,15 @@ function UnifiedWorkforceAllocation() {
         return <SkillBasedMatching />;
       case 'workload':
         return <WorkloadDistribution />;
-      case 'scheduling':
-        return (
-          <div>
-            <h2>Flexible Scheduling</h2>
-            <p>
-              This tool generates customizable schedules for teachers based on their preferences and the school’s requirements.
-            </p>
-            <h3>Parameters and Data Needed:</h3>
-            <ul>
-              <li><strong>Teacher Preferences:</strong> Preferred Teaching Hours (e.g., morning, afternoon), Preferred Days Off (e.g., preference for Fridays off), Shift Preferences (if applicable, e.g., early or late shifts)</li>
-              <li><strong>School Timetable:</strong> Class Schedules (fixed class timings for each subject and grade), Teacher-to-Student Ratios (e.g., maximum number of students per class), Peak Time Requirements (e.g., more teachers needed during lab sessions)</li>
-              <li><strong>Workforce Availability:</strong> Leave requests and holidays, Substitute teacher availability, Overtime willingness (e.g., for exam preparation periods)</li>
-              <li><strong>Compliance Requirements:</strong> Adherence to labor laws and teacher contracts, Maximum teaching hours per week, Minimum rest periods between shifts</li>
-              <li><strong>Dynamic Adjustment Rules:</strong> Reallocate schedules in case of emergencies (e.g., sudden absence), Flexible start and end times for activities like parent-teacher meetings</li>
-            </ul>
-            <p><strong>Greedy Algorithms:</strong> Quickly assign tasks or schedules in scenarios with minimal constraints.</p>
-          </div>
-        );
+        case 'scheduling':
+          return <FlexibleScheduling />;
       default:
         return null;
     }
   };
 
   return (
-    <div style={{ padding: '5rem', maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ padding: '5rem', maxWidth: '1200px', marginLeft: '15rem' }}>
       <Sidebar />
       <h1>Workforce Allocation Modules</h1>
       <p>

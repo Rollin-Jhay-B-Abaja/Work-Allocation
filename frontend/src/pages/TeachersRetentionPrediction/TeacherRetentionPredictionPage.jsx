@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PredictionChart from './PredictionChart';
+import HiresChart from './HiresChart';
+import EnrolleesChart from './EnrolleesChart';
+import PredictedEnrolleesChart from './PredictedEnrolleesChart';
+import RecommendationsPanel from './RecommendationsPanel';
 import TeacherRetentionDataTable from './TeacherRetentionDataTable';
 import TeacherRetentionForm from './TeacherRetentionForm';
 import '../../styles/employeeFormStyles.css';
@@ -13,6 +17,7 @@ const TeacherRetentionPredictionPage = () => {
   const [phpPredictionData, setPhpPredictionData] = useState(null);
   const [notification, setNotification] = useState('');
   const [savedData, setSavedData] = useState([]);
+  const [groupedSavedData, setGroupedSavedData] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,9 +36,8 @@ const TeacherRetentionPredictionPage = () => {
         console.log('Saved data fetched:', data);
         setSavedData(data);
         console.log('Saved data state set.');
-
-        // Transform data grouped by year with strand keys
         const groupedData = groupDataByYear(data);
+        setGroupedSavedData(groupedData);
 
         // Trigger prediction APIs after data fetch
         console.log('Calling callPredictionAPI...');
@@ -74,12 +78,12 @@ const TeacherRetentionPredictionPage = () => {
             teachers_STEM: 0,
             teachers_ABM: 0,
             teachers_GAS: 0,
-            teachers_HUMSS: 0,
+            teachers_HUMMS: 0,
             teachers_ICT: 0,
             students_STEM: 0,
             students_ABM: 0,
             students_GAS: 0,
-            students_HUMSS: 0,
+            students_HUMMS: 0,
             students_ICT: 0,
           };
         }
@@ -112,9 +116,9 @@ const TeacherRetentionPredictionPage = () => {
       console.log('Saved data for prediction:', data);
 
       const enhancedData = data.map(row => {
-        const teachers_total = ['teachers_STEM', 'teachers_ICT', 'teachers_GAS', 'teachers_ABM', 'teachers_HUMSS']
+        const teachers_total = ['teachers_STEM', 'teachers_ICT', 'teachers_GAS', 'teachers_ABM', 'teachers_HUMMS']
           .reduce((sum, key) => sum + (Number(row[key]) || 0), 0);
-        const students_total = ['students_STEM', 'students_ICT', 'students_GAS', 'students_ABM', 'students_HUMSS']
+        const students_total = ['students_STEM', 'students_ICT', 'students_GAS', 'students_ABM', 'students_HUMMS']
           .reduce((sum, key) => sum + (Number(row[key]) || 0), 0);
         return {
           ...row,
@@ -137,14 +141,12 @@ const TeacherRetentionPredictionPage = () => {
       }
       const result = await response.json();
       console.log('Raw prediction API response:', result);
-      console.log('Saved data for prediction:', data);
       if (result.warnings && result.warnings.length > 0) {
         setNotification(result.warnings.join(' '));
       } else {
         setNotification('');
       }
       if (result['resignations_count'] && result['retentions_count'] && result['hires_needed']) {
-        console.log('Raw hires_needed from API:', result['hires_needed']);
         const yearsCount = Object.values(result['resignations_count'])[0].length;
         const baseYear = result.last_year ? Number(result.last_year) + 1 : (savedData.length > 0 ? Number(savedData[savedData.length - 1].year) + 1 : new Date().getFullYear());
         const transformedData = [];
@@ -163,10 +165,15 @@ const TeacherRetentionPredictionPage = () => {
             yearData.hires_needed[strand] = result['hires_needed'][strand][i] || 0;
             yearData.resignations_forecast[strand] = result['resignations_forecast'] ? (result['resignations_forecast'][strand][i] || 0) : 0;
             yearData.retentions_forecast[strand] = result['retentions_forecast'] ? (result['retentions_forecast'][strand][i] || 0) : 0;
+            // Add predicted students count per strand for the chart
+            if (result['student_forecasts'] && result['student_forecasts'][strand]) {
+              yearData[`${strand}_students`] = result['student_forecasts'][strand][i] || 0;
+            } else {
+              yearData[`${strand}_students`] = 0;
+            }
           }
           transformedData.push(yearData);
         }
-        console.log('Transformed prediction data:', transformedData);
         setPredictionData(transformedData);
         setLoading(false);
       } else {
@@ -181,11 +188,25 @@ const TeacherRetentionPredictionPage = () => {
   };
 
   const fetchRecommendations = async () => {
-    // Removed fetching recommendations to disable recommendations display
-    setRecommendations([]);
+    try {
+      // Fetch recommendations from backend API
+      const response = await fetch('http://localhost:8000/api/teacher_retention_recommendations.php');
+      if (!response.ok) {
+        console.error('Failed to fetch recommendations');
+        setRecommendations([]);
+        return;
+      }
+      const data = await response.json();
+      if (data && data.recommendations) {
+        setRecommendations(data.recommendations);
+      } else {
+        setRecommendations([]);
+      }
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      setRecommendations([]);
+    }
   };
-
-  // Removed callPhpPredictionAPI function and calls to prevent timeout and hanging
 
   const handleFormSubmit = async (formData) => {
     if (savedData.some(item => item.year === formData.year)) {
@@ -265,20 +286,29 @@ const TeacherRetentionPredictionPage = () => {
                 Upload Data
               </button>
             </div>
-            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', borderRadius: '8px' }}>
-              <div style={{ flex: 1, marginRight: '10px', }}>
-                {predictionData ? (
-                  <div className="chart-container" style={{ maxWidth:'800px', maxHeight: '500px', overflowY: 'hidden',backgroundColor: '#1e1e1e', borderRadius:'8px', padding:'10px' }}>
-                    <PredictionChart data={predictionData} />
-                  </div>
-                ) : (
-                  <div className="chart-container">
-                    <PredictionChart data={[]} />
-                  </div>
-                )}
+            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', borderRadius: '8px', gap: '20px' }}>
+              {/* 1st section: EnrolleesChart and PredictedEnrolleesChart side by side */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ flex: 1, backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '10px' }}>
+                  <EnrolleesChart data={groupedSavedData.length > 0 ? groupedSavedData : []} />
+                </div>
               </div>
+              <div style={{ marginRight:'80px', flex: 1, backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '10px' }}>
+                <PredictedEnrolleesChart data={predictionData} />
+              </div>
+            </div>
 
-              <div className="Right-column" style={{ flex: 1, marginLeft: '10px', maxWidth:'500px',maxHeight:'300px', display: 'flex', flexDirection: 'column' }}>
+            {/* 2nd section: PredictionChart and HiresChart stacked on left, prediction-summary on right */}
+            <div className="Visual" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', borderRadius: '8px', gap: '20px' }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ flex: 1, backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '10px', height:'400px', }}>
+                  <PredictionChart data={predictionData} />
+                </div>
+                <div style={{ flex: 1, backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '10px', height:'400px',}}>
+                  <HiresChart data={predictionData} />
+                </div>
+              </div>
+              <div className="Right-column" style={{ flex: 1, maxWidth:'500px', maxHeight:'800px', display: 'flex', flexDirection: 'column' }}>
                 <div>
                   {predictionData ? (
                     <div className="prediction-summary">
@@ -290,7 +320,10 @@ const TeacherRetentionPredictionPage = () => {
                         <div style={{ marginLeft: '1rem' }}>
                           {Object.keys(item.resignations_forecast || {}).map(strand => (
                             <div key={strand} style={{ marginBottom: '0.25rem' }}>
-                              <em>{strand}</em> - Chance of Resigning: {(item.resignations_forecast[strand] || 0).toFixed(4)}, Chance of Retaining: {(item.retentions_forecast[strand] || 0).toFixed(4)}, To be Hired: {typeof item.hires_needed[strand] === 'number' ? item.hires_needed[strand] : Array.isArray(item.hires_needed[strand]) ? item.hires_needed[strand].join(', ') : '0'}
+                              <em>{strand}</em> - Chance of Resigning: {((item.resignations_forecast[strand] || 0) * 100).toFixed(1)}%, Chance of Retaining: {((item.retentions_forecast[strand] || 0) * 100).toFixed(1)}%, To be Hired: {typeof item.hires_needed[strand] === 'number' ? item.hires_needed[strand] : Array.isArray(item.hires_needed[strand]) ? item.hires_needed[strand].join(', ') : '0'}
+                              <div style={{ fontStyle: 'italic', fontSize: '0.85rem', color: '#ccc', marginTop: '2px' }}>
+                                Resigning means teachers expected to leave their jobs. Retaining means teachers expected to stay. To be Hired indicates the number of new teachers needed.
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -302,6 +335,7 @@ const TeacherRetentionPredictionPage = () => {
                     <div>No prediction data available.</div>
                   )}
                 </div>
+                
               </div>
             </div>
           </div>
@@ -333,3 +367,4 @@ const TeacherRetentionPredictionPage = () => {
 };
 
 export default TeacherRetentionPredictionPage;
+

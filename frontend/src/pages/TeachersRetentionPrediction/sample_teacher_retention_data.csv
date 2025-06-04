@@ -1,9 +1,0 @@
-year,teachers_STEM,teachers_ABM,teachers_GAS,teachers_HUMSS,teachers_ICT,students_STEM,students_ABM,students_GAS,students_HUMSS,students_ICT,historical_resignations,historical_retentions,workload_per_teacher,salary_ratio,professional_dev_hours,target_ratio,max_class_size
-2015,5,4,3,3,4,180,160,130,120,150,6,19,34,0.95,18,25,40
-2016,4,4,4,3,4,160,170,140,138,164,5,19,34.5,0.96,20,25,40
-2017,5,4,4,4,4,195,155,145,175,167,5,21,34.7,0.97,22,25,40
-2018,5,5,4,5,4,200,180,150,180,158,5,23,35,0.98,25,25,40
-2019,6,4,4,4,4,235,145,145,145,160,5,22,35.2,0.99,28,25,40
-2020,5,3,4,4,4,210,130,157,140,164,5,20,35.5,1.00,30,25,40
-2021,6,5,4,3,5,220,190,161,138,180,4,23,36,1.02,32,25,40
-2022,12,10,9,8,11,220,200,150,160,190,3,17,36.5,1.05,35,25,40

@@ -443,7 +443,7 @@ const TeacherRetentionForm = ({ onSubmit, onCancel, priorYearData, successMessag
         );
       case 5:
         return (
-          <div className="form-step" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+          <div className="form-step">
             <h2>Step 5: Review & Submit</h2>
             <div className="review-section">
               <h3>Basic Information</h3>
@@ -539,7 +539,7 @@ const TeacherRetentionForm = ({ onSubmit, onCancel, priorYearData, successMessag
 
   return (
     <div className="multi-step-form" style={{
-      height: '100vh',
+      height: step === 0 ? '600px' : '1200px',
       width: '90%',
       margin: '40px auto',
       padding: '20px',

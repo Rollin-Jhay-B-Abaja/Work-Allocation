@@ -208,7 +208,10 @@ const TrendIdentification = () => {
                 <div className="top-section">
                     <div className="Scatterplot-container">
                         <div className="scatterplot-row">
-                            <h2>Scatter Plot: Students Count vs Workload Per Teacher</h2>
+                    <h2>Scatter Plot: Students Count vs Workload Per Teacher</h2>
+                    <p style={{ maxWidth: '600px', fontStyle: 'italic', color: '#555' }}>
+                        This scatter plot shows the relationship between the number of students and the workload per teacher for different strands and years. Each point represents data for a specific strand and year. The red line is the trend line (regression line) that helps identify if there is a positive, negative, or no correlation between the two variables.
+                    </p>
                             {loading ? (
                                 <LoadingSpinner />
                             ) : (
@@ -228,6 +231,15 @@ const TrendIdentification = () => {
                             {regressionParams && Math.abs(studentsCountVsWorkload.correlation) > 0.3 && (
                                 <p><strong>Regression Line:</strong> y = {regressionParams.slope.toFixed(3)}x + {regressionParams.intercept.toFixed(3)}</p>
                             )}
+                            <p style={{ fontWeight: 'bold', marginTop: '10px' }}>
+                                {studentsCountVsWorkload.correlation !== null && regressionParams ? (
+                                    Math.abs(studentsCountVsWorkload.correlation) > 0.3 ? (
+                                        regressionParams.slope > 0 ? 
+                                        'The trend indicates that as the number of students increases, the workload per teacher tends to increase.' :
+                                        'The trend indicates that as the number of students increases, the workload per teacher tends to decrease.'
+                                    ) : 'No strong trend detected between students count and workload per teacher.'
+                                ) : 'Trend data not available.'}
+                            </p>
                         </div>
                         <div className="Recommendation-container">
                             <h2>Recommendations</h2>
@@ -262,11 +274,7 @@ const TrendIdentification = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading ? (
-                                <tr>
-                                    <td colSpan="11" style={{ textAlign: 'center' }}><LoadingSpinner /></td>
-                                </tr>
-                            ) : tableData.length === 0 ? (
+                            {tableData.length === 0 ? (
                                 <tr>
                                     <td colSpan="11" className="no-data">No data available</td>
                                 </tr>

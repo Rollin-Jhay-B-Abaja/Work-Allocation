@@ -1,8 +1,14 @@
 .loading-spinner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(30, 30, 30, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px; /* Adjust height as needed */
+  z-index: 9999;
 }
 
 .loading-spinner {

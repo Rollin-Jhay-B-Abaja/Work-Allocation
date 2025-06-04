@@ -57,7 +57,7 @@
   background-color: #1e1e1e;
   padding: 20px;
   border-radius: 8px;
-  height: 800px;
+  height: 1000px;
   max-width: 90%
 }
 
@@ -68,11 +68,12 @@
 }
 
 .prediction-summary {
-  height: 400px;
+  height: 720px;
   width: 100%;
   background-color: #1e1e1e;
   overflow-y: auto;
   margin-top: 10px;
+  margin-bottom: 10px;
   color: white;
   padding: 20px;
   border-radius: 8px;

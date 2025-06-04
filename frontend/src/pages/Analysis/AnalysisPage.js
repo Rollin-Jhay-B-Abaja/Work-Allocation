@@ -31,7 +31,7 @@ function AnalysisPage() {
             </div>
 
             <div className="module-card" onClick={() => navigate('/risk-assessment')} style={{ cursor: 'pointer' }}>
-              <h2>Risk Assessment: Teacher Risk of Burnout</h2>
+              <h2>Risk Assessment</h2>
             </div>
           </div>
         </div>

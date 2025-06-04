@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Math",
+    "class_time": "09:00",
+    "class_end_time": "10:00",
+    "class_day": "Monday",
+    "hours_per_week": 1
+  },
+  {
+    "id": 2,
+    "name": "English",
+    "class_time": "13:00",
+    "class_end_time": "14:00",
+    "class_day": "Monday",
+    "hours_per_week": 1
+  }
+]

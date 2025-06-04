@@ -1,0 +1,1967 @@
+{
+  "teacher_workload_summary": [
+    {
+      "teacher": "Alice Johnson",
+      "assigned_strands": [
+        "STEM",
+        "ABM",
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "Pre-Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Kevin White",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Basic Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Michael Scott",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Biology 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Quincy Adams",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Chemistry 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Steve Rogers",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Physics 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "David Lee",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Research/Capstone Project",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Frank Miller",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Ian Clark",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Bob Smith",
+      "assigned_strands": [
+        "ABM",
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Fundamentals of Accountancy, Business, and Management 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Jane Doe",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Humanities 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Laura Wilson",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Social Science 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Nina Patel",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Applied Economics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Pam Beesly",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Research in Daily Life",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Rachel Green",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Eva Green",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Hannah Brown",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "John ReyDo",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "James Smith",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Rollin",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Grace Hopper",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Carol Williams",
+      "assigned_strands": [
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "Creative Writing",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Tina Turner",
+      "assigned_strands": [
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    },
+    {
+      "teacher": "Oscar Martinez",
+      "assigned_strands": [
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "Computer Systems Servicing (NC II)",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_day": 6.4
+    }
+  ],
+  "all_teachers_status": [
+    {
+      "teacher": "Alice Johnson",
+      "assigned_strands": [
+        "STEM",
+        "ABM",
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "Pre-Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Kevin White",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Basic Calculus",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Michael Scott",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Biology 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Quincy Adams",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Chemistry 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Steve Rogers",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "General Physics 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "David Lee",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "Research/Capstone Project",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Frank Miller",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Ian Clark",
+      "assigned_strands": [
+        "STEM"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Bob Smith",
+      "assigned_strands": [
+        "ABM",
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Fundamentals of Accountancy, Business, and Management 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Jane Doe",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Humanities 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Laura Wilson",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Social Science 1 & 2",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Nina Patel",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Applied Economics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Pam Beesly",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Research in Daily Life",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Rachel Green",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "Media and Information Literacy",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Eva Green",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Hannah Brown",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "John ReyDo",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "James Smith",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Rollin",
+      "assigned_strands": [
+        "GAS"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Grace Hopper",
+      "assigned_strands": [
+        "GAS",
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Carol Williams",
+      "assigned_strands": [
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "Creative Writing",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Tina Turner",
+      "assigned_strands": [
+        "HUMSS",
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "No assigned specialized subject",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    },
+    {
+      "teacher": "Oscar Martinez",
+      "assigned_strands": [
+        "ICT"
+      ],
+      "subjects": [
+        {
+          "subject": "Computer Systems Servicing (NC II)",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Oral Communication",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Komunikasyon at Pananaliksap",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "General Mathematics",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Earth and Life Science",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "PE and Health",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Personal Development",
+          "hours_per_week": 4
+        },
+        {
+          "subject": "Understanding Culture, Society, and Politics",
+          "hours_per_week": 4
+        }
+      ],
+      "total_hours_per_week": 32.0,
+      "fully_loaded": false
+    }
+  ],
+  "fully_loaded_teachers": [],
+  "analysis_report": {
+    "total_teachers": 23,
+    "assigned_teachers": 23,
+    "unassigned_teachers": 0,
+    "fully_loaded_teachers": 0,
+    "average_workload_hours_per_week": 32.0,
+    "strand_distribution": {
+      "STEM": 8,
+      "ABM": 2,
+      "GAS": 13,
+      "HUMSS": 11,
+      "ICT": 4
+    },
+    "strand_to_teachers": {
+      "STEM": "8",
+      "ABM": "2",
+      "GAS": "13",
+      "HUMSS": "11",
+      "ICT": "4"
+    }
+  }
+}

@@ -62,8 +62,15 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
         for strand in strands:
             strand_df = df[df['strand_name'] == strand]
             if not strand_df.empty:
-                df.loc[df['strand_name'] == strand, f'resignation_rate_{strand}'] = strand_df['historical_resignations'] / strand_df['teachers_count'].replace(0, np.nan)
-                df.loc[df['strand_name'] == strand, f'retention_rate_{strand}'] = strand_df['historical_retentions'] / strand_df['teachers_count'].replace(0, np.nan)
+                # Calculate rates with safe division and cap at realistic max values
+                resignation_rate_raw = strand_df['historical_resignations'] / strand_df['teachers_count'].replace(0, np.nan)
+                retention_rate_raw = strand_df['historical_retentions'] / strand_df['teachers_count'].replace(0, np.nan)
+                # Cap resignation rate at 0.3 (30%)
+                resignation_rate_capped = resignation_rate_raw.clip(upper=0.3).fillna(0)
+                # Cap retention rate between 0.85 and 0.95
+                retention_rate_capped = retention_rate_raw.clip(lower=0.85, upper=0.95).fillna(0.85)
+                df.loc[df['strand_name'] == strand, f'resignation_rate_{strand}'] = resignation_rate_capped
+                df.loc[df['strand_name'] == strand, f'retention_rate_{strand}'] = retention_rate_capped
             else:
                 df.loc[df['strand_name'] == strand, f'resignation_rate_{strand}'] = 0
                 df.loc[df['strand_name'] == strand, f'retention_rate_{strand}'] = 0
@@ -123,12 +130,14 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
             else:
                 retention_preds[strand] = np.zeros(len(X))
 
-        # Forecast student enrollment per strand, check if students columns exist
-        for strand in strands:
-            students_col = f'students_{strand}'
-            if students_col not in df.columns:
-                df[students_col] = 0
-        student_forecasts = forecasting.forecast_student_enrollment(df, strands, forecast_years)
+        # Aggregate students_count per year and strand to avoid multiple rows per year with zeros
+        aggregated_students = df.groupby(['year', 'strand_name'])['students_count'].sum().reset_index()
+        # Pivot to wide format with one row per year and columns per strand
+        pivot_students = aggregated_students.pivot(index='year', columns='strand_name', values='students_count').fillna(0).reset_index()
+        # Rename columns to match forecast_student_enrollment expected format: students_<strand>
+        pivot_students = pivot_students.rename(columns={strand: f'students_{strand}' for strand in strands})
+        # Forecast student enrollment using aggregated data
+        student_forecasts = forecasting.forecast_student_enrollment(pivot_students, strands, forecast_years)
 
         # Normalize lengths of prediction arrays to match forecast_years
         for strand in strands:
@@ -175,7 +184,7 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
         logger.info(f"Retention predictions: {retention_preds}")
         logger.info(f"Hires needed: {hires_needed}")
 
-        # Calculate resignations and retentions counts per strand
+        # Calculate resignations and retentions counts per strand as percentages
         resignations_count = {}
         retentions_count = {}
         for s in strands:
@@ -185,9 +194,9 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
             # Use rates as decimals (0-1) directly without multiplying by 100
             resignation_rate_pct = [min(max(r, 0), 1) for r in resignation_rate]
             retention_rate_pct = [min(max(r, 0), 1) for r in retention_rate]
-            # Calculate counts per year using rates as decimals
-            resignations_count[s] = [current * r for r in resignation_rate_pct]
-            retentions_count[s] = [current * r for r in retention_rate_pct]
+            # Calculate percentages per year using rates as decimals
+            resignations_count[s] = [r * 100 for r in resignation_rate_pct]
+            retentions_count[s] = [r * 100 for r in retention_rate_pct]
             # Keep the predictions as rates decimals for output
             resignation_preds[s] = resignation_rate_pct
             retention_preds[s] = retention_rate_pct
@@ -238,6 +247,7 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
             'weighted_mean_resignation_rate': weighted_mean_resignation_rate,
             'weighted_mean_retention_rate': weighted_mean_retention_rate,
             'hires_needed': {s: (np.array(hires_needed[s]).flatten().tolist() if hasattr(hires_needed[s], '__iter__') else [hires_needed[s]]) for s in strands},
+            'student_forecasts': {s: (student_forecasts[s].tolist() if hasattr(student_forecasts[s], 'tolist') else student_forecasts[s]) for s in strands},
             'last_year': df['year'].dt.year.max() if not df['year'].isnull().all() else None,
             'recommendations': recommendations,
             'evaluation': {
@@ -260,6 +270,7 @@ def predict_teacher_retention(data_rows, target_ratio=25, forecast_years=3, max_
 import numpy as np
 
 def convert_numpy_types(obj):
+    import pandas as pd
     if isinstance(obj, dict):
         return {k: convert_numpy_types(v) for k, v in obj.items()}
     elif isinstance(obj, list):
@@ -269,6 +280,8 @@ def convert_numpy_types(obj):
     elif isinstance(obj, np.floating):
         return float(obj)
     elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, pd.Series):
         return obj.tolist()
     else:
         return obj

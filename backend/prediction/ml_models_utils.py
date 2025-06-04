@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 from sklearn.metrics import precision_score, recall_score, roc_auc_score, mean_squared_error
 import logging
 
@@ -19,20 +19,36 @@ def train_random_forest(X, y):
     return model
 
 def train_random_forest_regressor(X, y):
-    model = RandomForestRegressor(n_estimators=100, random_state=42)
-    model.fit(X, y)
-    return model
+    # Use TimeSeriesSplit for cross-validation due to time series data
+    tscv = TimeSeriesSplit(n_splits=3)
+    param_grid = {
+        'n_estimators': [50, 100, 200],
+        'max_depth': [None, 5, 10],
+        'min_samples_split': [2, 5],
+        'min_samples_leaf': [1, 2]
+    }
+    rf = RandomForestRegressor(random_state=42)
+    grid_search = GridSearchCV(rf, param_grid, cv=tscv, scoring='neg_mean_squared_error', n_jobs=-1)
+    grid_search.fit(X, y)
+    best_model = grid_search.best_estimator_
+    logger.info(f"Best RandomForestRegressor params: {grid_search.best_params_}")
+    # Evaluate best model on training data
+    y_pred = best_model.predict(X)
+    rmse = mean_squared_error(y, y_pred) ** 0.5
+    mae = np.mean(np.abs(y - y_pred))
+    logger.info(f"Training RMSE: {rmse:.4f}, MAE: {mae:.4f}")
+    return best_model
 
 def evaluate_classification_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:,1]
     precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
+    recall = recall_score(y_test, y_proba)
     auc = roc_auc_score(y_test, y_proba)
     return {'precision': precision, 'recall': recall, 'auc': auc}
 
 def evaluate_regression_model(y_true, y_pred):
-    rmse = mean_squared_error(y_true, y_pred, squared=False)
+    rmse = mean_squared_error(y_true, y_pred) ** 0.5
     mae = np.mean(np.abs(y_true - y_pred))
     return {'rmse': rmse, 'mae': mae}
 
@@ -71,7 +87,10 @@ def train_models_per_strand(df, strands, target_col, feature_cols, model_type='l
                 model = train_random_forest(X, y)
         elif model_type == 'random_forest_regressor':
             X, y = prepare_features_for_regression(strand_df, target_col, feature_cols)
-            model = train_random_forest_regressor(X, y)
+            if len(X) > 0 and len(y) > 0:
+                model = train_random_forest_regressor(X, y)
+            else:
+                model = None
         else:
             raise ValueError(f"Unsupported model_type: {model_type}")
         models[strand] = model
@@ -87,6 +106,9 @@ def predict_with_models(models, df, feature_cols, model_type='logistic'):
     for strand, model in models.items():
         X = df[df['strand_name'] == strand][feature_cols].fillna(0) if 'strand_name' in df.columns else df[feature_cols].fillna(0)
         # Filter dataframe by strand if strand column exists
+        if model is None:
+            predictions[strand] = np.zeros(len(X))
+            continue
         if model_type in ['logistic', 'random_forest']:
             preds = model.predict_proba(X)[:,1]
         elif model_type == 'random_forest_regressor':

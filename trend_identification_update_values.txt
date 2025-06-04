@@ -1,0 +1,17 @@
+Here are the updated values from workforce.teacher_retention_data to be used for updating workforce.trend_identification:
+
+Year | Strand | Teachers Count | Students Count | Max Class Size | Salary Ratio | Professional Dev Hours | Historical Resignations | Historical Retentions | Workload Per Teacher
+-----|--------|----------------|----------------|----------------|--------------|------------------------|-------------------------|-----------------------|----------------------
+2016 | ABM    | 8              | 320            | 45             | 1.00         | 18.00                  | 0                       | 8                     | 40.00
+2017 | ABM    | 8              | 360            | 45             | 1.15         | 21.00                  | 0                       | 8                     | 40.00
+2018 | ABM    | 9              | 400            | 45             | 1.18         | 21.00                  | 0                       | 9                     | 40.00
+2019 | ABM    | 10             | 440            | 45             | 1.06         | 23.00                  | 0                       | 10                    | 40.00
+2020 | ABM    | 10             | 480            | 45             | 1.08         | 18.00                  | 1                       | 9                     | 40.00
+2021 | ABM    | 12             | 520            | 45             | 1.00         | 11.00                  | 2                       | 10                    | 40.00
+2022 | ABM    | 12             | 560            | 45             | 1.03         | 12.00                  | 0                       | 12                    | 40.00
+2023 | ABM    | 12             | 600            | 45             | 1.09         | 21.00                  | 0                       | 12                    | 40.00
+2024 | ABM    | 13             | 640            | 45             | 1.11         | 18.00                  | 1                       | 12                    | 40.00
+
+(Note: This is a sample subset for the ABM strand. Similar updates apply for other strands.)
+
+You can use these values to update the corresponding rows in workforce.trend_identification table.

@@ -19,6 +19,10 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+import os
+import json
+from flask import send_from_directory
+
 # Database connection function
 def get_db_connection():
     try:
@@ -32,6 +36,17 @@ def get_db_connection():
     except Error as e:
         logger.error(f"Error connecting to MySQL: {e}")
         return None
+
+# New endpoint to serve workload distribution output.json
+@app.route('/api/workload_distribution', methods=['GET'])
+def get_workload_distribution():
+    temp_dir = os.path.join(os.path.dirname(__file__), 'temp')
+    output_file = os.path.join(temp_dir, 'output.json')
+    if not os.path.exists(output_file):
+        return jsonify({"error": "Output file not found"}), 404
+    with open(output_file, 'r') as f:
+        data = json.load(f)
+    return jsonify(data)
 
 # Existing endpoints for enrollment data and forecasting
 @app.route('/api/enrollment_data', methods=['GET'])
@@ -368,6 +383,7 @@ def list_features():
         {"route": "/api/save_teacher_retention_data", "method": "POST", "description": "Save teacher retention data (proxied to PHP)"},
         {"route": "/api/get_prediction_data", "method": "GET", "description": "Get prediction data (proxied to PHP)"},
         {"route": "/api/trend_identification", "method": "GET", "description": "Get trend identification data"},
+        {"route": "/api/workload_distribution", "method": "GET", "description": "Get workload distribution data"},
         # Add more routes here if needed
     ]
     return jsonify(features)

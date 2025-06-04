@@ -1,4 +1,5 @@
 <?php
+// Ensure no whitespace or blank lines before this tag to prevent output before headers
 ini_set('display_errors', 0);
 error_reporting(0);
 
@@ -82,6 +83,15 @@ function validate_required($field, $value) {
     return null;
 }
 
+// Validate employment_status against allowed ENUM values
+function validate_employment_status($value) {
+    $allowed = ['Active', 'On Leave', 'Terminated'];
+    if (!in_array($value, $allowed, true)) {
+        return "employment_status must be one of: " . implode(', ', $allowed) . ".";
+    }
+    return null;
+}
+
 // Map CSV/JSON input keys to database fields
 function mapInputData($data) {
     return [
@@ -102,8 +112,8 @@ function mapInputData($data) {
     ];
 }
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -194,6 +204,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
                 continue;
             }
 
+            // Validate employment_status
+            $err = validate_employment_status($mapped['employment_status']);
+            if ($err) {
+                $errors[] = "Row $rowNum: $err";
+                continue;
+            }
+
             // Insert or update teacher
             $teacherId = $mapped['teacher_id'];
             if ($teacherId) {
@@ -269,7 +286,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
             // Handle certifications
             if (!empty($mapped['teaching_certifications'])) {
-                $certs = preg_split('/[;,]/', $mapped['teaching_certifications']);
+                $certifications = $mapped['teaching_certifications'];
+                if (is_array($certifications)) {
+                    $certifications = implode(',', $certifications);
+                }
+                $certs = preg_split('/[;,]/', $certifications);
                 foreach ($certs as $certName) {
                     $certName = trim($certName);
                     if ($certName === '') continue;
@@ -281,7 +302,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
             // Handle subject expertise
             if (!empty($mapped['subjects_expertise'])) {
-                $subjects = preg_split('/[;,]/', $mapped['subjects_expertise']);
+                $subjectsExpertise = $mapped['subjects_expertise'];
+                if (is_array($subjectsExpertise)) {
+                    $subjectsExpertise = implode(',', $subjectsExpertise);
+                }
+                $subjects = preg_split('/[;,]/', $subjectsExpertise);
                 foreach ($subjects as $subjectName) {
                     $subjectName = trim($subjectName);
                     if ($subjectName === '') continue;

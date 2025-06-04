@@ -37,7 +37,7 @@ try {
     ];
     $pdo = new PDO($dsn, $username, $password, $options);
 
-    // Fetch teachers joined with workload data
+    // Fetch teachers joined with workload data - adjusted to existing columns
     $teachersQuery = "
         SELECT t.teacher_id AS id, t.name AS full_name, t.hire_date, t.employment_status, t.photo,
                COALESCE(w.teaching_hours, 0) AS teaching_hours,
@@ -76,7 +76,7 @@ try {
         'Housekeeping' => ['Housekeeping'],
     ];
 
-    // Fetch classes data from subject_areas joined with strands
+    // Fetch classes data from subject_areas joined with strands - adjusted to existing columns
     $classesQuery = "
         SELECT sa.subject_id AS id, sa.subject, sa.strand_id, s.strand_name,
                10 AS hours_per_week,
@@ -124,35 +124,52 @@ try {
     file_put_contents($tempDir . '/constraints_input.json', json_encode($constraints));
     file_put_contents($tempDir . '/preferences_input.json', json_encode($preferences));
 
-    // Call the Python script and capture only stdout, suppress stderr to avoid mixing debug output
+    // Call the Python script and capture only stdout, redirect stderr to a log file for debugging
     $tempOutputFile = $tempDir . '/output.json';
-    $command = "python ../ml_models/combined_workload_skill_matching.py > " . escapeshellarg($tempOutputFile) . " 2>nul";
-    shell_exec($command);
+    $errorLogFile = $tempDir . '/python_error.log';
+    $command = "python ../ml_models/combined_workload_skill_matching.py > " . escapeshellarg($tempOutputFile) . " 2> " . escapeshellarg($errorLogFile);
+    $return_var = null;
+    $output_shell = [];
+    exec($command, $output_shell, $return_var);
 
-    if (!file_exists($tempOutputFile)) {
+    error_log("Python script exec return code: " . $return_var);
+    error_log("Python script exec output: " . implode("\n", $output_shell));
+
+    if ($return_var !== 0) {
+        error_log("Workload distribution script failed to execute. See python_error.log for details.");
         http_response_code(500);
         echo json_encode(['error' => 'Failed to execute workload distribution']);
         exit;
     }
 
+    if (!file_exists($tempOutputFile)) {
+        error_log("Output file not found after Python script execution.");
+        http_response_code(500);
+        echo json_encode(['error' => 'Output file missing']);
+        exit;
+    }
+
     $output = file_get_contents($tempOutputFile);
     if ($output === false) {
+        error_log("Failed to read output file from workload distribution script.");
         http_response_code(500);
         echo json_encode(['error' => 'Failed to read output file']);
         exit;
     }
 
+    error_log("Output file content: " . $output);
+
     // Try to decode output to check if valid JSON
     $json = json_decode($output, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
-        // Return error with raw output for debugging
+        error_log("Invalid JSON output from workload distribution script: " . $output);
         http_response_code(500);
         echo json_encode(['error' => 'Invalid JSON output from Python script', 'output' => $output]);
         exit;
     }
 
-    // Transform output JSON to match frontend expected format
-    $data = json_decode($output, true);
+    // Transform output JSON to match frontend expected format with total_hours_per_day
+    $data = $json;
     if (isset($data['teacher_workload_summary'])) {
         $transformed = [];
         foreach ($data['teacher_workload_summary'] as $info) {
@@ -160,7 +177,7 @@ try {
                 'name' => $info['teacher'] ?? '',
                 'strands' => $info['assigned_strands'] ?? [],
                 'subjects' => $info['subjects'] ?? [],
-                'total_hours' => 0, // total_hours not provided by Python script
+                'total_hours' => $info['total_hours_per_day'] ?? 0,
             ];
         }
         echo json_encode($transformed);
@@ -170,6 +187,7 @@ try {
     }
 
 } catch (Exception $e) {
+    error_log("Exception in workload_distribution.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }

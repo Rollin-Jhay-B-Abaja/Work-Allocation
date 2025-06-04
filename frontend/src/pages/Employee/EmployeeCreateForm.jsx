@@ -1,101 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import ProfileInfo from './ProfileInfo';
-import SkillsCertifications from './SkillsCertifications';
-import AvailabilityPreferences from './AvailabilityPreferences';
-import CurrentWorkload from './CurrentWorkload';
-import ComplianceSettings from './ComplianceSettings';
+import React, { useState } from 'react';
 
-const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPreview, onBack }) => {
-  const [step, setStep] = useState(0);
-  const [csvError, setCsvError] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(null);
+const EmployeeCreateForm = ({ formData, setFormData, onBack }) => {
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(null);
 
-  useEffect(() => {
-    // Reset form when component mounts
-    setStep(0);
-    setPhotoPreview(null);
-    setCsvError(null);
-    setUploadSuccess(null);
-  }, [setPhotoPreview]);
-
-  const requiredFields = [
-    'name',
-    'email',
-    'contact_number',
-    'position',
-    'department',
-    'photo',
-    'subjects_expertise',
-    'teaching_certifications',
-    'teaching_experience_years',
-    'additional_skills',
-    'preferred_grade_levels',
-    'proficiency_level',
-    'availability_schedule',
-    'preferred_time_slots',
-    'preferred_days_off',
-    'shift_preferences',
-    'overtime_willingness',
-    'leave_requests',
-    'assigned_classes',
-    'teaching_hours_per_week',
-    'administrative_duties',
-    'extracurricular_duties',
-    'feedback_scores',
-    'absences',
-    'max_teaching_hours',
-    'min_rest_period',
-    'contractual_constraints',
-    'substitute_eligible_subjects',
-    'substitute_availability',
+  const importantFields = [
+    { name: 'name', label: 'Name', required: true },
+    { name: 'email', label: 'Email', required: true, type: 'email' },
+    { name: 'contact_number', label: 'Contact Number', required: false, type: 'tel' },
+    { name: 'position', label: 'Position', required: true },
+    { name: 'department', label: 'Department', required: true },
+    { name: 'teaching_certifications', label: 'Teaching Certifications', required: false },
+    { name: 'subjects_expertise', label: 'Subjects Expertise', required: false },
+    { name: 'teaching_hours_per_week', label: 'Teaching Hours Per Week', required: false, type: 'number' },
+    { name: 'administrative_duties', label: 'Administrative Duties', required: false },
+    { name: 'extracurricular_duties', label: 'Extracurricular Duties', required: false },
+    { name: 'max_teaching_hours', label: 'Max Teaching Hours', required: false, type: 'number' },
+    { name: 'hire_date', label: 'Hire Date', required: false, type: 'date' },
+    { name: 'employment_status', label: 'Employment Status', required: false },
   ];
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-    if (type === 'checkbox') {
-      setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else if (type === 'file') {
-      const file = files[0];
-      if (file && file.name.endsWith('.csv')) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const text = event.target.result;
-          // Validate CSV header
-          const lines = text.split(/\r\n|\n/);
-          if (lines.length === 0) {
-            setCsvError('CSV file is empty.');
-            setFormData((prev) => ({ ...prev, [name]: null }));
-            setPhotoPreview(null);
-            return;
-          }
-          const headerLine = lines[0];
-          const headers = headerLine.split(',').map(h => h.trim().toLowerCase());
-          const missingFields = requiredFields.filter(field => !headers.includes(field.toLowerCase()));
-          if (missingFields.length > 0) {
-            setCsvError('CSV file is missing required fields: ' + missingFields.join(', '));
-            setFormData((prev) => ({ ...prev, [name]: null }));
-            setPhotoPreview(null);
-            return;
-          }
-          // If validation passes
-          setCsvError(null);
-          setFormData((prev) => ({ ...prev, [name]: file }));
-          setUploadSuccess(null);
-          // Upload CSV file to backend
-          uploadCsvFile(file);
-        };
-        reader.readAsText(file);
-      } else {
-        setCsvError('Please upload a valid CSV file.');
-        setFormData((prev) => ({ ...prev, [name]: null }));
-        setPhotoPreview(null);
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -103,12 +30,19 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
     setSubmitError(null);
     setSubmitSuccess(null);
     try {
+      const dataToSend = {};
+      importantFields.forEach(({ name }) => {
+        if (formData[name] !== undefined) {
+          dataToSend[name] = formData[name];
+        }
+      });
+
       const response = await fetch('http://localhost:8000/api/employee_handler.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
       const result = await response.json();
       if (response.ok) {
@@ -121,188 +55,42 @@ const EmployeeCreateForm = ({ formData, setFormData, photoPreview, setPhotoPrevi
     }
   };
 
-  const uploadCsvFile = async (file) => {
-    setUploading(true);
-    setUploadSuccess(null);
-    setCsvError(null);
-    const formData = new FormData();
-    formData.append('csv_upload', file);
-    try {
-      const response = await fetch('http://localhost:8000/api/employee_handler.php', {
-        method: 'POST',
-        body: formData,
-      });
-      const text = await response.text();
-      let result;
-      try {
-        result = JSON.parse(text);
-      } catch (e) {
-        setCsvError('Server returned invalid JSON: ' + text);
-        setUploading(false);
-        return;
-      }
-      if (response.ok) {
-        setUploadSuccess(result.message || 'CSV uploaded and processed successfully.');
-      } else {
-        setCsvError(result.error || 'Failed to upload CSV.');
-      }
-    } catch (error) {
-      setCsvError('Error uploading CSV: ' + error.message);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleCommaSeparatedChange = (e) => {
-    const { name, value } = e.target;
-    const array = value.split(',').map((item) => item.trim()).filter((item) => item.length > 0);
-    setFormData((prev) => ({ ...prev, [name]: array }));
-  };
-
-  const handleProficiencyChange = (subject, level) => {
-    setFormData((prev) => ({
-      ...prev,
-      proficiency_level: {
-        ...prev.proficiency_level,
-        [subject]: level,
-      },
-    }));
-  };
-
-  const nextStep = () => {
-    setStep((prev) => Math.min(prev + 1, 5));
-  };
-
-  const prevStep = () => {
-    setStep((prev) => Math.max(prev - 1, 0));
-  };
-
-  const renderStep = () => {
-    switch (step) {
-      case 0:
-        return (
-          <div>
-            <div className="input-group">
-              <label className="label" htmlFor="csv_upload">Upload Employee Data (CSV):</label>
-              <input
-                type="file"
-                id="csv_upload"
-                name="csv_upload"
-                accept=".csv"
-                onChange={handleInputChange}
-                className="input"
-                disabled={uploading}
-              />
-            {csvError && <p className="error-message">{csvError}</p>}
-            {uploadSuccess && <p className="success-message">{uploadSuccess}</p>}
-            {uploading && <p className="uploading-message">Uploading CSV...</p>}
-          </div>
-          <div className="csv-required-fields-container">
-              <h3>Required CSV Data Fields</h3>
-              <table className="csv-required-fields-table">
-                <thead>
-                  <tr>
-                    <th>Field</th>
-                    <th>Example Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>name</td><td>John Doe</td></tr>
-                  <tr><td>email</td><td>john.doe@example.com</td></tr>
-                  <tr><td>contact_number</td><td>+1234567890</td></tr>
-                  <tr><td>position</td><td>Teacher</td></tr>
-                  <tr><td>department</td><td>Mathematics</td></tr>
-                  <tr><td>photo</td><td>URL or file path</td></tr>
-                  <tr><td>subjects_expertise</td><td>Math;Science;English</td></tr>
-                  <tr><td>teaching_certifications</td><td>Certified Math Teacher</td></tr>
-                  <tr><td>teaching_experience_years</td><td>5</td></tr>
-                  <tr><td>additional_skills</td><td>Public Speaking</td></tr>
-                  <tr><td>preferred_grade_levels</td><td>Grade 9;Grade 10</td></tr>
-                  <tr><td>proficiency_level</td><td>Math:Advanced;Science:Intermediate</td></tr>
-                  <tr><td>availability_schedule</td><td>M-F 8am-4pm</td></tr>
-                  <tr><td>preferred_time_slots</td><td>8am-12pm</td></tr>
-                  <tr><td>preferred_days_off</td><td>Saturday</td></tr>
-                  <tr><td>shift_preferences</td><td>Day Shift</td></tr>
-                  <tr><td>overtime_willingness</td><td>true</td></tr>
-                  <tr><td>leave_requests</td><td>None</td></tr>
-                  <tr><td>assigned_classes</td><td>Class 9A</td></tr>
-                  <tr><td>teaching_hours_per_week</td><td>20</td></tr>
-                  <tr><td>administrative_duties</td><td>Committee Member</td></tr>
-                  <tr><td>extracurricular_duties</td><td>Coach</td></tr>
-                  <tr><td>feedback_scores</td><td>4.5</td></tr>
-                  <tr><td>absences</td><td>2</td></tr>
-                  <tr><td>max_teaching_hours</td><td>25</td></tr>
-                  <tr><td>min_rest_period</td><td>12 hours</td></tr>
-                  <tr><td>contractual_constraints</td><td>None</td></tr>
-                  <tr><td>substitute_eligible_subjects</td><td>Math;Science</td></tr>
-                  <tr><td>substitute_availability</td><td>M-F</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-      case 1:
-        return <ProfileInfo formData={formData} handleInputChange={handleInputChange} photoPreview={photoPreview} />;
-      case 2:
-        return (
-          <SkillsCertifications
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleCommaSeparatedChange={handleCommaSeparatedChange}
-            handleProficiencyChange={handleProficiencyChange}
-          />
-        );
-      case 3:
-        return <AvailabilityPreferences formData={formData} handleInputChange={handleInputChange} />;
-      case 4:
-        return <CurrentWorkload formData={formData} handleInputChange={handleInputChange} />;
-      case 5:
-        return (
-          <ComplianceSettings
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleCommaSeparatedChange={handleCommaSeparatedChange}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
-    <form className="main-content employee-style-form" onSubmit={handleSubmit} style={{height:'450px', marginBottom: '30px',}}>
-      <div className="step-indicator">
-        {[0, 1, 2, 3, 4, 5].map((num) => (
-          <div
-            key={num}
-            className={`step-circle ${step === num ? 'active' : ''}`}
-          >
-            {num}
-          </div>
-        ))}
-      </div>
-      {renderStep()}
-      {submitError && <p className="error-message">{submitError}</p>}
-      {submitSuccess && <p className="success-message">{submitSuccess}</p>}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-        <button type="button" className="button" onClick={onBack}>
+    <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: '2rem auto', padding: '2rem', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#1e1e1e' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Create New Employee</h2>
+      {importantFields.map(({ name, label, required, type }) => (
+        <div key={name} style={{ marginBottom: '1rem' }}>
+          <label htmlFor={name} style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>
+            {label}{required && <span style={{ color: 'red' }}> *</span>}
+          </label>
+          <input
+            type={type || 'text'}
+            id={name}
+            name={name}
+            value={formData[name] || ''}
+            onChange={handleInputChange}
+            required={required}
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              fontSize: '1rem',
+              boxSizing: 'border-box',
+              backgroundColor: (name === 'email' || name === 'contact_number') ? '#fff' : '#fff', color:"black",
+            }}
+          />
+        </div>
+      ))}
+      {submitError && <p style={{ color: 'red', marginBottom: '1rem' }}>{submitError}</p>}
+      {submitSuccess && <p style={{ color: 'green', marginBottom: '1rem' }}>{submitSuccess}</p>}
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button type="button" onClick={onBack} style={{ padding: '0.5rem 1rem', fontSize: '1rem', cursor: 'pointer' }}>
           Back
         </button>
-        {step > 0 && (
-          <button type="button" className="button" onClick={prevStep}>
-            Previous
-          </button>
-        )}
-        {step < 5 && (
-          <button type="button" className="button" onClick={nextStep}>
-            Next
-          </button>
-        )}
-        {step === 5 && (
-          <button type="submit" className="button">
-            Submit
-          </button>
-        )}
+        <button type="submit" style={{ padding: '0.5rem 1.5rem', fontSize: '1rem', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          Submit
+        </button>
       </div>
     </form>
   );
